@@ -1,0 +1,159 @@
+html[data-theme='light']{
+	--post-background-color:#FFFFFF;
+	--post-shadow-color:rgba(0, 0, 0, 0.21);
+	
+	//text
+	--post-user-name-color:#1F1F39;
+	--post-user-posted-date-color:#858597;
+	--post-content-description-color: #858597;
+
+	//like
+	//--like-btn-color:#FF6905;
+	--like-btn-color:red;
+
+	//comments btn
+	--comments-btn-color:#3D5CFF;
+
+	//number 
+	--number-color:#B8B8D2;
+
+}
+html[data-theme='dark']{
+	--post-background-color:#2F2F42;
+	--post-shadow-color:transparent;
+
+	//text
+	--post-user-name-color:#FFFFFF;
+	--post-user-posted-date-color:#B8B8D2;
+	--post-content-description-color: #FFFFFF;	
+
+	//like
+	//--like-btn-color:#FF6905;
+	--like-btn-color:red;
+
+
+	//comments btn
+	--comments-btn-color:#3D5CFF;
+
+	//number 
+	--number-color:#B8B8D2;
+}
+
+
+
+
+
+.posts_container{
+	width: 50%;
+	margin: auto;
+}
+.post{
+	width: 100%;
+	margin: 20px auto;
+	border-radius: 20px;
+	background: var(--post-background-color);
+	box-shadow: 0px 4px 10px var(--post-shadow-color);
+	padding: 20px;
+	overflow: hidden;
+	&_user{
+		&-info{
+			display: flex;
+		}
+		&-avatar{
+			margin-right: 15px ;
+		}
+		&-avatar-img{
+			border-radius: 10px;
+		}
+		
+		&-detail{
+		
+		}
+		&-name{
+			font-family: $Poppins;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 16px;
+			line-height: 18px;
+			margin: 5px 0;
+			color: var(--post-user-name-color);
+		}
+		&-posted-date{
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 18px;
+			margin: 0;
+			color: var(--post-user-posted-date-color);
+		}
+	}
+	&_content{
+
+		&-description{
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 18px;
+			margin:10px 0;
+			color: var(--post-content-description-color);
+		}
+		&-picture{
+
+		}
+		&-picture-img{
+			width: 100%;
+			border-radius: 15px;
+		}
+	}
+	.post_button{
+		padding: 0;
+		line-height: 0.5;
+		cursor: pointer;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		&-svg{
+			font-size: 2.5em;
+		}
+	}
+	&_info{
+		display: flex;
+		gap: 20px;
+		padding: 10px 0;
+		
+		.like_btn{
+			&:active{
+				transform: scale(0.8);
+				transition: none;
+			}
+			&-wrapper{
+
+			}
+			&-svg{
+				color: var(--like-btn-color);
+				
+			}
+		}
+		.comments_btn{
+			padding: 0;
+			line-height: 0.5;
+			&-wrapper{
+
+			}
+			&-svg{
+				color: var(--comments-btn-color);
+
+			}
+		}
+		.number{
+			font-family: $Poppins;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 15px;
+			color: var(--number-color);
+		}
+	}
+}

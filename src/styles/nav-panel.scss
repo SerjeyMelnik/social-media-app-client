@@ -1,0 +1,56 @@
+html[data-theme='light']{
+	//panel
+	--panel-background-color:white;
+	--panel-shadow-color: rgba(0, 0, 0, 0.25);
+	//panel item svg
+	--panel-item-svg-color: #B8B8D2;
+	--panel-item-selected-svg-color: #3D5CFF;
+	--panel-item-hover-svg-color:#F4F3FD;
+}
+
+html[data-theme='dark']{
+	//panel
+	--panel-background-color:#17173d;
+	--panel-shadow-color: rgba(175, 175, 175, 0.227);
+	
+
+	//panel item svg
+	--panel-item-svg-color: #B8B8D2;
+	--panel-item-selected-svg-color: #3D5CFF;
+	--panel-item-hover-svg-color:#f4f3fd2c;
+}
+$svg-size: 1.2em;
+.nav-panel{
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	&_wrapper {
+		background-color: var(--panel-background-color);
+		width: 100%;
+		border-bottom-left-radius: 30px;
+		border-bottom-right-radius: 30px;
+		padding: 10px;
+		box-shadow: 0 2px 5px var(--panel-shadow-color);
+	}
+	&_item{
+		position: relative;
+		display: flex;
+		justify-content: center;
+		&-svgElement{
+			color: var(--panel-item-svg-color);
+			width: $svg-size!important;
+			height: $svg-size!important;
+			padding: 3px;
+			box-sizing: unset;
+			transition: 0.2s;
+			border-radius: 5px;
+			
+			&:hover{
+				background-color: var(--panel-item-hover-svg-color);
+				
+			}
+		}
+	}
+}

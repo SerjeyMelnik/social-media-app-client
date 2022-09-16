@@ -1,0 +1,38 @@
+
+html[data-theme='light']{
+	
+	--button-color: #3D5CFF;
+	
+}
+html[data-theme='dark']{
+
+	--button-color: #3D5CFF;
+	
+}
+
+.button{
+	border:1px solid var(--button-color);
+	background-color: var(--button-color);
+	outline: none;
+	border-radius: 15px;
+	font-family: $Poppins;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	padding: 10px 15px;
+	color: white;
+	cursor: pointer;
+	&:hover{
+		background-color: transparent;
+		color: var(--button-color);
+	}
+	&-registration{
+		width: 100%;
+		margin-top: 30px;
+	}
+	&-login{
+		width: 100%;
+		margin-top: 30px;
+	}
+}
