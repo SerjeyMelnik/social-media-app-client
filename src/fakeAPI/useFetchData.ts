@@ -6,7 +6,14 @@ const API_URL_posts = '/posts';
 const API_URL_users = '/users';
 const API_URL_comments = '/comments';
 
- const  useFetchData = () => {
+type useFetchDataHook = {
+	getUser: (userId: number) => Promise<IUser>,
+	getUsers: () => Promise<IUser[]>,
+	getCommentsToPost: (postId: number) => Promise<IComment[]>,
+	getPosts: () => Promise<IPost[]>
+}
+
+ const  useFetchData = (): useFetchDataHook => {
 	
 	const getUser = async (userId: number) => {
 		const url = API_URL + API_URL_users + `/${String(userId)}`;
@@ -25,11 +32,10 @@ const API_URL_comments = '/comments';
 	}	
 	
 
-	const getPosts = async (setState: React.Dispatch<React.SetStateAction<IPost[]>>) => {
+	const getPosts = async () => {
 		const url = API_URL + API_URL_posts;
 		const response = await axios.get<IPost[]>(url);
-		setState(response.data)
-		//return posts.data;
+		return response.data;
 	}
 	const getPost = async () => {
 

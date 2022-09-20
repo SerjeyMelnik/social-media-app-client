@@ -35,15 +35,15 @@ const Comments: FC<TCommentsProps> = ({comments,isShow,className,setShowPostComm
 	useEffect(()=>{
 		const comments_wrapper_Height = comments_wrapper.current?.offsetHeight;
 		const comments_inner_Height = comments_inner.current?.offsetHeight;
-		console.log(comments_wrapper_Height,comments_inner_Height);
+		
 		comments_wrapper.current?.setAttribute("style",`height: ${comments_inner_Height}px;`)
 		return () => {
-			comments_wrapper.current?.setAttribute("style","height: 0px;")
-			// setTimeout(()=>{
-			// 	setShowPostComments(state => !state)
-			// },1000);
+			console.log('true');
+			
+			//comments_wrapper.current?.setAttribute("style","height: 0px;")
+			
 		}
-	},[]);
+	});
 	return (
 		
 			<div className={`comments_wrapper ${className}`} 

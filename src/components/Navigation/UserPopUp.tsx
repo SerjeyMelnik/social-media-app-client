@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-
-const UserPopUp = ({isShowPopUp}) => {
+type TUserPopUpProps = {
+	isShowPopUp: boolean
+}
+const UserPopUp: FC<TUserPopUpProps> = ({isShowPopUp}) => {
 	return ( 
 
 		<div className={`popUp popUp-user ${isShowPopUp ? 'show' : 'hide'}`}>

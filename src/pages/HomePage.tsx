@@ -7,7 +7,7 @@ const HomePage: FC = () => {
 	const [posts,setPosts] = useState<IPost[]>([]);
 	const {getPosts} = useFetchData();
 	useEffect( ()=>{
-		getPosts(setPosts)
+		getPosts().then(data => setPosts(data))
 	},[]);
 	
 	return (

@@ -1,0 +1,66 @@
+html[data-theme='light']{
+	--success-background-color: green;
+	--success-text-color: white;
+
+	--error-background-color: red;
+	--error-text-color: white;
+
+}
+html[data-theme='dark']{
+	--success-background-color: green;
+	--success-text-color: white;
+
+	--error-background-color: red;
+	--error-text-color: white;
+}
+
+
+$pop-up-triangle-size: 10px;
+.form-message{
+	padding: 10px 20px;
+	text-align: center;
+	border-radius: 10px;
+	position: absolute;
+	transition: all 0.5s;
+	top: -30px;
+	left: 50%;
+    top: -30px;
+    transform: translateX(-50%);
+	opacity: 0;
+	&-text{
+		font-family: $Poppins;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+	}
+	&::after{
+		content: '';
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: -1 * $pop-up-triangle-size;
+		width: 0; 
+		height: 0; 
+		border-left: $pop-up-triangle-size solid transparent;
+		border-right: $pop-up-triangle-size solid transparent;
+		
+	}
+	&.error{
+		background-color: var(--error-background-color);
+		color: var(--error-text-color);
+		&::after{
+			border-top: 15px solid var(--error-background-color);
+		}
+	}
+	&.success{
+		background-color: var(--success-background-color);
+		color: var(--success-text-color);
+		&::after{
+			border-top: 15px solid var(--success-background-color);
+		}
+	}
+	&.show{
+		opacity: 1;
+	}
+}

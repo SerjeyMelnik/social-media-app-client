@@ -2,11 +2,12 @@ import React, {FC} from 'react';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 type CommentsBtnProps = {
 	setShowPostComments: React.Dispatch<React.SetStateAction<boolean>>,
-	commentsNumber: number
+	commentsNumber: number,
+	isCommentsShown: boolean
 }
-const CommentsBtn: FC<CommentsBtnProps> = ({setShowPostComments,commentsNumber}) => {
+const CommentsBtn: FC<CommentsBtnProps> = ({setShowPostComments,commentsNumber,isCommentsShown}) => {
 	const toggleComments = () => {
-		setShowPostComments( state => !state )
+	 setShowPostComments( state => !state )
 	}
 	return ( 
 		<div className="comments_btn-wrapper"> 

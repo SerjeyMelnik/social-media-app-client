@@ -4,12 +4,13 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
-import useFetchData from './fakeAPI/useFetchData';
+import { auth , app} from './firebase/firebase';
+
 
 
 
 function App() {
-
+  
   return (
     <div className="App">
       <BrowserRouter>

@@ -5,6 +5,8 @@ html[data-theme='light']{
 	--input-placeholder-color: #1f1f399a;
 	--input-text-color: #1F1F39;
 
+	--input-error-border-color: red;
+	--inpur-error-text-color: red;
 }
 html[data-theme='dark']{
 	
@@ -13,6 +15,10 @@ html[data-theme='dark']{
 
 	--input-placeholder-color: rgba(255, 255, 255, 0.401);
 	--input-text-color: white;
+
+	--input-error-border-color: red;
+	--inpur-error-text-color: red;
+
 }
 
 .input{
@@ -31,5 +37,17 @@ html[data-theme='dark']{
 	&::placeholder{
 		color: var(--input-placeholder-color);
 	}
+	&-error-msg{
+		font-family: $Poppins;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 18px;
+		padding-left: 5px;
+		color: var(--inpur-error-text-color);
 
+	}
+	&.error{
+		border: 1px solid var(--input-error-border-color);
+	}
 }

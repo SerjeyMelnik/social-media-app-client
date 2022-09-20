@@ -1,10 +1,15 @@
 
 html[data-theme='light']{
 	--body-background-color:white;
+	--link-color:#3D5CFF;
+	--link-hover-color:#3d5dff88;
+
 }
 
 html[data-theme='dark']{
 	--body-background-color:#1F1F39;
+	--link-color:#3D5CFF;
+	--link-hover-color:#3d5dff88;
 
 }
 *{
@@ -22,4 +27,16 @@ main{
 	@include container();
 	padding-top: 40px ;
 	padding-bottom: 40px ;
+}
+.link{
+	font-family: $Poppins;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 18px;
+	text-decoration-line: underline;
+	color: var(--link-color);
+	&:hover{
+		color: var(--link-hover-color);
+	}
 }

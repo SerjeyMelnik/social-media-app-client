@@ -37,7 +37,7 @@ html[data-theme='dark']{
 		padding: 25px 20px;
 		border-top-right-radius: 20px;
 		border-top-left-radius: 20px;
-
+		transition: height 0.5s;
 	}
 	&-title{
 		font-family: $Poppins;
@@ -47,6 +47,9 @@ html[data-theme='dark']{
 		line-height: 48px;
 		color: var(--form-main-title-color);
 		margin: 20px;
+	}
+	&-button-wrapper{
+		position: relative;
 	}
 }
 .input-label{

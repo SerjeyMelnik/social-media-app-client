@@ -15,12 +15,12 @@ const Post: FC<PostProps> = ({post}) => {
 	//const comments = [...comments_test];
 	const [comments,setComments] = useState<IComment[]>([]);
 	const [user,setUser] = useState<IUser>();
-
 	const {getCommentsToPost,getUser} = useFetchData();
 	useEffect(()=>{
-		getUser(post.userId).then(data => setUser(data))
+		getUser(post.userId).then(data => setUser(data));
 		getCommentsToPost(post.id).then(data => setComments(data))
 	},[]);
+	
 	return ( 
 			<div className="post">
 				<div className="post_user-info">
@@ -42,7 +42,7 @@ const Post: FC<PostProps> = ({post}) => {
 				</div>
 				<div className="post_info">
 					<LikeBtn/>
-					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={comments?.length}/>
+					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={comments?.length} isCommentsShown={showPostComments}/>
 				</div>
 				{
 					showPostComments && comments?.length &&

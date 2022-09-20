@@ -23,16 +23,30 @@ html[data-theme='dark']{
 	padding: 10px 15px;
 	color: white;
 	cursor: pointer;
+	svg {
+		transition-property: none;
+		transition-duration: 0.3s ;
+		transition-timing-function: none;
+	}
 	&:hover{
 		background-color: transparent;
 		color: var(--button-color);
 	}
 	&-registration{
 		width: 100%;
-		margin-top: 30px;
+		margin-top: 20px;
+		margin-bottom: 40px ;
 	}
 	&-login{
 		width: 100%;
 		margin-top: 30px;
+	}
+	&-choose-method{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		margin: 15px;
 	}
 }
