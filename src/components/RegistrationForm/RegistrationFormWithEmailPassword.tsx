@@ -40,7 +40,6 @@ const RegistrationFormWithEmailPassword: FC<TRegistrationFormWithEmailPassword> 
 	}
 	const [form,setForm] = useState<FormType>(initForm);
 	const [message,setMessage] = useState<TMessage>(null)
-
 	const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => {
 			const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -54,6 +53,9 @@ const RegistrationFormWithEmailPassword: FC<TRegistrationFormWithEmailPassword> 
 		changeFieldError('email','');
 		changeFieldError('password','');
 	}
+	const clearForm = () =>{
+		setForm(initForm)
+	}
 	const userRegistration = async (e:React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		
@@ -66,7 +68,9 @@ const RegistrationFormWithEmailPassword: FC<TRegistrationFormWithEmailPassword> 
 		}
 		const res = await createUserWithEmailAndPasswordHandler(form.email.value,form.password.value);
 		if (res.user){
+
 			setMessage({type: 'success',text: 'User created successfuly!'})
+			clearForm()
 		}
 		else if (res.error){
 			if(res.error.code === 'auth/email-already-in-use'){
@@ -80,7 +84,8 @@ const RegistrationFormWithEmailPassword: FC<TRegistrationFormWithEmailPassword> 
 			}
 		}
 	}
-	
+	 
+
 	
 	return ( 
 		<div className="reg_form form">

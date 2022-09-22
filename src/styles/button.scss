@@ -2,12 +2,12 @@
 html[data-theme='light']{
 	
 	--button-color: #3D5CFF;
-	
+	--button-disabled-color:#3d5dff6c;
 }
 html[data-theme='dark']{
 
 	--button-color: #3D5CFF;
-	
+	--button-disabled-color:#3d5dff6c;
 }
 
 .button{
@@ -32,6 +32,15 @@ html[data-theme='dark']{
 		background-color: transparent;
 		color: var(--button-color);
 	}
+	&:disabled{
+		background-color: var(--button-disabled-color);
+		border-color: var(--button-disabled-color);
+		cursor: default;
+		&:hover{
+			background-color: var(--button-disabled-color);
+			color: white;
+		}
+	}
 	&-registration{
 		width: 100%;
 		margin-top: 20px;
@@ -48,5 +57,10 @@ html[data-theme='dark']{
 		gap: 10px;
 		width: 100%;
 		margin: 15px;
+	}
+	&-confirm-phone-code{
+		margin: 40px auto 0;
+		width: 100%;
+		display: block;
 	}
 }

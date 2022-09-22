@@ -21,7 +21,8 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 		value = '' ,
 		className = '', 
 		changeFieldValue, 
-		error = ''} = props;
+		error = '',
+        } = props;
 	const [isShowPassword,setIsShowPassword] = useState(false);
 	
 	
