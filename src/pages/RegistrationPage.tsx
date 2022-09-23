@@ -6,27 +6,27 @@ import RegistrationFormWithPhoneNumber from '../components/RegistrationForm/Regi
 
 const RegistrationPage: FC = () => {
 	
-	const defaultTypeSignUp = null;
+	// const defaultTypeSignUp = null;
 
-	const [typeSignUp,setTypeSignUp] = useState<TAuthMethod>(defaultTypeSignUp);
+	// const [typeSignUp,setTypeSignUp] = useState<TAuthMethod>(defaultTypeSignUp);
 
-	if (!typeSignUp) {
-		return (
-			<main className='registration-page'>
-				<ChooseAuthMethod title='Choose method of sign up' setAuthMethod={setTypeSignUp}/>
-			</main>
-		)
-	}
+	// if (!typeSignUp) {
+	// 	return (
+	// 		<main className='registration-page'>
+	// 			<ChooseAuthMethod title='Choose method of sign up' setAuthMethod={setTypeSignUp}/>
+	// 		</main>
+	// 	)
+	// }
 	return ( 
 		<main className='registration-page'>
 			
-			{
+			{/* {
 				typeSignUp === 'phone' ?
 				<RegistrationFormWithPhoneNumber setAuthMethod={setTypeSignUp}/> :
 				<RegistrationFormWithEmailPassword setAuthMethod={setTypeSignUp}/>
 				
-			}
-			
+			} */}
+			<RegistrationFormWithEmailPassword />
 		</main>
 	 );
 }

@@ -2,7 +2,6 @@ import { RecaptchaVerifier,RecaptchaParameters } from 'firebase/auth';
 import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SwitchTransition } from 'react-transition-group';
 import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/authWithPhoneNumberJS';
 import validatePhoneNumber from '../../utils/validatePhoneNumber';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
@@ -12,27 +11,29 @@ import LoaderSpiner from '../CustomElements/LoaderSpiner';
 
 
 
-type TFormType = {
+type TFormPhoneNumberType = {
 	phoneNumber: {
 		value: string,
 		error?: string
 	}
 	
 }
-type TFormFields = 'phoneNumber';
+type TFormPhoneNumberFields = 'phoneNumber';
 
-type TRegistrationFormWithPhoneNumberProps = {
+type TLoginFormWithPhoneNumberProps = {
 	setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
 }
-
-const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> = ({setAuthMethod}) => {
-	const initForm: TFormType = {
-		phoneNumber: {
-			value: '',
-			error: ''
-		}
+export const initForm: TFormPhoneNumberType = {
+	phoneNumber: {
+		value: '',
+		error: ''
 	}
-	const [form,setForm] = useState<TFormType>(initForm);
+}
+
+
+const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMethod}) => {
+	
+	const [form,setForm] = useState<TFormPhoneNumberType>(initForm);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isConfirmationCode,setIsConfirmationCode] = useState<boolean>(false);
 	const changeFieldValue = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +48,19 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 				return {...state,[e.target.name]: {error: targetErrorMsg, value: e.target.value }}
 			})
 	}
-	const changeFieldError = (fieldName: TFormFields, errorText: string) => {
+	const changeFieldError = (fieldName: TFormPhoneNumberFields, errorText: string) => {
 		setForm(state => ({...state,[fieldName]: {...state[fieldName], error: errorText }}) )
 	}
 	const userRegistration = async (e:React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		if(!validatePhoneNumber(form.phoneNumber.value)){
+			changeFieldError('phoneNumber','Invalid phone number');
+			return;
+		}
+		if(!form.phoneNumber.value){
+			changeFieldError('phoneNumber','Field must be filled')
+			return;
+		}
 		setIsLoading(state => !state)
 		const res = await signInWithPhoneNumberHandler(form.phoneNumber.value);
 		if (res.error){
@@ -70,7 +79,7 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 				isConfirmationCode ? 
 				<ConfirmPhoneCode /> :
 				<form onSubmit={userRegistration}>
-				<h3 className='form-title'>Sign Up</h3>
+				<h3 className='form-title'>Sign In</h3>
 				<div className="form-inner">
 					<CustomInput type = 'tel'
 								name = 'phoneNumber'
@@ -81,9 +90,9 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 								error={form.phoneNumber.error}
 								/>
 					
-						<button className='button button-registration' disabled={isLoading} type='submit'>
+						<button className='button button-login' disabled={isLoading} type='submit'>
 							
-							{
+							{	
 								isLoading ?
 								<>
 									<span>Loading</span>
@@ -91,13 +100,14 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 								</> :
 								<span>Log In</span>
 							}
+							
 						</button>
 					
 
-					<Link to={'/registration'} 
+					<Link to={'/login'} 
 					className='choose-another-method link' 
 					onClick={()=>{setAuthMethod(null)}}>
-						Choose another method of sign up
+						Choose another method of sign in
 					</Link>
 				</div>
 			</form>
@@ -108,4 +118,4 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 	);
 }
  
-export default RegistrationFormWithPhoneNumber;
+export default LoginFormWithPhoneNumber;

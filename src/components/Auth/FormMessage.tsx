@@ -1,8 +1,8 @@
 import React, { FC, useLayoutEffect, useRef } from 'react';
-import { TMessage } from '../RegistrationForm/RegistrationFormWithEmailPassword'
+import { TFormMessage } from '../RegistrationForm/RegistrationFormWithEmailPassword'
 type TFormMessageProps = {
-	message: TMessage,
-	setMessage: React.Dispatch<React.SetStateAction<TMessage>>
+	message: TFormMessage,
+	setMessage: React.Dispatch<React.SetStateAction<TFormMessage>>
 }
 
 const FormMessage: FC<TFormMessageProps> = ({message,setMessage}) => {
