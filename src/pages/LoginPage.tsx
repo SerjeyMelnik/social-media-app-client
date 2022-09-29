@@ -1,26 +1,30 @@
-import React,{useState} from 'react';
+import React,{ FC, useState} from 'react';
 import ChooseAuthMethod, { TAuthMethod } from '../components/Auth/ChooseAuthMethod';
 import LoginFormWithEmailAndPassword from '../components/LoginForm/LoginFormWithEmailAndPassword';
 import LoginFormWithPhoneNumber from '../components/LoginForm/LoginFormWithPhoneNumber';
 
-const LoginPage = () => {
-	const defaultTypeSignUp = null;
 
-	const [typeSignUp,setTypeSignUp] = useState<TAuthMethod>(defaultTypeSignUp);
-
-	if (!typeSignUp) {
+const LoginPage:FC = () => {
+	const [typeSignIn,setTypeSignIn] = useState<TAuthMethod>(null);
+	
+	const setTypeSignInHandler = (signInType : TAuthMethod) => {
+		setTypeSignIn(signInType);	
+	}
+	
+	
+	if (!typeSignIn) {
 		return (
-			<main className='login-page'>
-				<ChooseAuthMethod title='Choose method of sign in' setAuthMethod={setTypeSignUp}/>
+			<main className='page login-page'>
+				<ChooseAuthMethod title='Choose method of sign in' setAuthMethod={setTypeSignInHandler}/>
 			</main>
 		)
 	}
 	return ( 
-		<main className='login-page'>
+		<main className='page login-page'>
 			{
-				typeSignUp === 'phone' ?
-				<LoginFormWithPhoneNumber setAuthMethod={setTypeSignUp}/> :
-				<LoginFormWithEmailAndPassword setAuthMethod={setTypeSignUp}/>	
+				typeSignIn === 'phone' ?
+				<LoginFormWithPhoneNumber setAuthMethod={setTypeSignInHandler}/> :
+				<LoginFormWithEmailAndPassword setAuthMethod={setTypeSignInHandler}/>	
 			}
 			
 		</main>

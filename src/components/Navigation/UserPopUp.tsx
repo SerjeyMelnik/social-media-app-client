@@ -1,26 +1,56 @@
+
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { TSignOutFuncProps } from '../../firebase/auth/logOut';
+import { useSignOutFunc } from '../../hooks/useSignOut';
+import { useUserContext } from '../../hooks/useUserContext';
 type TUserPopUpProps = {
-	isShowPopUp: boolean
+	isShowPopUp: boolean,
+	togglePopUp: () => void,
 }
-const UserPopUp: FC<TUserPopUpProps> = ({isShowPopUp}) => {
+type TUserPopUpList = {
+	togglePopUp:() => void
+}
+const UserPopUpLinkListNotAuth:FC<TUserPopUpList> = ({togglePopUp}) => {
+	return (
+		<ul className='popUp-content-list'>
+			<li className='popUp-content-item'>
+				<Link to='/login' onClick={togglePopUp}>SignIn</Link>
+			</li>
+			<li className='popUp-content-item'>
+				<Link to='/registration' onClick={togglePopUp}>SignUp</Link>
+			</li>
+		</ul>
+	)
+}
+const UserPopUpLinkListIsAuth:FC<TUserPopUpList> = ({togglePopUp}) => {
+	const {logOutFunc} = useSignOutFunc();
+	return (
+		<ul className='popUp-content-list'>
+			<li className='popUp-content-item'>
+				<Link to='/user-account' onClick={togglePopUp}>Account</Link>
+			</li>
+			<li className='popUp-content-item'>
+				<Link to='/logout' onClick={logOutFunc}>Logout</Link>
+			</li>
+		</ul>
+	)
+}
+
+const UserPopUp: FC<TUserPopUpProps> = ({isShowPopUp,togglePopUp}) => {
+	const {isUserAuthenticated} = useUserContext()
 	return ( 
 
 		<div className={`popUp popUp-user ${isShowPopUp ? 'show' : 'hide'}`}>
 			<div className="arrow shadow"></div>
-
 			<div className="popUp-content">
-				<ul className='popUp-content-list'>
-					<li className='popUp-content-item'>
-						<Link to='/login'>SignIn</Link>
-					</li>
-					<li className='popUp-content-item'>
-						<Link to='/registration'>SignUp</Link>
-					</li>
-				</ul>
+				{
+					isUserAuthenticated ?
+					<UserPopUpLinkListIsAuth togglePopUp={togglePopUp}/> :
+					<UserPopUpLinkListNotAuth togglePopUp={togglePopUp}/>
+				}
 			</div>
-
-			<div className="arrow "></div>
+			<div className="arrow"></div>
 		</div>
 	 );
 }

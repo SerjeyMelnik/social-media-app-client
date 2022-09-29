@@ -1,7 +1,7 @@
 type UnicId = number;
 
-export interface TUserAddres {
-	id: UnicId
+export interface IUserAddres {
+	id: UnicId,
 	street: string,
     suite: string,
     city: string,
@@ -12,7 +12,7 @@ export interface TUserAddres {
     }
 }
 
-export interface TUserCompany {
+export interface IUserCompany {
 	name: String,
     catchPhrase: String,
     bs: String
@@ -21,10 +21,10 @@ export interface IUser {
 	id: Number,
 	name: String,
 	username: String,
-	address: TUserAddres,
+	address: IUserAddres,
 	phone:String,
 	website:String,
-	company:TUserCompany,
+	company:IUserCompany,
 }
 
 export interface IPost {

@@ -2,7 +2,8 @@ import { RecaptchaVerifier,RecaptchaParameters } from 'firebase/auth';
 import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/authWithPhoneNumberJS';
+import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/auth/authWithPhoneNumberTS';
+import { getUser } from '../../firebase/firestore/userOperation';
 import validatePhoneNumber from '../../utils/validatePhoneNumber';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import ConfirmPhoneCode from '../Auth/ConfirmPhoneCode';
@@ -21,7 +22,7 @@ type TFormPhoneNumberType = {
 type TFormPhoneNumberFields = 'phoneNumber';
 
 type TLoginFormWithPhoneNumberProps = {
-	setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
+	setAuthMethod: (signInType: TAuthMethod) => void;
 }
 export const initForm: TFormPhoneNumberType = {
 	phoneNumber: {
@@ -63,9 +64,9 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 		}
 		setIsLoading(state => !state)
 		const res = await signInWithPhoneNumberHandler(form.phoneNumber.value);
-		if (res.error){
-			//changeFieldError('phoneNumber',res.error.message)
-		}
+		// if (res.error){
+		// 	changeFieldError('phoneNumber',res.error)
+		// }
 		setIsConfirmationCode(state => !state);
 
 	}

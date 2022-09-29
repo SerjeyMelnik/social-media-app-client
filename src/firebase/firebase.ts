@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import {getFirestore} from 'firebase/firestore'
 const firebaseConfig = {
 	apiKey: "AIzaSyAHLdapNdaOmCLIm-knEzCFHeSEjcliHk8",
 	authDomain: "social-media-app-d7804.firebaseapp.com",
@@ -10,5 +11,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app)
-export  {auth , app};
+const auth = getAuth(app);
+const db = getFirestore(app)
+
+
+export  {auth , app, db};

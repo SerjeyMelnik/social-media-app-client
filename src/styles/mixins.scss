@@ -15,7 +15,15 @@
 	}
 }
 
+html[data-theme='light']{
 
+
+}
+
+html[data-theme='dark']{
+
+
+}
 
 @mixin mobile{
 	@media screen and (max-width:767px)
@@ -54,4 +62,8 @@
 @mixin full-width{
 	margin: 0 calc(var(--padding-container) * -1);
 	padding: 0 var(--padding-container);
+}
+
+@mixin box-shadow{
+	box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001, inset 0px 0px 0px 0px #fff9, inset 0px 0px 0px 0px #0001, inset 0px 0px 0px 0px #fff9, inset 0px 0px 0px 0px #0001;
 }

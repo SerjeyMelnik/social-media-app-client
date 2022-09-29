@@ -7,7 +7,7 @@ export type TAuthMethod = 'phone'| 'email' | null;
 
 type TChooseAuthMethodProps = {
 	title: string,
-	setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
+	setAuthMethod: (signInType: TAuthMethod) => void;
 }
 const ChooseAuthMethod: FC<TChooseAuthMethodProps> = ({title,setAuthMethod}) => {
 

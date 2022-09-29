@@ -1,6 +1,7 @@
 import React ,{FC, useState}from 'react';
-import { Link } from 'react-router-dom';
-import { signInWithEmailAndPasswordHandler } from '../../firebase/authWithEmailPassword';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPasswordHandler } from '../../firebase/auth/authWithEmailPassword';
+import { useUserContext } from '../../hooks/useUserContext';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import FormMessage from '../Auth/FormMessage';
 import CustomInput from '../CustomElements/CustomInput';
@@ -9,7 +10,7 @@ import { initEmailAndPasswordForm, TEmailAndPasswordFormType, TFormEmailAndPassw
 
 
 type TLoginFormWithEmailPasswordProps = {
-		setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
+		setAuthMethod: (signInType: TAuthMethod) => void;
 	}
 
 const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({setAuthMethod}) => {
@@ -17,6 +18,8 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 	const [form,setForm] = useState<TEmailAndPasswordFormType>(initEmailAndPasswordForm);
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const navigateTo = useNavigate();
+	const {setUserAuthInfo} = useUserContext()
 	const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => {
 			const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -41,7 +44,7 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 		clearErrors(formElem);
 		const res = await signInWithEmailAndPasswordHandler(form.email.value,form.password.value);
 		setIsLoading(state => !state)
-		console.log(res);
+		
 		if (!form.email.value){
 			changeFieldError('email','Поле повинно бути заповнене')
 			
@@ -50,10 +53,7 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 			changeFieldError('password','Поле повинно бути заповнене')
 			return;
 		}
-		if (res.user){
-			setMessage({type: 'success',text: 'User logged in successfuly!'})
-		}
-		else if (res.error){
+		if (res.error){
 			if (res.error.code === 'auth/wrong-password'){
 				changeFieldError('password','Неправильно введений пароль')
 			}
@@ -61,10 +61,16 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 				changeFieldError('email','Користувача з таким email не знайдено')
 			}
 			else if (res.error.code === 'auth/invalid-email'){
-				changeFieldError('email','Не валідний email')
+				changeFieldError('email','He валідний email')
 			}
 			else setMessage({type: 'error',text: res.error.code})
-
+		}
+		else if (res.user){
+			setUserAuthInfo(res.user);
+			navigateTo('/');
+			// setMessage({type: 'success',text: 'User logged in successfuly!'})
+			setIsLoading(state => !state);
+			
 		}
 	}
 	return ( 

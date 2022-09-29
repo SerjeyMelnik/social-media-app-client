@@ -1,5 +1,5 @@
-import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential} from "firebase/auth";
-import { auth } from "./firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential, User} from "firebase/auth";
+import { auth } from "../firebase";
 
 
 declare global {
@@ -12,16 +12,16 @@ type TSignInWithPhoneNumberResult = {
 	confirmationResultFunc: ConfirmationResult | null,
 	error: AuthError | null
 }
-type TConfirmPhoneResult = {
-	result: UserCredential | null,
-	isNewUser: boolean,
-	error:AuthError | null
+export type TConfirmPhoneResult = {
+	result?: UserCredential,
+	user?: User,
+	error?:AuthError 
 }
 const recaptchaInit = () => {
 	window.recaptchaVerifier = new RecaptchaVerifier('sign-in-container', {
 		'size': 'invisible',
 		'callback': (response : Object | null) => {
-			console.log(response);
+	
 		}
 	}, auth);
 }
@@ -30,13 +30,15 @@ const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 
 	const appVerifier = window.recaptchaVerifier;
 	let result : TSignInWithPhoneNumberResult = {confirmationResultFunc: null,error: null};
+	console.log(auth);
+	
 	await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 		.then((confirmationResult) => {
 			// SMS sent. Prompt user to type the code from the message, then sign the
 			// user in with confirmationResult.confirm(code).
 			window.confirmationResult = confirmationResult;
 			result.confirmationResultFunc = confirmationResult;
-		}).catch((error) => {
+		}).catch((error: AuthError) => {
 			// Error; SMS not sent
 			result.error = error;
 			console.log(error);
@@ -46,21 +48,19 @@ const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 
 const confirmPhone = async (code: string) => {
 	
-	let funcResult: TConfirmPhoneResult = {result:null,isNewUser:false,error:null};
-	await window.confirmationResult.confirm(code).then((result) => {
+	let funcResult: TConfirmPhoneResult = {};
+	await window.confirmationResult.confirm(code).then((result:UserCredential) => {
 		// User signed in successfully.
+		
+		
 		funcResult = {
-			result:result,
-			isNewUser: result.user.metadata.creationTime ? false : true, 
-			error: null
-		}
-		
-	
-		
-		
+			result: result,
+			user: result.user
+		}	
 	}).catch((error) => {
-		// User couldn't sign in (bad verification code?)
-		console.log(error);
+		funcResult= {
+			error: error
+		}
 	});
 	return funcResult;
 }

@@ -1,6 +1,6 @@
 
 html[data-theme='light']{
-	--body-background-color:white;
+	--body-background-color:#e0e5ec;
 	--link-color:#3D5CFF;
 	--link-hover-color:#3d5dff88;
 
@@ -21,6 +21,7 @@ html[data-theme='dark']{
 body{
 	
 	background: var(--body-background-color);
+	
 	transition: $switch-theme-transition;
 }
 main{

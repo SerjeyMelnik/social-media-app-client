@@ -18,7 +18,7 @@ const RegistrationPage: FC = () => {
 	// 	)
 	// }
 	return ( 
-		<main className='registration-page'>
+		<main className='page registration-page'>
 			
 			{/* {
 				typeSignUp === 'phone' ?

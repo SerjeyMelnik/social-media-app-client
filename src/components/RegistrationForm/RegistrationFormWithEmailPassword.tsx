@@ -1,9 +1,10 @@
-import React, { ChangeEvent,FC } from 'react';
+import React, { FC } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
-import {createUserWithEmailAndPasswordHandler} from '../../firebase/authWithEmailPassword';
-import { TAuthMethod } from '../Auth/ChooseAuthMethod';
+import {createUserWithEmailAndPasswordHandler} from '../../firebase/auth/authWithEmailPassword';
+import { setDocument } from '../../firebase/firestore/setOperation';
+
 import FormMessage from '../Auth/FormMessage';
 import CustomInput from '../CustomElements/CustomInput';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
@@ -34,23 +35,13 @@ export const initEmailAndPasswordForm: TEmailAndPasswordFormType = {
         error: ''
     }
 }
-// type TRegistrationFormWithEmailPassword = {
-// 	setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
-// }
+
 const RegistrationFormWithEmailPassword: FC = () => {
-    // const initForm: TEmailAndPasswordFormType = {
-    // 	email: {
-    // 		value: '',
-    // 		error: ''
-    // 	},
-    // 	password: {
-    // 		value: '',
-    // 		error: ''
-    // 	}
-    // }
+
     const [form,setForm] = useState<TEmailAndPasswordFormType>(initEmailAndPasswordForm);
     const [message,setMessage] = useState<TFormMessage>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const navigateTo = useNavigate();
     const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
         setForm(state => {
             const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -77,13 +68,10 @@ const RegistrationFormWithEmailPassword: FC = () => {
             changeFieldError('password','Password must be longer than 5 symbols');
             return;
         }
+        setIsLoading(state=> !state)
         const res = await createUserWithEmailAndPasswordHandler(form.email.value,form.password.value);
-        if (res.user){
-
-            setMessage({type: 'success',text: 'User created successfuly!'})
-            clearForm()
-        }
-        else if (res.error){
+       
+        if (res.error){
             if(res.error.code === 'auth/email-already-in-use'){
                 changeFieldError('email','User already exists, choose another email.')
             }
@@ -91,9 +79,24 @@ const RegistrationFormWithEmailPassword: FC = () => {
                 changeFieldError('email','Invalid email.')
             }
             else {
+                
                 setMessage({type: 'error', text: res.error.message})
+                
             }
+           
         }
+        else if (res.user){
+            setDocument('users',res.user?.uid,{email: res.user?.email,userID:res.user?.uid})
+            setMessage({type: 'success',text: 'User created successfuly!'})
+            clearForm();
+            setTimeout(()=>{
+                navigateTo('/login');
+            },1000)
+            
+        }
+      
+        setIsLoading(state=> !state)
+
     }
      
 
@@ -134,7 +137,7 @@ const RegistrationFormWithEmailPassword: FC = () => {
 									<LoaderSpiner/>
                                   
 								</div> :
-								<span>Log In</span>
+								<span>Sign Up</span>
 							}
                         </button>
                         {/* <Link to={'/registration'} 

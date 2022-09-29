@@ -3,7 +3,7 @@ import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SwitchTransition } from 'react-transition-group';
-import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/authWithPhoneNumberJS';
+import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/auth/authWithPhoneNumberTS';
 import validatePhoneNumber from '../../utils/validatePhoneNumber';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import ConfirmPhoneCode from '../Auth/ConfirmPhoneCode';
@@ -22,7 +22,7 @@ type TFormType = {
 type TFormFields = 'phoneNumber';
 
 type TRegistrationFormWithPhoneNumberProps = {
-	setAuthMethod: React.Dispatch<React.SetStateAction<TAuthMethod>>
+	setAuthMethod: (signInType: TAuthMethod) => void;
 }
 
 const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> = ({setAuthMethod}) => {

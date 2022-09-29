@@ -1,6 +1,8 @@
-import { AuthError, ConfirmationResult } from 'firebase/auth';
+import { AuthError, ConfirmationResult, UserCredential } from 'firebase/auth';
 import React, {FC,useState} from 'react'
-import { confirmPhone } from '../../firebase/authWithPhoneNumberJS';
+import { useNavigate } from 'react-router-dom';
+import { confirmPhone, TConfirmPhoneResult } from '../../firebase/auth/authWithPhoneNumberTS';
+import { useUserContext } from '../../hooks/useUserContext';
 import CustomInput from "../CustomElements/CustomInput";
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
 import { TFormMessage } from '../RegistrationForm/RegistrationFormWithEmailPassword';
@@ -13,11 +15,11 @@ type TFormType = {
 		error: string
 	}
 }
-interface IConfirmPhone {
-	result: ConfirmationResult | null,
-	isNewUser: boolean | null,
-	error: AuthError | null
-}
+// interface IConfirmPhone {
+// 	result: UserCredential ,
+// 	isNewUser: boolean | null,
+// 	error: AuthError | null
+// }
 type TFormFields = 'confirm_code' ;
 const ConfirmPhoneCode:FC = () => {
 	const initForm: TFormType = {
@@ -29,6 +31,8 @@ const ConfirmPhoneCode:FC = () => {
 	const [form,setForm] = useState<TFormType>(initForm);
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const {setUserAuthInfo} = useUserContext();
+	const navigateTo = useNavigate();
 	const changeFieldValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
 		if(e.target.value.length == 7) return;
@@ -53,14 +57,14 @@ const ConfirmPhoneCode:FC = () => {
 		}
 		setIsLoading(state => !state)
 
-		const {result,isNewUser,error}: IConfirmPhone = await confirmPhone(form.confirm_code.value);
-		if(error){
-			
-			 changeFieldError('confirm_code','Invalid verification code')
-			
-		}
-		else if (result){
+		const confirmPhoneResult: TConfirmPhoneResult = await confirmPhone(form.confirm_code.value);
 
+		if(confirmPhoneResult.error){
+			 changeFieldError('confirm_code','Invalid verification code')
+		}
+		else if (confirmPhoneResult.user){
+			setUserAuthInfo(confirmPhoneResult.user)
+			navigateTo('/user-account')
 		}
 		setIsLoading(state => !state)
 		clearForm()

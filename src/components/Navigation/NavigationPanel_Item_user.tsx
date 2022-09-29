@@ -12,7 +12,7 @@ const NavigationPanel_Item_user = () => {
 			<div className="nav-panel_item-user" onClick={togglePopUp}>
 				<PersonRoundedIcon className='nav-panel_item-svgElement'/>
 			</div>
-			<UserPopUp isShowPopUp = {isShowPopUp}/>
+			<UserPopUp isShowPopUp = {isShowPopUp} togglePopUp={togglePopUp}/>
 		</div>
 	 );
 }
