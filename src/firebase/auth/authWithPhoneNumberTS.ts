@@ -30,7 +30,7 @@ const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 
 	const appVerifier = window.recaptchaVerifier;
 	let result : TSignInWithPhoneNumberResult = {confirmationResultFunc: null,error: null};
-	console.log(auth);
+
 	
 	await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 		.then((confirmationResult) => {
@@ -52,6 +52,7 @@ const confirmPhone = async (code: string) => {
 	await window.confirmationResult.confirm(code).then((result:UserCredential) => {
 		// User signed in successfully.
 		
+
 		
 		funcResult = {
 			result: result,

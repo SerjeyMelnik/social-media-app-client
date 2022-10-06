@@ -1,8 +1,8 @@
 
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { TSignOutFuncProps } from '../../firebase/auth/logOut';
-import { useSignOutFunc } from '../../hooks/useSignOut';
+
+import { useSignOut } from '../../hooks/useSignOut';
 import { useUserContext } from '../../hooks/useUserContext';
 type TUserPopUpProps = {
 	isShowPopUp: boolean,
@@ -24,14 +24,14 @@ const UserPopUpLinkListNotAuth:FC<TUserPopUpList> = ({togglePopUp}) => {
 	)
 }
 const UserPopUpLinkListIsAuth:FC<TUserPopUpList> = ({togglePopUp}) => {
-	const {logOutFunc} = useSignOutFunc();
+	const {logOutFunc} = useSignOut();
 	return (
 		<ul className='popUp-content-list'>
 			<li className='popUp-content-item'>
 				<Link to='/user-account' onClick={togglePopUp}>Account</Link>
 			</li>
 			<li className='popUp-content-item'>
-				<Link to='/logout' onClick={logOutFunc}>Logout</Link>
+				<Link to='/' onClick={logOutFunc}>Logout</Link>
 			</li>
 		</ul>
 	)

@@ -12,22 +12,24 @@ export type TUseSignOutHook =  {
 	logOutFunc: () => void
 }
 
-export function useSignOutFunc(): TUseSignOutHook{
+export function useSignOut(): TUseSignOutHook{
 	const {setUserAuthInfo} = useUserContext();
-	const navigateTo = useNavigate()
 
 	const successCallbackHandler: () => void = () => {
 		setUserAuthInfo(undefined);
-		navigateTo('/')
 	}
 	const errorCallbackHandler: (error: AuthError) => void = (error) => {
-		console.log(error);
-		
+		console.log(error,'error');
 	}
-	 const logOutFunc = async () => {
+	const logOutFunc = async () => {
+	
 	 await signOut(auth)
-		.then(successCallbackHandler)
-		.catch(errorCallbackHandler)
+		.then(()=>{
+			successCallbackHandler()
+		})
+		.catch((e)=>{
+			errorCallbackHandler(e)
+		})
 	}
 	return {
 		logOutFunc

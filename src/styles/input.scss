@@ -50,4 +50,17 @@ html[data-theme='dark']{
 	&.error{
 		border: 1px solid var(--input-error-border-color);
 	}
+	&-user-change-img{
+		display: none;
+	}
+	&-editable{
+		border: none;
+		background-color: transparent;
+		border-radius: 0;
+		padding: 0 0 5px 0;
+		border-bottom: 1px solid var(--input-border-color);
+		&:disabled{
+			border-bottom: none;
+		}
+	}
 }

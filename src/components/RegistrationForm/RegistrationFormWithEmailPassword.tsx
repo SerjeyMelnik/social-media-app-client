@@ -4,6 +4,7 @@ import {  useNavigate } from 'react-router-dom';
 
 import {createUserWithEmailAndPasswordHandler} from '../../firebase/auth/authWithEmailPassword';
 import { setDocument } from '../../firebase/firestore/setOperation';
+import { setUser } from '../../firebase/firestore/userOperation';
 
 import FormMessage from '../Auth/FormMessage';
 import CustomInput from '../CustomElements/CustomInput';
@@ -86,7 +87,8 @@ const RegistrationFormWithEmailPassword: FC = () => {
            
         }
         else if (res.user){
-            setDocument('users',res.user?.uid,{email: res.user?.email,userID:res.user?.uid})
+           
+			await setUser(res.user?.uid,res.user)
             setMessage({type: 'success',text: 'User created successfuly!'})
             clearForm();
             setTimeout(()=>{

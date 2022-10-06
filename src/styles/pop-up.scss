@@ -23,6 +23,7 @@ html[data-theme='dark']{
 	visibility: hidden;
 	top: 120%;
 	transition: 0.3s;
+	z-index: 100;
 	//opacity: 0;
 	&.show{
 		visibility: visible;

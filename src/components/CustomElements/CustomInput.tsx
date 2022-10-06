@@ -7,9 +7,10 @@ type TCustomInputProps = {
 	name: string ,
 	label?: string,
 	type: string ,
-	value: string ,
+	value?: string | undefined | null  ,
 	className?: string,
 	error?: string,
+	disabled?: boolean,
 	changeFieldValue: React.ChangeEventHandler<HTMLInputElement> 
 }
 const CustomInput: FC<TCustomInputProps> = (props) => {
@@ -22,6 +23,7 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 		className = '', 
 		changeFieldValue, 
 		error = '',
+		disabled
         } = props;
 	const [isShowPassword,setIsShowPassword] = useState(false);
 	
@@ -37,9 +39,10 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 							placeholder={placeholder}
 							className={`input input-${name} ${error.length ? 'error' : ''} ${className}`}
 							name={name} 
-							value={value}
+							value={value ? value : ''}
 							onChange={changeFieldValue}
 							data-error-msg={error}
+							disabled={disabled}
 							/>
 					{ !isShowPassword ? 
 						<VisibilityOffRoundedIcon className='show-pass-button' onClick={()=>{setIsShowPassword(state => !state)}}/> :
@@ -59,9 +62,10 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 					placeholder={placeholder}
 					className={`input input-${name} ${error.length ? 'error' : ''} ${className}`}
 					name={name} 
-					value={value}
+					value={value ? value : ''}
 					onChange={changeFieldValue}
 					data-error-msg={error}
+					disabled={disabled}
 					/>
 			<span className='input-error-msg'>{error}</span>
 		</div>

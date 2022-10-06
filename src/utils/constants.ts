@@ -1,3 +1,4 @@
+import { TUserShortDataNeedsToFill } from "../types/userTypes";
 
 
 export enum EDisplayBlok{
@@ -17,3 +18,7 @@ export const USER_ACCOUNT_MANAGE_BUTTONS:T_USER_ACCOUNT_MANAGE_BUTTON[] = [
 	{text:"Edit Account", id: EDisplayBlok.edit_account},
 	{text:"Favorite",id: EDisplayBlok.favorite}
 ]
+
+export const USER_PLACEHOLDER_IMG = 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'; 
+
+export const USER_DATA_NEEDS_TO_FILL :TUserShortDataNeedsToFill = ['firstName','lastName','userName']

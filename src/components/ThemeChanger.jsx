@@ -2,9 +2,6 @@ import React from 'react';
 import useTheme from '../hooks/useTheme';
 
 
-
-
-
 const ThemeChanger = () => {
 	const { theme, setTheme } = useTheme();
 	const toggleTheme = () => {

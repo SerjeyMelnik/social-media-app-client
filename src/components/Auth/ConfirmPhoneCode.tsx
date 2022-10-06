@@ -2,6 +2,7 @@ import { AuthError, ConfirmationResult, UserCredential } from 'firebase/auth';
 import React, {FC,useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { confirmPhone, TConfirmPhoneResult } from '../../firebase/auth/authWithPhoneNumberTS';
+import { setUser } from '../../firebase/firestore/userOperation';
 import { useUserContext } from '../../hooks/useUserContext';
 import CustomInput from "../CustomElements/CustomInput";
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
@@ -63,6 +64,12 @@ const ConfirmPhoneCode:FC = () => {
 			 changeFieldError('confirm_code','Invalid verification code')
 		}
 		else if (confirmPhoneResult.user){
+
+			if(confirmPhoneResult.user.metadata.creationTime === confirmPhoneResult.user.metadata.lastSignInTime){
+				
+				await setUser(confirmPhoneResult.user.uid,confirmPhoneResult.user)
+			}
+			
 			setUserAuthInfo(confirmPhoneResult.user)
 			navigateTo('/user-account')
 		}

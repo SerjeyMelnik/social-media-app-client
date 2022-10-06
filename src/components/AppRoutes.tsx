@@ -26,7 +26,6 @@ function AppRoutes() {
             userContext.isUserAuthenticated &&
             <Route path='/user-account' element={<UserAccountPage />} />
           }
-          
         </Routes>
       </BrowserRouter>
     </div>

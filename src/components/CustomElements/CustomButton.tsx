@@ -3,15 +3,17 @@ import React, {FC} from 'react'
 interface ICustomButtonProps {
 	className?: String,
 	onClickFunc?: () => void,
-	children:  React.ReactNode,
-	type?: "button" | "submit" | "reset" | undefined
+	children?:  React.ReactNode,
+	type?: "button" | "submit" | "reset",
+	isDisabled?: boolean
 }
 
-const CustomButton : FC<ICustomButtonProps> = ({className = "", onClickFunc = () => {console.log('func not declared')} , children, type = 'button' }) => {
+const CustomButton : FC<ICustomButtonProps> = ({className,isDisabled, onClickFunc , children, type = 'button' }) => {
 	return ( 
 		<button className={`button ${className}`}
 				onClick={onClickFunc}
 				type={type}
+				disabled={isDisabled}
 				>
 		{children}
 		</button>

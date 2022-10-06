@@ -3,7 +3,7 @@ import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/auth/authWithPhoneNumberTS';
-import { getUser } from '../../firebase/firestore/userOperation';
+
 import validatePhoneNumber from '../../utils/validatePhoneNumber';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import ConfirmPhoneCode from '../Auth/ConfirmPhoneCode';
