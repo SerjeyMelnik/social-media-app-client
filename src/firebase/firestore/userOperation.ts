@@ -2,6 +2,7 @@
 import { updateProfile, User } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { IUserFull,TUserFull, TUserShortField, UserShort } from "../../types/userTypes"
+import { USER_DATA_NEEDS_TO_FILL } from "../../utils/constants";
 import { auth, db } from "../firebase";
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
@@ -14,7 +15,7 @@ type TGetFullUserInfo = (userID:string) => Promise<TUserFull>;
 type TGetFullUsersInfo = () => Promise<TUserFull[]>;
 type TGetShortUserInfo = (userID:string) => Promise<UserShort>;
 type TGetShortUsersInfo = () => Promise<UserShort[]>;
-type TSetUser = (userID: string,user:User) => Promise<void>;
+type TSetNewUser = (userID: string,user:User) => Promise<void>;
 type TUpdateShortUser = (userID:string ,dataToUdate: object) => Promise<void>;
 type TUpdateShortUserField = (userID:string ,field: TUserShortField,value:any) => Promise<void>;
 type TUploadUserAccountImg = (file: File, userID:string) => Promise<string>;
@@ -23,6 +24,7 @@ type TDeleteUserAccountImg = (userID:string) => Promise<void>;
 export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
 	const docSnap = await getDocument('users-full',userID);
 	const docData = docSnap.data() as IUserFull; 
+	
 	const user_short = await getDoc(docData.user_short )
 	const res = {
 		...docData,
@@ -49,9 +51,9 @@ export const getShortUsersInfo:TGetShortUsersInfo = async () => {
 	 return res;
 }
 
-export const setUser:TSetUser = async (userID: string,user:User) => {
+export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
 	const short_user:UserShort = {
-		filled:false,
+		unfilled :USER_DATA_NEEDS_TO_FILL,
 		email:user.email,
 		userID: user.uid,
 		phoneNumber: user.phoneNumber
@@ -86,7 +88,3 @@ export const deleteUserAccountImg:TDeleteUserAccountImg = async (userID:string) 
 	await deleteFolder(`users/${userID}/avatar`);
 }
 
-
-// export const updateUserProfile = (userProfileData) => {
-// 	updateProfile(auth.currentUser,)
-// }

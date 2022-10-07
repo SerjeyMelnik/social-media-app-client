@@ -9,7 +9,6 @@ const HomePage: FC = () => {
 	const {getPosts} = useFetchData();
 
 	useEffect( ()=>{
-
 		getPosts().then(data => setPosts(data))
 	},[]);
 	

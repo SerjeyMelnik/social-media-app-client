@@ -52,7 +52,7 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 	const changeFieldError = (fieldName: TFormPhoneNumberFields, errorText: string) => {
 		setForm(state => ({...state,[fieldName]: {...state[fieldName], error: errorText }}) )
 	}
-	const userRegistration = async (e:React.FormEvent<HTMLFormElement>) => {
+	const userLogin = async (e:React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if(!validatePhoneNumber(form.phoneNumber.value)){
 			changeFieldError('phoneNumber','Invalid phone number');
@@ -79,7 +79,7 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 			{
 				isConfirmationCode ? 
 				<ConfirmPhoneCode /> :
-				<form onSubmit={userRegistration}>
+				<form onSubmit={userLogin}>
 				<h3 className='form-title'>Sign In</h3>
 				<div className="form-inner">
 					<CustomInput type = 'tel'

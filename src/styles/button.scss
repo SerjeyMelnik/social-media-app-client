@@ -3,11 +3,15 @@ html[data-theme='light']{
 	
 	--button-color: #3D5CFF;
 	--button-disabled-color:#3d5dff6c;
+	--user-account-user-editbutton: #3D5CFF;
+	--user-account-user-savebutton: green;
 }
 html[data-theme='dark']{
 
 	--button-color: #3D5CFF;
 	--button-disabled-color:#3d5dff6c;
+	--user-account-user-editbutton: #3D5CFF;
+	--user-account-user-savebutton: green;
 }
 
 .button{
@@ -95,6 +99,30 @@ html[data-theme='dark']{
 		border-color: red;
 		&:hover{
 			color: red;
+		}
+	}
+	&-user_info_line_edit{
+		border: none;
+		background: transparent;
+		outline: none;
+		position: absolute;
+		top: -10px;
+		right: 0;
+		cursor: pointer;
+		// &:disabled{
+		// 	color: 	lighten($color: var(--user-account-user-editbutton), $amount: 0.5)
+		// }
+		transition: 0s;
+		svg{
+			font-size: 20px;
+		}
+		&.edit{
+			color: var(--user-account-user-editbutton);
+		}
+
+		&.save{
+			color: var(--user-account-user-savebutton);
+
 		}
 	}
 }

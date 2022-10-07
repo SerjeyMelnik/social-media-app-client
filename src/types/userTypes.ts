@@ -1,5 +1,6 @@
 import { User, UserCredential } from "firebase/auth";
 import { DocumentReference, Timestamp } from "firebase/firestore";
+import { IPost } from "./postTypes";
 
 export interface IUserAccountInfo {
 	userFull: TUserFull,
@@ -10,9 +11,10 @@ export interface IUserFull{
 }
 export type TUserFull = {
 	user_short: UserShort
+	posts: IPost[]
 }
 export interface UserShort{
-	filled:boolean,
+	unfilled:TUserShortDataNeedsToFill,
 	userName?: string | null,
 	avatar?:string,
 	birthDate?: Timestamp | null,
@@ -31,4 +33,4 @@ export type TUserProfileData = {
 	email?:string
 }
 
-export type TUserShortDataNeedsToFill = TUserShortField[]
+export type TUserShortDataNeedsToFill = TUserShortField[] | []

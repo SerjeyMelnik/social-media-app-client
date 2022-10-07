@@ -4,8 +4,9 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import {  TUserShortField } from '../../types/userTypes';
 import { useUserContext } from '../../hooks/useUserContext';
-import { updateShortUserField } from '../../firebase/firestore/userOperation';
+import { updateShortUser, updateShortUserField } from '../../firebase/firestore/userOperation';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
+import { USER_DATA_NEEDS_TO_FILL } from '../../utils/constants';
 
 type TUserInfoLineEditProps = {
 	name:TUserShortField,
@@ -14,7 +15,7 @@ type TUserInfoLineEditProps = {
 }
 
 const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
-	const {userInfo} = useUserContext()
+	const {userInfo,updateUserAccountInfo} = useUserContext();
 	const [isEdit,setIsEdit] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [fieldValue,setFieldValue] = useState<string | undefined | null >(value);
@@ -22,10 +23,16 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 		setIsEdit(state => !state)
 	}
 	const saveEditedUserInfo = async () => {
-		toggleEdit();
 		setLoading(state => !state)
-		await updateShortUserField(userInfo?.userAuthInfo?.uid as string,name,fieldValue as string)
-		setLoading(state => !state) 
+		const dataToUpdate = {
+			unfilled: userInfo?.userFull?.user_short.unfilled.filter(field => field !== name),
+			[name]: fieldValue
+		}
+		
+		await updateShortUser(userInfo?.userAuthInfo?.uid as string,dataToUpdate)
+		setLoading(state => !state)
+		toggleEdit(); 
+		updateUserAccountInfo();
 	}
 	const  changeFieldValue:ChangeEventHandler<HTMLInputElement> = (e) => {
 		setFieldValue(e.target.value)
@@ -47,17 +54,17 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 				{
 					!isEdit ?
 
-					<span className='user_info_line_edit_button edit' onClick={toggleEdit}>
+					<button className='button-user_info_line_edit edit' onClick={toggleEdit}>
 						<EditRoundedIcon />
-					</span> :
+					</button> :
 
-					<span className={`user_info_line_edit_button save ${loading ? 'disabled' : ''}`} onClick={saveEditedUserInfo}>
+					<button className={`button-user_info_line_edit save`} disabled={loading} onClick={saveEditedUserInfo}>
 						{
 							loading ? 
 							<LoaderSpiner/>:
 							<CheckRoundedIcon/>
 						}
-					</span>
+					</button>
 						
 				}				
 		</div>

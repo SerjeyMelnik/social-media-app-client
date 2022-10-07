@@ -1,7 +1,7 @@
 import React ,{FC, useState}from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPasswordHandler } from '../../firebase/auth/authWithEmailPassword';
-import { setUser } from '../../firebase/firestore/userOperation';
+
 import { useUserContext } from '../../hooks/useUserContext';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import FormMessage from '../Auth/FormMessage';
