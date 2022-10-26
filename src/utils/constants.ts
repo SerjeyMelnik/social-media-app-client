@@ -4,7 +4,8 @@ import { TUserShortDataNeedsToFill } from "../types/userTypes";
 export enum EDisplayBlok{
 	account_info='account_info', 
 	edit_account='edit_account', 
-	favorite ='favorite'
+	favorite ='favorite',
+	my_posts = 'my_posts'
 }
 export type TDisplayBlok = keyof typeof EDisplayBlok;
 
@@ -16,7 +17,8 @@ export type T_USER_ACCOUNT_MANAGE_BUTTON = {
 export const USER_ACCOUNT_MANAGE_BUTTONS:T_USER_ACCOUNT_MANAGE_BUTTON[] = [
 	{text:"Info",id: EDisplayBlok.account_info},
 	{text:"Edit Account", id: EDisplayBlok.edit_account},
-	{text:"Favorite",id: EDisplayBlok.favorite}
+	{text:"Favorite",id: EDisplayBlok.favorite},
+	{text:"My posts",id:EDisplayBlok.my_posts}
 ]
 
 export const USER_PLACEHOLDER_IMG = 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'; 

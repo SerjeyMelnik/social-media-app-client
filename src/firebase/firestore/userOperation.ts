@@ -1,19 +1,22 @@
 
-import { updateProfile, User } from "firebase/auth";
-import { getDoc, doc } from "firebase/firestore";
+import { User } from "firebase/auth";
+import { getDoc, doc, DocumentReference } from "firebase/firestore";
+import { IPost, TPost } from "../../types/postTypes";
 import { IUserFull,TUserFull, TUserShortField, UserShort } from "../../types/userTypes"
 import { USER_DATA_NEEDS_TO_FILL } from "../../utils/constants";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
 import { getCollection, getDocument } from "./getOperation";
+import {  getUserPosts } from "./postOperation";
 import { setDocument } from "./setOperation";
 import { updateDocument } from "./updateOperation";
 
 type TGetFullUserInfo = (userID:string) => Promise<TUserFull>;
 type TGetFullUsersInfo = () => Promise<TUserFull[]>;
-type TGetShortUserInfo = (userID:string) => Promise<UserShort>;
+type TGetShortUserInfoById = (userID:string) => Promise<UserShort>;
+type TGetShortUserInfoByRef = (userID:DocumentReference<UserShort>) => Promise<UserShort>;
 type TGetShortUsersInfo = () => Promise<UserShort[]>;
 type TSetNewUser = (userID: string,user:User) => Promise<void>;
 type TUpdateShortUser = (userID:string ,dataToUdate: object) => Promise<void>;
@@ -25,11 +28,13 @@ export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
 	const docSnap = await getDocument('users-full',userID);
 	const docData = docSnap.data() as IUserFull; 
 	
-	const user_short = await getDoc(docData.user_short )
-	const res = {
-		...docData,
-		user_short: user_short.data() 
-	} as TUserFull;
+	const user_short = await getDoc(docData.user_short as DocumentReference<UserShort>);
+	const userPosts = await getUserPosts(docData.posts as DocumentReference<IPost>[])
+	const res:TUserFull = {
+		unfilled: USER_DATA_NEEDS_TO_FILL,
+		posts: userPosts as TPost[],
+		user_short: user_short.data() as UserShort
+	};
 	 return res;
 }
 
@@ -39,10 +44,15 @@ export const getFullUsersInfo:TGetFullUsersInfo = async () => {
 	return users;
 }
 
-export const getShortUserInfo:TGetShortUserInfo = async (userID:string) => {
+export const getShortUserInfoById:TGetShortUserInfoById = async (userID:string) => {
 	const docSnap = await getDocument('users-short',userID);
 	const res = docSnap.data() as UserShort;
 	 return res;
+}
+export const getShortUserInfoByRef:TGetShortUserInfoByRef = async (userRef: DocumentReference<UserShort>) => {
+	const docSnap = await getDoc(userRef);
+	const res = docSnap.data() as UserShort;
+	return res;
 }
 
 export const getShortUsersInfo:TGetShortUsersInfo = async () => {
@@ -53,13 +63,13 @@ export const getShortUsersInfo:TGetShortUsersInfo = async () => {
 
 export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
 	const short_user:UserShort = {
-		unfilled :USER_DATA_NEEDS_TO_FILL,
 		email:user.email,
 		userID: user.uid,
 		phoneNumber: user.phoneNumber
 	}
 	setDocument('users-short',userID,short_user)
 	const user_full = {
+		unfilled: USER_DATA_NEEDS_TO_FILL,
 		user_short: doc(db,'users-short',userID)
 	}
 	setDocument('users-full',userID,user_full)

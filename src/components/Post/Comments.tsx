@@ -1,31 +1,33 @@
 import React, { useEffect, useRef , FC} from 'react';
-import { IComment } from '../../types/types';
+import {  TComment } from '../../types/commentTypes';
+
 import LeaveTheCommentForm from './LeaveTheCommentForm';
 
 type TCommentProps = {
-	comment: IComment
+	comment: TComment
 }
 type TCommentsProps = {
 	isShow: boolean,
 	setShowPostComments:React.Dispatch<React.SetStateAction<boolean>>
 	className: string | undefined,
-	comments: IComment[]
+	comments: TComment[]
 }
 
 const Comment: FC<TCommentProps> = ({comment}) => {
-	const commnterAvatar = 'https://john-mohamed.com/wp-content/uploads/2018/05/Profile_avatar_placeholder_large.png';
-	return (<div className="comment">
-	<div className="author_avatar" >
-		<img src={commnterAvatar}  className='author_avatar-img'/>
-	</div>
-	<div className="comment_content">
-		<div className="author_info">
-			<h2 className='author_name'>{comment.email}</h2>
-			<span className='comment_posted-date'>10 pm</span>
+	return (
+	<div className="comment">
+		<div className="author_avatar" >
+			<img src={comment.author.avatar}  className='author_avatar-img'/>
 		</div>
-		<p className='comment_body'>{comment.body} &#128513;</p>
+		<div className="comment_content">
+			<div className="author_info">
+				<h2 className='author_name'>{comment.author.userName}</h2>
+				<span className='comment_posted-date'>10 pm</span>
+			</div>
+			<p className='comment_body'>{comment.body} </p>
+		</div>
 	</div>
-</div>)
+	)
 }
 
 

@@ -4,11 +4,12 @@ import { EDisplayBlok, TDisplayBlok, T_USER_ACCOUNT_MANAGE_BUTTON, USER_ACCOUNT_
 import UserAccountEdit from './UserAccountEdit';
 import UserAccountInfo from './UserAccountInfo';
 import UserAccountManageButton from './UserAccountManageButton'
+import { UserAccountPosts } from './UserAccountPosts';
 
 const UserAccountManage:FC = () => {
 	const {userInfo} = useUserContext();
 	const isUserFilled = () => {
-		return userInfo?.userFull.user_short.unfilled.length == 0
+		return userInfo?.userFull.unfilled.length == 0
 	}
 	const defaultDisplayBlok = isUserFilled() ? EDisplayBlok.account_info : EDisplayBlok.edit_account;
 	const [displayBlock,setDisplayBlock] = useState<TDisplayBlok>(defaultDisplayBlok);
@@ -31,7 +32,9 @@ const UserAccountManage:FC = () => {
 						displayBlock === EDisplayBlok.account_info ?
 						<UserAccountInfo/> :
 						displayBlock === EDisplayBlok.edit_account ?
-						<UserAccountEdit/> : null
+						<UserAccountEdit/> : 
+						displayBlock === EDisplayBlok.my_posts ?
+						<UserAccountPosts /> : null
 					}
 					
 					

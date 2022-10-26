@@ -103,6 +103,9 @@ html[data-theme='dark']{
 			margin-top: 20px;
 			border-radius: 15px;
 			@include box-shadow;
+			&.my_posts{
+				box-shadow: none;
+			}
 		}
 	}
 	&-username{

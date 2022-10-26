@@ -1,20 +1,22 @@
 import { User, UserCredential } from "firebase/auth";
 import { DocumentReference, Timestamp } from "firebase/firestore";
-import { IPost } from "./postTypes";
+import { IPost, TPost } from "./postTypes";
 
 export interface IUserAccountInfo {
 	userFull: TUserFull,
 	userAuthInfo?: User 
 }
 export interface IUserFull{
-	user_short: DocumentReference<UserShort>
+	user_short: DocumentReference<UserShort> | undefined,
+	posts: DocumentReference<IPost>[] | undefined,
+	unfilled: TUserShortDataNeedsToFill
 }
 export type TUserFull = {
-	user_short: UserShort
-	posts: IPost[]
+	user_short: UserShort,
+	posts: TPost[],
+	unfilled:TUserShortDataNeedsToFill
 }
 export interface UserShort{
-	unfilled:TUserShortDataNeedsToFill,
 	userName?: string | null,
 	avatar?:string,
 	birthDate?: Timestamp | null,

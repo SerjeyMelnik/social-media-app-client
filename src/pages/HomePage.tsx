@@ -1,25 +1,18 @@
-import React, { useState, FC, useEffect } from 'react';
-import Post from '../components/Post/Post';
-import useFetchData from '../fakeAPI/useFetchData';
-import { useUserContext } from '../hooks/useUserContext';
-import { IPost, IUser } from '../types/types';
-
+import  { useState, FC, useEffect } from 'react';
+import { PostsList } from '../components/Post/PostsList';
+import { getAllPosts } from '../firebase/firestore/postOperation';
+import { TPost } from '../types/postTypes';
 const HomePage: FC = () => {
-	const [posts,setPosts] = useState<IPost[]>([]);
-	const {getPosts} = useFetchData();
-
+	const [posts,setPosts] = useState<TPost[]>([]);
+	
 	useEffect( ()=>{
-		getPosts().then(data => setPosts(data))
+		getAllPosts().then(data => setPosts(data)).catch(e => console.log(e))
 	},[]);
 	
 	return (
 		<main className='page home-page'>
 				<div className="posts_container">
-					{
-						posts?.length && posts.map((post: IPost) => {
-							return <Post post={post} key={String(post.id)}/>
-						}) 
-					}
+					<PostsList posts={posts}/>
 					
 				</div>
 		</main> 

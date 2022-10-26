@@ -1,15 +1,15 @@
-import { Timestamp,DocumentSnapshot } from "firebase/firestore";
-import { Comment } from "./commentTypes";
+import { Timestamp,DocumentSnapshot, DocumentReference } from "firebase/firestore";
+import {  IComment, TComment } from "./commentTypes";
 import {  UserShort } from "./userTypes";
 
 export interface IPost {
-	author: DocumentSnapshot<UserShort>,
+	author: DocumentReference<UserShort>,
 	description: string,
 	pictures?: string[],
-	likes: DocumentSnapshot<UserShort[]>,
+	likes: DocumentReference<UserShort>[],
 	id: string,
 	postedDate: Timestamp,
-	comments: DocumentSnapshot<Comment[]>
+	comments: DocumentReference<IComment>[]
 }
 export type TPost = {
 	author: UserShort,
@@ -18,5 +18,5 @@ export type TPost = {
 	likes: UserShort[],
 	id: string,
 	postedDate: Timestamp,
-	comments: Comment[]
+	comments: TComment[]
 }

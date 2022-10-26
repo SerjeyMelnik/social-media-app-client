@@ -25,7 +25,7 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 	const saveEditedUserInfo = async () => {
 		setLoading(state => !state)
 		const dataToUpdate = {
-			unfilled: userInfo?.userFull?.user_short.unfilled.filter(field => field !== name),
+			unfilled: userInfo?.userFull?.unfilled.filter(field => field !== name),
 			[name]: fieldValue
 		}
 		
