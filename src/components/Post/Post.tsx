@@ -1,9 +1,7 @@
-import { useState,FC, useEffect } from 'react';
+import { useState,FC } from 'react';
 import LikeBtn from './LikeBtn';
 import CommentsBtn from './CommentsBtn';
 import Comments from './Comments';
-import { IComment, IPost, IUser } from '../../types/types';
-import useFetchData from '../../fakeAPI/useFetchData';
 import { TPost } from '../../types/postTypes';
 type PostProps = {
 	post: TPost
@@ -34,7 +32,7 @@ const Post: FC<PostProps> = ({post}) => {
 					</div>
 				</div>
 				<div className="post_info">
-					<LikeBtn post={post}/>
+					<LikeBtn postLikes={post.likes} postId={post.id}/>
 					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={post.comments.length} isCommentsShown={showPostComments}/>
 				</div>
 				{

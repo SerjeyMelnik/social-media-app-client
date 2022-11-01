@@ -38,6 +38,7 @@ $svg-size: 1.2em;
 		position: relative;
 		display: flex;
 		justify-content: center;
+		cursor: pointer;
 		&-svgElement{
 			color: var(--panel-item-svg-color);
 			width: $svg-size!important;
@@ -51,6 +52,12 @@ $svg-size: 1.2em;
 				background-color: var(--panel-item-hover-svg-color);
 				
 			}
+		}
+		&-avatar{
+			width: 35px;
+			height: 35px;
+			object-fit: cover;
+			border-radius: 50%;
 		}
 	}
 }

@@ -1,18 +1,18 @@
-import React, { FC, useState } from 'react';
+import  { FC, useState } from 'react';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import { UserShort } from '../../types/userTypes';
 import { useUserContext } from '../../hooks/useUserContext';
 import { isCurrentUserLikedPost } from '../../utils/isCurrentUserLikedPost';
 import { toggleLikeToPost } from '../../firebase/firestore/likeAndCommentOperation';
-import { TPost } from '../../types/postTypes';
 import { useNavigate } from 'react-router-dom';
+import { UserShort } from '../../types/userTypes';
 type TLikeBtnProps = {
-	post: TPost
+	postLikes: UserShort[],
+	postId: string
 }
-const LikeBtn:FC<TLikeBtnProps> = ({post}) => {
+const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
 	const {isUserAuthenticated,userInfo} = useUserContext();
-	const isLikedDefault = isUserAuthenticated && isCurrentUserLikedPost(post.likes,userInfo?.userAuthInfo?.uid as string);
+	const isLikedDefault = isUserAuthenticated && isCurrentUserLikedPost(postLikes,userInfo?.userAuthInfo?.uid as string);
 	const navigateTo = useNavigate();
 	
 	const [isLiked,setIsLiked] = useState(isLikedDefault);
@@ -23,7 +23,7 @@ const LikeBtn:FC<TLikeBtnProps> = ({post}) => {
 			console.log('you need log in');
 			return;
 		}
-		await toggleLikeToPost(post.id,post.likes,userInfo?.userAuthInfo?.uid as string)
+		await toggleLikeToPost(postId,postLikes,userInfo?.userAuthInfo?.uid as string)
 		setIsLiked((state)=> !state)
 	}
 	return ( 
@@ -38,7 +38,7 @@ const LikeBtn:FC<TLikeBtnProps> = ({post}) => {
 					}
 					
 			</button>
-			<span className='number like-number'>{post.likes.length}</span>
+			<span className='number like-number'>{postLikes.length}</span>
 		</div>
 	 );
 }
