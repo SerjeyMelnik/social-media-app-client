@@ -2,7 +2,7 @@ import { RecaptchaVerifier,RecaptchaParameters } from 'firebase/auth';
 import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SwitchTransition } from 'react-transition-group';
+
 import { recaptchaInit,signInWithPhoneNumberHandler } from '../../firebase/auth/authWithPhoneNumberTS';
 import validatePhoneNumber from '../../utils/validatePhoneNumber';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';

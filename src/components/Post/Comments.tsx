@@ -17,7 +17,7 @@ const Comment: FC<TCommentProps> = ({comment}) => {
 	return (
 	<div className="comment">
 		<div className="author_avatar" >
-			<img src={comment.author.avatar}  className='author_avatar-img'/>
+			<img src={comment.author.avatar} alt="post pocture" className='author_avatar-img'/>
 		</div>
 		<div className="comment_content">
 			<div className="author_info">
@@ -41,9 +41,6 @@ const Comments: FC<TCommentsProps> = ({comments,isShow,className,setShowPostComm
 		comments_wrapper.current?.setAttribute("style",`height: ${comments_inner_Height}px;`)
 		return () => {
 			console.log('true');
-			
-			//comments_wrapper.current?.setAttribute("style","height: 0px;")
-			
 		}
 	});
 	return (

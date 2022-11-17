@@ -16,7 +16,6 @@ const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
 	const navigateTo = useNavigate();
 	
 	const [isLiked,setIsLiked] = useState(isLikedDefault);
-	
 	const toggleLike = async () => {
 		if(!isUserAuthenticated){
 			navigateTo('/login')

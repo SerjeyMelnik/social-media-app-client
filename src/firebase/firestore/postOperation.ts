@@ -14,8 +14,11 @@ export const getAllPosts = async () => {
 	const posts =  await Promise.all(postsPromises);
 	return posts;
 }
+export const getAllPostsCollection = async () => {
+	const posts_conllection = await getCollection('posts')
+	return posts_conllection.docs;
+}
 export const getPost = async (post: IPost) => {
-	
 	return {
 		...post,
 		author: await getAuthor(post.author),
@@ -31,6 +34,7 @@ export const getUserPosts = async (posts: DocumentReference<IPost>[]) => {
 	return userPosts;
 }
 export const getCommentsToPost = async (comments: DocumentReference<IComment>[]) => {
+	if (!comments || !comments.length) return [];
 	const ICommentsPromises = comments.map(async (commentRef) => {
 		const docSnap = await getDoc<IComment>(commentRef);
 		return docSnap.data();
@@ -43,6 +47,7 @@ export const getCommentsToPost = async (comments: DocumentReference<IComment>[])
 	return commentsData;
 }
 const getComment = async (comment: IComment) => {
+
 	return {
 		...comment,
 		author: await getAuthor(comment.author),
@@ -54,6 +59,7 @@ export const getAuthor = async (authorRef: DocumentReference<UserShort>) => {
 	return authorSnap.data() as UserShort;
 }
 export const getUsersWhoLiked = async (usersRefs: DocumentReference<UserShort>[]) => {
+	if (!usersRefs || !usersRefs.length) return [];
 	const usersWhoLikedPromises = usersRefs.map(async (userRef) => await getAuthor(userRef));
 	const usersWhoLiked = await Promise.all(usersWhoLikedPromises);
 	return usersWhoLiked;

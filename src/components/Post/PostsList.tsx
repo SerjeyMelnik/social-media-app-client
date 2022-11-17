@@ -10,7 +10,7 @@ export const PostsList:FC<PostsListProps> = ({posts}) => {
 	return(
 		<div className="posts-list">
 		{
-			posts?.length && posts.map((post: TPost) => {
+			posts?.length && posts.map(post => {
 				return <Post post={post} key={String(post.id)}/>
 			}) 
 		}
