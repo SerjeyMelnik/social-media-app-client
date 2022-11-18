@@ -20,7 +20,7 @@ const UserAccountInfo: FC<TUserInfoProps> = () => {
 			<UserInfoLine property='Last name' value={userInfo?.userFull.user_short.lastName}/>
 			<UserInfoLine property='Phone number' value={userInfo?.userAuthInfo?.phoneNumber}/>
 			<UserInfoLine property='Email' value={userInfo?.userAuthInfo?.email}/>
-			<UserInfoLine property='Date of birth' value={getDate(userInfo?.userFull.user_short.birthDate)}/>
+			<UserInfoLine property='Date of birth' value={userInfo?.userFull.user_short.birthDate ? getDate(userInfo?.userFull.user_short.birthDate).stringDate : null}/>
 			<UserInfoLine property='Account created' value={userInfo?.userAuthInfo?.metadata.creationTime}/>
 		</div>
 	 );

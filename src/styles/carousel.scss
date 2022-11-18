@@ -1,0 +1,60 @@
+html[data-theme='light']{
+
+}
+
+html[data-theme='dark']{
+
+
+}
+
+.custom-carousel{
+	overflow: hidden;
+	border-radius: 15px;
+	position: relative;
+}
+.carousel{
+	position: relative;
+	&__dot{
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1px solid var(--app-color);
+	}
+	&__dot-group{
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		bottom: 5px;
+		gap: 3px;
+		width: 100%;
+	}
+	&__next-button,&__back-button{
+		position: absolute;
+		bottom: 5px;
+		border: none;
+		background:rgba($color: white, $alpha: 0.5);
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		&:disabled{
+			svg{
+				color: transparentize($app-blue, $amount: 0.5);
+			}
+		}
+	}
+	&__next-button{
+		right: 15px;
+		svg{
+			rotate: 90deg;
+			color: var(--app-color);
+		
+		}
+	}
+	&__back-button{
+		left: 15px;
+		svg{
+			rotate: -90deg;
+			color: var(--app-color);
+		}
+	}
+}

@@ -1,4 +1,5 @@
 import {FC} from 'react';
+import { PostPicturesCarousel } from './PostPicturesCarousel';
 
 type PostContentProps = {
 	description: string,
@@ -10,14 +11,18 @@ const PostContent:FC<PostContentProps> = ({description,pictures}) => {
 		<p className="post_content-description">
 			{description}
 		</p>
-		<div className="post_content-picture">
-			{
-				pictures && (pictures.length === 1 ?
-				<img src={pictures[0]} alt="post pocture" className='post_content-picture-img'/> :
-				pictures?.length > 1 && 'there will be slider'
-				)
-			}
-		</div>
+		{
+			(pictures?.length !== 0 && pictures) &&
+			<div className="post_content-picture">
+				{
+					pictures && (pictures.length === 1 ?
+					<img src={pictures[0]} alt="post pocture" className='post_content-picture-img'/> :
+					pictures.length > 1 && <PostPicturesCarousel pictures={pictures}/>
+					)
+				}
+			</div>
+		}
+		
 	</div>
 );
 }

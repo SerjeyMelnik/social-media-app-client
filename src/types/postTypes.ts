@@ -20,3 +20,5 @@ export type TPost = {
 	postedDate: Timestamp,
 	comments: TComment[]
 }
+
+export type PostFields = keyof TPost;

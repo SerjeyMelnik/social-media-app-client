@@ -17,7 +17,7 @@ const Post: FC<PostProps> = ({post}) => {
 	
 	useEffect(()=>{
 		const unsub = onSnapshot(doc(db,'posts',post.id),async (doc) => {
-			console.log(doc.data());
+			
 			const currPostData = await getPost(doc.data() as IPost);
 			setCurrPost(currPostData)
 		})
@@ -31,13 +31,14 @@ const Post: FC<PostProps> = ({post}) => {
 					<LikeBtn postLikes={currPost.likes} postId={currPost.id}/>
 					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={currPost.comments.length} isCommentsShown={showPostComments}/>
 				</div>
-				{
-					showPostComments && post.comments?.length &&
+				
 					<Comments comments={currPost.comments}
 							 setShowPostComments={setShowPostComments}
 							 isShow={showPostComments}
-							 className={showPostComments ? 'show' : 'hide'}/>
-				}
+							 className={showPostComments ? 'show' : 'hide'}
+							 postId={post.id}
+							 />
+				
 			</div>
 	 );
 }

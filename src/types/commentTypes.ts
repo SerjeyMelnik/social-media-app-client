@@ -7,6 +7,7 @@ export interface IComment{
 	body: string,
 	likes: DocumentReference<UserShort>[],
 	postedDate: Timestamp,
+	postId:string,
 	id:string
 }
 export interface TComment{
@@ -14,5 +15,7 @@ export interface TComment{
 	body: string,
 	likes: UserShort[],
 	postedDate: Timestamp,
+	postId:string,
 	id:string
 }
+export type CommentFields = keyof TComment;
