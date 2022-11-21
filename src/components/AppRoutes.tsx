@@ -19,7 +19,7 @@ function AppRoutes() {
       <BrowserRouter>
         <NavigationPanel />
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/social-network-app-client' element={<HomePage />} />
           <Route path='/registration' element={<RegistrationPage />} />
           <Route path='/login' element={<LoginPage />} />
           {
