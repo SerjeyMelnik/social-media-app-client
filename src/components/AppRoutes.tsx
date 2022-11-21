@@ -16,10 +16,10 @@ function AppRoutes() {
  
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename='/social-network-app-client'>
         <NavigationPanel />
         <Routes>
-          <Route path='/social-network-app-client' element={<HomePage />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/registration' element={<RegistrationPage />} />
           <Route path='/login' element={<LoginPage />} />
           {
