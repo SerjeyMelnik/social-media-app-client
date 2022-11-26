@@ -13,7 +13,7 @@ export interface IUserFull{
 }
 export type TUserFull = {
 	user_short: UserShort,
-	posts: TPost[],
+	posts?: TPost[],
 	unfilled:TUserShortDataNeedsToFill
 }
 export interface UserShort{

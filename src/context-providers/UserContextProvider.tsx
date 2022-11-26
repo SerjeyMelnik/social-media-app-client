@@ -1,7 +1,10 @@
-import { User, UserCredential } from "firebase/auth"
+import {useEffect} from "react"
+import { User } from "firebase/auth"
 import { createContext, FC, ReactNode, useState } from "react"
 import { getFullUserInfo } from "../firebase/firestore/userOperation"
-import { IUserAccountInfo, TUserFull } from "../types/userTypes"
+import { IUserAccountInfo } from "../types/userTypes"
+import { doc, onSnapshot } from "firebase/firestore"
+import { db } from "../firebase/firebase"
 
 export type TUserContext = {
 	isUserAuthenticated : boolean,
@@ -50,6 +53,12 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		setUserAuthInfo,
 		updateUserAccountInfo
 	}
+	// useEffect(()=>{
+	// 	const userDocRef = doc(db,'users-full',userInfo?.userAuthInfo?.uid as string);
+	// 	const unsub = onSnapshot(userDocRef,async (doc)=>{
+	// 		await updateUserAccountInfo()
+	// 	})
+	// })
 	return (
 		<UserContext.Provider value={userContextValue}>
 			{children}

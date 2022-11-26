@@ -1,5 +1,6 @@
 import React, { useEffect, useRef , FC} from 'react';
 import {  TComment } from '../../types/commentTypes';
+import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
 import { getDate } from '../../utils/getDate';
 
 import LeaveTheCommentForm from './LeaveTheCommentForm';
@@ -20,7 +21,7 @@ const Comment: FC<TCommentProps> = ({comment}) => {
 	return (
 	<div className="comment">
 		<div className="author_avatar" >
-			<img src={comment.author.avatar} alt="post pocture" className='author_avatar-img'/>
+			<img src={comment.author.avatar || USER_PLACEHOLDER_IMG} alt="post pocture" className='author_avatar-img'/>
 		</div>
 		<div className="comment_content">
 			<div className="author_info">
@@ -43,9 +44,7 @@ const Comments: FC<TCommentsProps> = ({comments,isShow,className,setShowPostComm
 		
 		isShow && comments_wrapper.current?.setAttribute("style",`height: ${comments_inner_Height}px;`)
 		!isShow && comments_wrapper.current?.setAttribute("style",`height: 0px;`)
-		return () => {
-			console.log('true');
-		}
+		
 	},[isShow,comments]);
 	return (
 		

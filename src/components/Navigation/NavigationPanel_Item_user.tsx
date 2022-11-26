@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import UserPopUp from './UserPopUp';
 import { useUserContext } from '../../hooks/useUserContext';
+import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
 
 const NavigationPanel_Item_user = () => {
 	const [isShowPopUp,setIsShowPopUp] = useState(false);
@@ -16,7 +17,7 @@ const NavigationPanel_Item_user = () => {
 				
 				{
 					isUserAuthenticated ? 
-					<img src={userInfo?.userFull.user_short.avatar} width='40px' className='nav-panel_item-avatar'/>
+					<img src={userInfo?.userFull.user_short.avatar || USER_PLACEHOLDER_IMG} width='40px'  alt='img' className='nav-panel_item-avatar'/>
 					:
 					<PersonRoundedIcon className='nav-panel_item-svgElement'/>
 				}

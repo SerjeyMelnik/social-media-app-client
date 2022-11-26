@@ -29,9 +29,9 @@ export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
 	const docData = docSnap.data() as IUserFull; 
 	
 	const user_short = await getDoc(docData.user_short as DocumentReference<UserShort>);
-	const userPosts = await getUserPosts(docData.posts as DocumentReference<IPost>[])
+	const userPosts = docData.posts && (await getUserPosts(docData.posts as DocumentReference<IPost>[]));
 	const res:TUserFull = {
-		unfilled: USER_DATA_NEEDS_TO_FILL,
+		...docData,
 		posts: userPosts as TPost[],
 		user_short: user_short.data() as UserShort
 	};

@@ -15,9 +15,9 @@ const Post: FC<PostProps> = ({post}) => {
 	const [showPostComments,setShowPostComments] = useState(false);
 	const [currPost,setCurrPost] = useState<TPost>(post);
 	
+	
 	useEffect(()=>{
 		const unsub = onSnapshot(doc(db,'posts',post.id),async (doc) => {
-			
 			const currPostData = await getPost(doc.data() as IPost);
 			setCurrPost(currPostData)
 		})
