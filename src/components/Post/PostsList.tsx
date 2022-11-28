@@ -4,10 +4,9 @@ import Post from "./Post";
 import PostPreloader from "./PostPreloader";
 
 type PostsListProps = {
-	posts: TPost[]
+	posts: TPost[] | undefined
 }
 export const PostsList:FC<PostsListProps> = ({posts}) => {
-	console.log(posts?.length);
 	
 	return(
 		<div className="posts-list">

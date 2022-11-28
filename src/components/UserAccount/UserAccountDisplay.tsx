@@ -1,6 +1,7 @@
 import {FC} from 'react'
 import { TDisplayBlok,EDisplayBlok } from "../../utils/constants";
 import UserAccountEdit from './UserAccountEdit';
+import UserAccountFavorites from './UserAccountFavorites';
 import UserAccountInfo from './UserAccountInfo';
 import { UserAccountPosts } from './UserAccountPosts';
 
@@ -16,6 +17,8 @@ const UserAccountDisplay:FC<UserAccountDisplayProps> = ({displayBlock}) => {
 				return <UserAccountEdit/>
 			case EDisplayBlok.my_posts:
 				return <UserAccountPosts/>
+			case EDisplayBlok.favorites:
+				return <UserAccountFavorites/>
 			default:
 				return null;
 		}

@@ -1,7 +1,6 @@
 
 import { User } from "firebase/auth";
 import { getDoc, doc, DocumentReference } from "firebase/firestore";
-import { IPost, TPost } from "../../types/postTypes";
 import { IUserFull,TUserFull, TUserShortField, UserShort } from "../../types/userTypes"
 import { USER_DATA_NEEDS_TO_FILL } from "../../utils/constants";
 import { db } from "../firebase";
@@ -9,7 +8,6 @@ import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
 import { getCollection, getDocument } from "./getOperation";
-import {  getUserPosts } from "./postOperation";
 import { setDocument } from "./setOperation";
 import { updateDocument } from "./updateOperation";
 
@@ -27,15 +25,12 @@ type TDeleteUserAccountImg = (userID:string) => Promise<void>;
 export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
 	const docSnap = await getDocument('users-full',userID);
 	const docData = docSnap.data() as IUserFull; 
-	
 	const user_short = await getDoc(docData.user_short as DocumentReference<UserShort>);
-	const userPosts = docData.posts && (await getUserPosts(docData.posts as DocumentReference<IPost>[]));
-	const res:TUserFull = {
+	const res = {
 		...docData,
-		posts: userPosts as TPost[],
-		user_short: user_short.data() as UserShort
+		user_short: user_short.data() as UserShort,
 	};
-	 return res;
+	 return res as TUserFull;
 }
 
 export const getFullUsersInfo:TGetFullUsersInfo = async () => {

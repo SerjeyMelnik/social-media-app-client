@@ -3,15 +3,14 @@ import { IPost } from "../../types/postTypes";
 import { IComment } from "../../types/commentTypes";
 import { getCollection } from "./getOperation"
 import { UserShort } from "../../types/userTypes";
-
+import { TWhereProps ,getFilteredColection, getDocRef} from "../firestore/getOperation"
 
 
 export const getAllPosts = async () => {
 	const posts_conllections = await getCollection('posts');
-	const postsPromises = posts_conllections.docs
-							.map(item=>item.data() as IPost)
-							.map(async (post) => await getPost(post));
-	const posts =  await Promise.all(postsPromises);
+	const posts =  await Promise.all(
+		posts_conllections.docs
+		.map( (post) => getPost(post.data() as IPost)));
 	return posts;
 }
 export const getAllPostsCollection = async () => {
@@ -26,13 +25,7 @@ export const getPost = async (post: IPost) => {
 		likes: await getUsersWhoLiked(post.likes)
 	};
 }
-export const getUserPosts = async (posts: DocumentReference<IPost>[]) => {
-	const IPostPromises = posts.map(async (post) => (await getDoc(post)).data());
-	const userIPostsData = await Promise.all(IPostPromises);
-	const userPostsPromises = userIPostsData.map(async (post) => await getPost(post as IPost));
-	const userPosts = await Promise.all(userPostsPromises)
-	return userPosts;
-}
+
 export const getCommentsToPost = async (comments: DocumentReference<IComment>[]) => {
 	if (!comments || !comments.length) return [];
 	const ICommentsPromises = comments.map(async (commentRef) => {
@@ -63,4 +56,30 @@ export const getUsersWhoLiked = async (usersRefs: DocumentReference<UserShort>[]
 	const usersWhoLikedPromises = usersRefs.map(async (userRef) => await getAuthor(userRef));
 	const usersWhoLiked = await Promise.all(usersWhoLikedPromises);
 	return usersWhoLiked;
+}
+
+export const getFilteredPosts = async (whereProps: TWhereProps) => {
+	const postsDocs = await getFilteredColection('posts',whereProps);
+	const posts = await Promise.all(
+		postsDocs.docs.map(post => getPost(post.data() as IPost)))
+	return posts;
+}
+
+export const getPostsByAuthorId = async (authorId:string) => {
+	const whereProps:TWhereProps = {
+		fieldPath: 'author',
+		opStr: '==',
+		value: getDocRef('users-short',authorId)
+	}
+	const postsData = await getFilteredPosts(whereProps);
+	return postsData;
+}
+
+export const getPostsWhichUserLiked = async (userId: string) => {
+	const whereProps:TWhereProps = {
+		fieldPath: 'likes',
+		opStr: 'array-contains',
+		value: getDocRef('users-short',userId)}
+	const postsData = await getFilteredPosts(whereProps);
+	return postsData;
 }

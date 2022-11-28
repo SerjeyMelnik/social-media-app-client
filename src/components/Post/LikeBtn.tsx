@@ -12,6 +12,7 @@ type TLikeBtnProps = {
 }
 const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
 	const {isUserAuthenticated,userInfo} = useUserContext();
+	const [loading,setLoading] = useState(false)
 	const isLikedDefault = isUserAuthenticated && isCurrentUserLikedPost(postLikes,userInfo?.userAuthInfo?.uid as string);
 	const navigateTo = useNavigate();
 	
@@ -22,12 +23,14 @@ const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
 			console.log('you need log in');
 			return;
 		}
+		setLoading(true)
 		await toggleLikeToPost(postId,postLikes,userInfo?.userAuthInfo?.uid as string)
+		setLoading(false)
 		setIsLiked((state)=> !state)
 	}
 	return ( 
 		<div className="like_btn-wrapper ">
-			<button className='like_btn post_button' onClick={toggleLike} title={isLiked ? 'unlike' : 'like'}> 
+			<button className='like_btn post_button' onClick={toggleLike} disabled={loading} title={isLiked ? 'unlike' : 'like'}> 
 					{	
 						!isLiked 
 						?

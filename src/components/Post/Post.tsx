@@ -22,7 +22,7 @@ const Post: FC<PostProps> = ({post}) => {
 			setCurrPost(currPostData)
 		})
 		return unsub;
-	},[])
+	},[post])
 	return ( 
 			<div className="post">
 				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate}/>

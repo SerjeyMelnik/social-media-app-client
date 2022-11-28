@@ -10,7 +10,8 @@ import { QuerySnapshot,
 		FieldPath,
 		WhereFilterOp,
 		getDoc,
-		doc
+		doc,
+		DocumentReference
 	} from "firebase/firestore"
 import { Collections } from "../../utils/constants"
 
@@ -18,6 +19,8 @@ import { Collections } from "../../utils/constants"
 type TGetCollectionFunc = (collectionName: Collections) => Promise<QuerySnapshot<DocumentData>>
 type TGetFilteredCollectionFunc = (collectionName: Collections, {fieldPath,opStr,value}:TWhereProps) => Promise<QuerySnapshot<DocumentData>>
 type TGetDocument = (collectionName: Collections,docName:string) => Promise<DocumentSnapshot<DocumentData>>
+type TGetDocRef = (collectionName:Collections,documentName: string) => DocumentReference<DocumentData>
+
 export type TWhereProps = {
 	fieldPath: string | FieldPath,
 	opStr: WhereFilterOp,
@@ -39,4 +42,8 @@ export const getDocument:TGetDocument = async (collectionName: Collections,docNa
 	const docRef = doc(db, collectionName, docName);
 	const docSnap = await getDoc(docRef);
 	return docSnap;
+}
+
+export const getDocRef:TGetDocRef= (collectionName:Collections,documentName: string) => {
+	return doc(db,`${collectionName}/${documentName}`)
 }

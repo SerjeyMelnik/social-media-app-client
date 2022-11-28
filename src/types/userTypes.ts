@@ -8,12 +8,10 @@ export interface IUserAccountInfo {
 }
 export interface IUserFull{
 	user_short: DocumentReference<UserShort> | undefined,
-	posts: DocumentReference<IPost>[] | undefined,
 	unfilled: TUserShortDataNeedsToFill
 }
 export type TUserFull = {
 	user_short: UserShort,
-	posts?: TPost[],
 	unfilled:TUserShortDataNeedsToFill
 }
 export interface UserShort{
