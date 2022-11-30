@@ -1,6 +1,10 @@
 import {FC,useState} from 'react'
 import { useUserContext } from '../../hooks/useUserContext';
-import { EDisplayBlok, TDisplayBlok, T_USER_ACCOUNT_MANAGE_BUTTON, USER_ACCOUNT_MANAGE_BUTTONS } from '../../utils/constants'
+import { EDisplayBlok,
+		TDisplayBlok,
+		T_USER_ACCOUNT_MANAGE_BUTTON,
+		USER_ACCOUNT_MANAGE_BUTTONS
+	} from '../../site-config/user-account-management/user_account_management';
 import UserAccountDisplay from './UserAccountDisplay';
 import UserAccountManageButton from './UserAccountManageButton'
 

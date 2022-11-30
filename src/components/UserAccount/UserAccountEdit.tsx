@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import { useUserContext } from '../../hooks/useUserContext';
-import { EDisplayBlok, USER_DATA_NEEDS_TO_FILL } from "../../utils/constants"
+import { EDisplayBlok } from "../../site-config/user-account-management/user_account_management";
 import UserInfoLineEdit from './UserInfoLineEdit';
 
 

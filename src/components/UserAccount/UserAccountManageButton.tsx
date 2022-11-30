@@ -1,5 +1,5 @@
 import React,{FC} from 'react'
-import { T_USER_ACCOUNT_MANAGE_BUTTON,TDisplayBlok } from '../../utils/constants'
+import { T_USER_ACCOUNT_MANAGE_BUTTON,TDisplayBlok } from '../../site-config/user-account-management/user_account_management'
 
 
 export type TUserAccountManageButtonProps = {

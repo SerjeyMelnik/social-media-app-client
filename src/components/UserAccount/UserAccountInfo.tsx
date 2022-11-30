@@ -1,7 +1,7 @@
 
 import {FC} from 'react'
 import { useUserContext } from '../../hooks/useUserContext';
-import { EDisplayBlok } from '../../utils/constants';
+import { EDisplayBlok } from '../../site-config/user-account-management/user_account_management';
 import { getDate } from '../../utils/getDate';
 import UserInfoLine from './UserInfoLine';
 

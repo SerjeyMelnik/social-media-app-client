@@ -1,5 +1,5 @@
 
-import { EDisplayBlok } from "../../utils/constants";
+import { EDisplayBlok } from "../../site-config/user-account-management/user_account_management";
 import FilteredPosts from '../Post/FilteredPosts';
 
 const UserAccountFavorites =  () => {

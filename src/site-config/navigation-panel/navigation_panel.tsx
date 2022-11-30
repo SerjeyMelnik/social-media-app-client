@@ -11,14 +11,14 @@ enum ItemNamesEnum{
 }
 export type ItemNamesType = keyof typeof ItemNamesEnum;
 
-export type NAVIGATION_PANEL_ITEM = {
+export type NavigationItemType = {
 	itemName: ItemNamesType,
 	itemId: ItemNamesType,
 	showItemForNotAuthUser: boolean,
 	itemComponent: <T>(props?: T) => React.ReactElement
 
 }
-export const NAVIGATION_PANEL_ITEMS:NAVIGATION_PANEL_ITEM[] = [
+export const NAVIGATION_PANEL_ITEMS:NavigationItemType[] = [
 	{	
 		itemName: 'home',
 		itemId: 'home',

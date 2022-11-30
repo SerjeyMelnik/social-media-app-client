@@ -1,5 +1,6 @@
 import {FC} from 'react'
-import { TDisplayBlok,EDisplayBlok } from "../../utils/constants";
+import { TDisplayBlok,EDisplayBlok } from "../../site-config/user-account-management/user_account_management";
+import UserAccountCreatePost from './UserAccountCreatePost';
 import UserAccountEdit from './UserAccountEdit';
 import UserAccountFavorites from './UserAccountFavorites';
 import UserAccountInfo from './UserAccountInfo';
@@ -19,6 +20,8 @@ const UserAccountDisplay:FC<UserAccountDisplayProps> = ({displayBlock}) => {
 				return <UserAccountPosts/>
 			case EDisplayBlok.favorites:
 				return <UserAccountFavorites/>
+			case EDisplayBlok.create_post:
+				return <UserAccountCreatePost/>
 			default:
 				return null;
 		}
