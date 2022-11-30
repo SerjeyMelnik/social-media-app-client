@@ -3,19 +3,31 @@ import { TPost } from "../../types/postTypes";
 import Post from "./Post";
 import PostPreloader from "./PostPreloader";
 
+
+
 type PostsListProps = {
-	posts: TPost[] | undefined
+	posts: TPost[] | undefined,
+	notFoundMsg?: string,
+	loading: boolean
 }
-export const PostsList:FC<PostsListProps> = ({posts}) => {
+export const PostsList:FC<PostsListProps> = ({posts,notFoundMsg,loading}) => {
 	
 	return(
 		<div className="posts-list">
 		{
+			loading ? <PostPreloader/> :
 			posts?.length ? posts.map(post => {
 				return <Post post={post} key={String(post.id)}/>
-			}) : <PostPreloader/>
+			}) : <ThereIsNoPosts notFoundMsg={notFoundMsg}/>
 		}
 		</div>
 	)
+}
+type ThereIsNoPostsProps = {
+	notFoundMsg?: string
+}
+export const ThereIsNoPosts:FC<ThereIsNoPostsProps> = ({notFoundMsg}) => {
+	const message = notFoundMsg ?? 'Any posts not found';
+	return <h2 className="not-found">{message}</h2>
 }
  

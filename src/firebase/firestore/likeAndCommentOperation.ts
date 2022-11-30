@@ -1,18 +1,14 @@
-import { arrayRemove, arrayUnion, collection, doc, serverTimestamp, setDoc,addDoc, updateDoc} from "firebase/firestore";
-import { IComment } from "../../types/commentTypes";
+import { arrayRemove, arrayUnion, collection, doc, serverTimestamp,addDoc, updateDoc} from "firebase/firestore";
 import { UserShort } from "../../types/userTypes";
 import { isCurrentUserLikedPost } from "../../utils/isCurrentUserLikedPost";
 import { db } from "../firebase";
 import { getDocRef } from "./getOperation";
-import { setDocument } from "./setOperation";
 import { updateDocumentField } from "./updateOperation";
 
 
 export const toggleLikeToPost = async (postId: string,likesOfPost:UserShort[],currentUserId: string) => {
 
 	const isCurrUserLikedPost = isCurrentUserLikedPost(likesOfPost,currentUserId);
-	console.log(isCurrUserLikedPost);
-	
 	if (isCurrUserLikedPost){
 		await updateDocumentField('posts',postId,'likes',arrayRemove(getDocRef('users-short',currentUserId)));
 	}

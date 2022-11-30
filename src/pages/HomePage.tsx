@@ -1,4 +1,5 @@
 import  { useState, FC, useEffect } from 'react';
+import FilteredPosts from '../components/Post/FilteredPosts';
 import { PostsList } from '../components/Post/PostsList';
 import { getAllPosts } from '../firebase/firestore/postOperation';
 import { TPost } from '../types/postTypes';
@@ -12,7 +13,8 @@ const HomePage: FC = () => {
 	return (
 		<main className='page home-page'>
 				<div className="posts_container">
-					<PostsList posts={posts}/>
+					{/* <PostsList posts={posts}/> */}
+					<FilteredPosts postsType='all_posts'/>
 				</div>
 		</main> 
 		

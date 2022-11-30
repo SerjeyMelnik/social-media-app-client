@@ -1,24 +1,14 @@
-import {useState,useEffect} from 'react'
-import { getPostsByAuthorId } from "../../firebase/firestore/postOperation"
-import { useUserContext } from "../../hooks/useUserContext"
-import { TPost } from "../../types/postTypes"
+
+import {FC} from 'react'
 import { EDisplayBlok } from "../../utils/constants"
-import { PostsList } from "../Post/PostsList"
+import FilteredPosts from '../Post/FilteredPosts'
 
 
-export const UserAccountPosts = () => {
-	const {userInfo} = useUserContext();
-	const [posts,setPosts] = useState<TPost[]>();
-	const fetchPosts = async () => {
-		 const postsData = await getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string)
-		setPosts(postsData);
-	}
-	useEffect(()=>{
-		fetchPosts()
-	},[])
+
+export const UserAccountPosts:FC = () => {
 	return (
 		<div className={`user-account-manage-blok ${EDisplayBlok.my_posts}`}>
-			<PostsList posts={posts}/>
+			<FilteredPosts postsType='current_user_posts' />
 		</div>
 	)
 }
