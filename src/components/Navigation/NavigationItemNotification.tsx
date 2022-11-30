@@ -1,7 +1,7 @@
 import React from 'react';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 
-const NavigationPanel_Item_notification = () => {
+const NavigationItemNotification = () => {
 	return ( 
 		<div className="nav-panel_item">
 			<div className="nav-panel_item-notification">
@@ -11,4 +11,4 @@ const NavigationPanel_Item_notification = () => {
 	 );
 }
  
-export default NavigationPanel_Item_notification;
+export default NavigationItemNotification;

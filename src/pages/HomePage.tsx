@@ -13,7 +13,6 @@ const HomePage: FC = () => {
 	return (
 		<main className='page home-page'>
 				<div className="posts_container">
-					{/* <PostsList posts={posts}/> */}
 					<FilteredPosts postsType='all_posts'/>
 				</div>
 		</main> 

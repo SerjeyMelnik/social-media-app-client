@@ -4,7 +4,7 @@ import UserPopUp from './UserPopUp';
 import { useUserContext } from '../../hooks/useUserContext';
 import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
 
-const NavigationPanel_Item_user = () => {
+const NavigationItemUser = () => {
 	const [isShowPopUp,setIsShowPopUp] = useState(false);
 	const {isUserAuthenticated,userInfo} = useUserContext();
 	
@@ -27,4 +27,4 @@ const NavigationPanel_Item_user = () => {
 	 );
 }
  
-export default NavigationPanel_Item_user;
+export default NavigationItemUser;

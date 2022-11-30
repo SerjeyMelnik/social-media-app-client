@@ -52,6 +52,15 @@ html[data-theme='dark']{
 .posts-list{
 	width: 700px;
 	margin: auto;
+	.not-found{
+		color: var(--post-user-name-color);
+		font-family: $Poppins,sans-serif;
+		font-size: 26px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 18px;
+		margin: 5px 0;
+	}
 }
 .post{
 	width: 100%;
@@ -237,6 +246,7 @@ html[data-theme='dark']{
 		animation: flareAnimation 3s infinite linear; 
 	}
 }
+
 
 @keyframes flareAnimation {
     0% {

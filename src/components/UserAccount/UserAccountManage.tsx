@@ -2,10 +2,7 @@ import {FC,useState} from 'react'
 import { useUserContext } from '../../hooks/useUserContext';
 import { EDisplayBlok, TDisplayBlok, T_USER_ACCOUNT_MANAGE_BUTTON, USER_ACCOUNT_MANAGE_BUTTONS } from '../../utils/constants'
 import UserAccountDisplay from './UserAccountDisplay';
-import UserAccountEdit from './UserAccountEdit';
-import UserAccountInfo from './UserAccountInfo';
 import UserAccountManageButton from './UserAccountManageButton'
-import { UserAccountPosts } from './UserAccountPosts';
 
 const UserAccountManage:FC = () => {
 	const {userInfo} = useUserContext();

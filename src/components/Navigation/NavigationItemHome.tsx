@@ -1,8 +1,9 @@
-import React from 'react';
+import {FC} from 'react';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { useNavigate } from 'react-router-dom';
 
-const NavigationPanel_Item_home = () => {
+
+const NavigationItemHome:FC = () => {
 	const navigate = useNavigate();
 
 	const navigateTo = () => {
@@ -17,4 +18,4 @@ const NavigationPanel_Item_home = () => {
 	 );
 }
  
-export default NavigationPanel_Item_home;
+export default NavigationItemHome;

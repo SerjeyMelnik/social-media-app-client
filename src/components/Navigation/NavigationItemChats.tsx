@@ -1,7 +1,7 @@
 import React from 'react';
 
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
-const NavigationPanel_Item_chats = () => {
+const NavigationItemChats = () => {
 	
 	return ( 
 		<div className="nav-panel_item">
@@ -12,4 +12,4 @@ const NavigationPanel_Item_chats = () => {
 	 );
 }
  
-export default NavigationPanel_Item_chats;
+export default NavigationItemChats;
