@@ -1,5 +1,4 @@
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword , User,AuthError } from "firebase/auth";
-import React, { useState } from "react";
 import { auth } from "../firebase";
 
 type TResponse = {
