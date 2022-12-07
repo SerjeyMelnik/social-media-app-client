@@ -12,6 +12,8 @@ type CreateNewPostFormType = {
 		error?: string
 	}
 }
+export type SetFormField = (field:keyof CreateNewPostFormType,
+							data: CreateNewPostFormType[keyof CreateNewPostFormType]) => void;
 const defaultFormState:CreateNewPostFormType = {
 	description: {
 		value: '',
@@ -25,7 +27,7 @@ const defaultFormState:CreateNewPostFormType = {
 const CreateNewPostForm:FC = () => {
 	const [form,setForm] = useState<CreateNewPostFormType>(defaultFormState);
 	
-	const setFormField = (field:keyof CreateNewPostFormType,data: CreateNewPostFormType[keyof CreateNewPostFormType]) => {
+	const setFormField: SetFormField = (field,data) => {
 		setForm(state => ({
 			...state,
 			[field]: data
@@ -43,25 +45,19 @@ const CreateNewPostForm:FC = () => {
 			})
 		})
 	}
-	const changePicturesField = (pictures:File[],error?:string) => {
-		const data = {
-			value: [...form.pictures.value as File[], ...pictures],
-			error
-		}
-		setFormField('pictures',data)
-	}
 	
 	return ( 
 		<div className="create-new-post-form-wrapper">
 			<form >
-				<div className="post">
+				<div className="post post_create_form">
 					<CustomInput changeFieldValue={changeFieldValue}
 								name='description'
 								placeholder="Type description to post..."
 								type="text"
 								error={form.description.error}
 								value={form.description.value}/>
-					<CustomPictureUpload changePicturesField={changePicturesField}
+					<CustomPictureUpload setFormPicturesField={setFormField}
+										className='create_post_img_upload'
 										/>
 				</div>
 				

@@ -56,12 +56,6 @@ html[data-theme='dark']{
 		&-button{
 			padding: 10px 15px;
 			cursor: pointer;
-			// border-radius: 15px;
-			// box-shadow: 0px 8px 12px var(--user-account-manage-button-shadow);
-			// &.active{
-			// 	background-color: #EAEAFF;
-			// 	box-shadow: 0px 8px 12px var(--user-account-manage-button-shadow);
-			// }
 			.text{
 				font-family: $Poppins;
 				font-style: normal;
@@ -152,4 +146,52 @@ html[data-theme='dark']{
 		position: relative;
 	}
 	
+}
+
+.custom_input-file{
+	&-image{
+		position: relative;
+	}
+	img{
+		width: 100%;
+	}
+}
+.post_create_form{
+	width: 700px;
+}
+.create_post_img_upload{
+	overflow: hidden;
+	border-radius: 10px;
+	margin-top: 10px;
+	.custom_input-file{
+		&-wrapper{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: 100px;
+			height: 100px;
+			background: rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+			opacity: 0;
+			svg{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+				font-size: 50px;
+				color: $app-blue;
+			}
+		}
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		cursor: pointer;
+	}
+	&:hover{
+		
+		.custom_input-file-wrapper{
+			opacity: 1;
+		}
+	}
 }

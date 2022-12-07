@@ -42,43 +42,24 @@ const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg,userId}) =
 			data
 		}))
 	}
-	const fetchPostsByAuthorId = async (id: string) => {
-		const postsData = await getPostsByAuthorId(id);
-		setLoading(false)
-		setPostsData(postsData);
-	}
-	const fetchCurrentUserPosts = async () => {
-	   const postsData = await getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string);
-	   setLoading(false)
-	   setPostsData(postsData);
-	}
-	const fetchAllPosts = async () => {
-	   const postsData = await getAllPosts();
-	   setLoading(false)
-	   setPostsData(postsData);
-	}
-	const fetchPostsWhichCurrentUserLiked = async () => {
-		const postsData = await getPostsWhichUserLiked(userInfo?.userAuthInfo?.uid as string);
-		setLoading(false)
-		setPostsData(postsData);
-	}
-	function fetchFunction() {
+	const getPostData = async () => {
 		switch (postsType) {
 			case PostsTypeEnum.all_posts:
-					fetchAllPosts()
-				break;
+					return (await getAllPosts())
 			case PostsTypeEnum.current_user_posts:
-					fetchCurrentUserPosts()
-				break;
+				return (await  getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
 			case PostsTypeEnum.posts_by_user_id:
-					fetchPostsByAuthorId(userId as string)
-				break;
+				return (await getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
 			case PostsTypeEnum.posts_which_current_user_liked:
-					fetchPostsWhichCurrentUserLiked()
-				break;
+				return (await  getPostsWhichUserLiked(userInfo?.userAuthInfo?.uid as string))
 			default:
-				return null;
+				return undefined;
 		}
+	}
+	async function  fetchFunction() {
+		const postsData = await getPostData();
+		setLoading(false)
+		setPostsData(postsData as TPost[]);
 	}
 	useEffect(()=>{
 		fetchFunction()
