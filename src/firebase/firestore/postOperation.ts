@@ -1,9 +1,12 @@
-import {  DocumentReference, getDoc } from "firebase/firestore";
+import {  addDoc, collection, DocumentReference, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { IPost } from "../../types/postTypes";
 import { IComment } from "../../types/commentTypes";
 import { getCollection } from "./getOperation"
 import { UserShort } from "../../types/userTypes";
 import { TWhereProps ,getFilteredColection, getDocRef} from "../firestore/getOperation"
+import { uploadFile } from "../storage/uploadFile";
+import { db } from "../firebase";
+import { deleteDocument } from "./deleteOperation";
 
 
 export const getAllPosts = async () => {
@@ -13,6 +16,11 @@ export const getAllPosts = async () => {
 		.map( (post) => getPost(post.data() as IPost)));
 	return posts;
 }
+export const getAllPostsId = async () => {
+	const posts_conllections = await getCollection('posts');
+	return posts_conllections.docs.map(doc => doc.id)
+}
+
 export const getAllPostsCollection = async () => {
 	const posts_conllection = await getCollection('posts')
 	return posts_conllection.docs;
@@ -65,14 +73,18 @@ export const getFilteredPosts = async (whereProps: TWhereProps) => {
 	return posts;
 }
 
+export const getFilteredPostsId = async (whereProps: TWhereProps) => {
+	const postsDocs = await getFilteredColection('posts',whereProps);
+	return postsDocs.docs.map(doc => doc.id);
+}
 export const getPostsByAuthorId = async (authorId:string) => {
 	const whereProps:TWhereProps = {
 		fieldPath: 'author',
 		opStr: '==',
 		value: getDocRef('users-short',authorId)
 	}
-	const postsData = await getFilteredPosts(whereProps);
-	return postsData;
+	const postsId = await getFilteredPostsId(whereProps);
+	return postsId;
 }
 
 export const getPostsWhichUserLiked = async (userId: string) => {
@@ -80,6 +92,35 @@ export const getPostsWhichUserLiked = async (userId: string) => {
 		fieldPath: 'likes',
 		opStr: 'array-contains',
 		value: getDocRef('users-short',userId)}
-	const postsData = await getFilteredPosts(whereProps);
-	return postsData;
+	const postsId = await getFilteredPostsId(whereProps);
+	return postsId;
+}
+
+
+export const setNewPost = async (postData: { pictures?: File[], description?: string }, userId: string, ) => {
+
+	const newPost = {
+		author: getDocRef('users-short', userId),
+		comments: [],
+		description: postData.description as string,
+		pictures: [],
+		likes: [],
+		postedDate: serverTimestamp(),
+	}
+	const newDocRef = await addDoc(collection(db,'posts'),newPost);
+	
+	const uploadPictures = async (file: File) => {
+		return await uploadFile(file,`posts/${newDocRef.id}/${file?.name}`)
+	}
+	const promises = postData.pictures?.map(file => uploadPictures(file)) ;
+	const picturesSrc = promises && await Promise.all(promises);
+	await updateDoc(newDocRef,{	
+			id:newDocRef.id,
+			pictures: picturesSrc
+		})
+	return newDocRef;
+}
+
+export const removePost = async (postId: string) => {
+ 	await deleteDocument("posts",postId)
 }

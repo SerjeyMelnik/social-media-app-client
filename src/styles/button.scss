@@ -2,6 +2,10 @@
 html[data-theme='light']{
 	
 	--button-color: #3D5CFF;
+	--button-success-color: #005514;
+	--button-error-color: #c92228;
+	--button-inform-color: rgba(255, 217, 0, 0.466);
+
 	--button-disabled-color:#3d5dff6c;
 	--user-account-user-editbutton: #3D5CFF;
 	--user-account-user-savebutton: green;
@@ -9,11 +13,28 @@ html[data-theme='light']{
 html[data-theme='dark']{
 
 	--button-color: #3D5CFF;
+	--button-success-color: #005514;
+	--button-error-color: #c92228;
+	--button-inform-color: rgba(255, 217, 0, 0.466);
+
 	--button-disabled-color:#3d5dff6c;
 	--user-account-user-editbutton: #3D5CFF;
 	--user-account-user-savebutton: green;
 }
-
+@mixin buttonVariation($color) {
+		background-color: $color;
+		border:1px solid $color;
+		&:hover{
+			color: $color;
+		}
+		&:disabled{
+			&:hover{
+				background-color: $color;
+				filter: contrast(200%);
+				color: white;
+			}
+		}
+}
 .button{
 	display: flex;
     align-items: center;
@@ -48,6 +69,15 @@ html[data-theme='dark']{
 			background-color: var(--button-disabled-color);
 			color: white;
 		}
+	}
+	&.success{
+		@include buttonVariation(var(--button-success-color))
+	}
+	&.error{
+		@include buttonVariation(var(--button-error-color))
+	}
+	&.inform{
+		@include buttonVariation(var(--button-inform-color))
 	}
 	&-registration{
 		width: 100%;

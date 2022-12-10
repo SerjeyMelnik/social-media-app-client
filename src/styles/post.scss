@@ -2,7 +2,7 @@ html[data-theme='light']{
 	--post-background-color:#FFFFFF;
 	--post-shadow-color:rgba(0, 0, 0, 0.21);
 	--post-preloader-background:#858597;
-
+	--post-controller-dots: black;
 
 	//text
 	--post-user-name-color:#1F1F39;
@@ -24,6 +24,7 @@ html[data-theme='dark']{
 	--post-background-color:#2F2F42;
 	--post-shadow-color:transparent;
 	--post-preloader-background:#858597;
+	--post-controller-dots: white;
 
 	//text
 	--post-user-name-color:#FFFFFF;
@@ -62,6 +63,7 @@ html[data-theme='dark']{
 		margin: 5px 0;
 	}
 }
+
 .post{
 	width: 100%;
 	margin: 20px auto;
@@ -229,6 +231,70 @@ html[data-theme='dark']{
 			color: var(--number-color);
 		}
 	}
+	&-controller{
+		position: relative;
+		display: flex;
+		align-self: flex-start;
+		margin: 0 0 0 auto;
+		&-dots{
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			width: 20px;
+			cursor: pointer;
+			justify-content: center;
+			flex-wrap: wrap;
+			align-content: center;
+			span{
+				display: block;
+				background-color: var(--post-controller-dots);
+				width: 5px;
+				height: 5px;
+				border-radius: 50%;
+			}
+		}
+		&-popup{
+			position: absolute;
+			z-index: 10;
+			background-color: rgba(192, 192, 192, 0.3);
+			backdrop-filter: blur(5px);
+			right: 100%;
+			top: 100%;
+			padding: 10px;
+			border-radius: 10px 0 10px 10px;
+			&.show{
+				visibility: visible;
+				animation: fadeIn 0.3s;
+			}
+			&.hide{
+				visibility: hidden;
+				animation: fadeOut 0.3s;
+			}
+			&-item{
+				display: block;
+				font-family: $Poppins;
+				font-style: normal;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 21px;
+				color: var(--app-color);
+				transition: 0s;
+				width: max-content;
+				margin: 5px 0;
+				cursor: pointer;
+				&.delete{
+					color: red;
+				}
+				&.edit{
+
+				}
+				&.arhive{
+
+				}
+			}
+		}
+
+	}
 }
 .preloader {
 	position: relative;
@@ -255,4 +321,41 @@ html[data-theme='dark']{
     100% {
         left: 150%;
     }
+}
+
+
+@keyframes fadeIn {
+	from{
+		opacity: 0;
+	}
+	to{
+		opacity: 1;
+	}
+  }
+
+  @keyframes fadeOut {
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 0;
+	}
+  }
+
+
+  @media (max-width:750px) {
+	.posts-list{
+		width: 100%;
+	}
+	.post_user-avatar-img{
+		width: 35px;
+		height: 35px;
+	}
+	.post_user-name{
+		font-size: 14px;
+		margin-top: 0;
+	}
+	.post .post_button-svg{
+		font-size: 2em;
+	}
 }

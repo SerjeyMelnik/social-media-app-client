@@ -9,23 +9,24 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { getPost } from '../../firebase/firestore/postOperation';
 type PostProps = {
-	post: TPost
+	postId: string
 }
-const Post: FC<PostProps> = ({post}) => {
+const Post: FC<PostProps> = ({postId}) => {
 	const [showPostComments,setShowPostComments] = useState(false);
-	const [currPost,setCurrPost] = useState<TPost>(post);
+	const [currPost,setCurrPost] = useState<TPost>();
 	
 	
 	useEffect(()=>{
-		const unsub = onSnapshot(doc(db,'posts',post.id),async (doc) => {
+		const unsub = onSnapshot(doc(db,'posts',postId),async (doc) => {
 			const currPostData = await getPost(doc.data() as IPost);
 			setCurrPost(currPostData)
 		})
 		return unsub;
-	},[post])
+	},[postId])
+	if(!currPost) return <></>;
 	return ( 
 			<div className="post">
-				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate}/>
+				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate} postId={currPost.id}/>
 				<PostContent description={currPost.description} pictures={currPost.pictures}/>
 				<div className="post_info">
 					<LikeBtn postLikes={currPost.likes} postId={currPost.id}/>
@@ -36,7 +37,7 @@ const Post: FC<PostProps> = ({post}) => {
 							 setShowPostComments={setShowPostComments}
 							 isShow={showPostComments}
 							 className={showPostComments ? 'show' : 'hide'}
-							 postId={post.id}
+							 postId={currPost.id}
 							 />
 				
 			</div>

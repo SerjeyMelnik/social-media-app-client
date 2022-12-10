@@ -6,7 +6,7 @@ import PostPreloader from "./PostPreloader";
 
 
 type PostsListProps = {
-	posts: TPost[] | undefined,
+	posts: string[] | undefined,
 	notFoundMsg?: string,
 	loading: boolean
 }
@@ -17,7 +17,7 @@ export const PostsList:FC<PostsListProps> = ({posts,notFoundMsg,loading}) => {
 		{
 			loading ? <PostPreloader/> :
 			posts?.length ? posts.map(post => {
-				return <Post post={post} key={String(post.id)}/>
+				return <Post postId={post} key={String(post)}/>
 			}) : <ThereIsNoPosts notFoundMsg={notFoundMsg}/>
 		}
 		</div>

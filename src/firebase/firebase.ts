@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {getFirestore} from 'firebase/firestore'
-import { getStorage, ref } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
 	apiKey: "AIzaSyAHLdapNdaOmCLIm-knEzCFHeSEjcliHk8",
 	authDomain: "social-media-app-d7804.firebaseapp.com",

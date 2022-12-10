@@ -1,8 +1,9 @@
 import { PostsList } from "./PostsList";
 import { FC, useState, useEffect } from 'react';
 import { TPost } from "../../types/postTypes";
-import { getAllPosts, getPostsByAuthorId, getPostsWhichUserLiked } from "../../firebase/firestore/postOperation";
+import { getAllPosts, getAllPostsId, getPostsByAuthorId, getPostsWhichUserLiked } from "../../firebase/firestore/postOperation";
 import { useUserContext } from "../../hooks/useUserContext";
+import { getCollection } from "../../firebase/firestore/getOperation";
 
 enum PostsTypeEnum{
 	current_user_posts = 'current_user_posts',
@@ -18,7 +19,7 @@ type FilteredPostsProps = {
 	userId?:string,
 }
 type PostsStateType = {
-	data: TPost[] | undefined,
+	data: string[] | undefined,
 	loading: boolean
 }
 const postsInitState: PostsStateType = {
@@ -36,16 +37,17 @@ const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg,userId}) =
 			loading
 		}))
 	}
-	const setPostsData = (data: TPost[]) => {
+	const setPostsData = (data?: string[]) => {
 		setPosts(state => ({
 			...state,
 			data
 		}))
 	}
+	getCollection('posts').then(res => res.docs[0].id)
 	const getPostData = async () => {
 		switch (postsType) {
 			case PostsTypeEnum.all_posts:
-					return (await getAllPosts())
+					return (await getAllPostsId())
 			case PostsTypeEnum.current_user_posts:
 				return (await  getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
 			case PostsTypeEnum.posts_by_user_id:
@@ -59,7 +61,7 @@ const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg,userId}) =
 	async function  fetchFunction() {
 		const postsData = await getPostData();
 		setLoading(false)
-		setPostsData(postsData as TPost[]);
+		setPostsData(postsData);
 	}
 	useEffect(()=>{
 		fetchFunction()

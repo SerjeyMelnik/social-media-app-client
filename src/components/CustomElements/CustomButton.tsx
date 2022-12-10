@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 
 interface ICustomButtonProps {
-	className?: String,
+	className?: string,
 	onClickFunc?: () => void,
 	children?:  React.ReactNode,
 	type?: "button" | "submit" | "reset",

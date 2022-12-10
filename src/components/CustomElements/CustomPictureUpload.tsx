@@ -1,4 +1,4 @@
-import { useState,FC,FormEventHandler } from 'react';
+import { useState,FC,FormEventHandler,useEffect } from 'react';
 import { PICTURE_PLACEHOLDER } from '../../utils/constants';
 import { getFilesAsArray } from '../../utils/getFilesAsArray';
 import { PostPicturesCarousel } from '../Post/PostPicturesCarousel';
@@ -13,7 +13,9 @@ type CustomPictureUploadProps = {
 	width?:string,
 	height?:string,
 	pictures?:string[],
-	setFormPicturesField: SetFormField
+	setFormPicturesField: SetFormField,
+	shouldResetFiles: boolean,
+	setShouldResetFiles: React.Dispatch<React.SetStateAction<boolean>>
 }
 type FilesState = {
 	files:File[],
@@ -27,10 +29,12 @@ const CustomPictureUpload:FC<CustomPictureUploadProps> = ({
 							width = "100%",
 							height,
 							pictures,
-							setFormPicturesField
+							setFormPicturesField,
+							shouldResetFiles,
+							setShouldResetFiles
 							}) => {
 	const [filesState,setFilesState] = useState<FilesState>({files:[],imgBlobs:[]});
-
+	
 	const setFilesList: FormEventHandler<HTMLInputElement> = async (e) => {
 		const target = e.target as HTMLInputElement;
 		const filesArr = getFilesAsArray(target.files as FileList);
@@ -41,7 +45,12 @@ const CustomPictureUpload:FC<CustomPictureUploadProps> = ({
 		setFormPicturesField('pictures',{value: filesArr})
 		setFilesState(files)
 	}
-	
+	useEffect(()=>{
+		if (shouldResetFiles && (filesState.files.length && filesState.imgBlobs.length)) {
+			setFilesState({files:[],imgBlobs:[]})
+			setShouldResetFiles(false)
+		}
+	},[shouldResetFiles])
 	return ( 
 		<div className={`custom_input-file ${className}`}>
 			<div className="custom_input-file-image">
@@ -62,7 +71,6 @@ const CustomPictureUpload:FC<CustomPictureUploadProps> = ({
 							title='choose picture'
 							id={fileUploadID}
 							onInput={setFilesList}
-							onChange={(e)=>{console.log(e.target.files)}}
 							multiple
 							/>
 				</div>

@@ -5,7 +5,7 @@ type TUploadFileFunc = (file: File,refUrl:string) => Promise<string>
 
 export const uploadFile:TUploadFileFunc = async (file: File,refUrl:string) => {
 	if (!file) {
-		throw new Error('No file of file is undefined or null')
+		throw new Error('No file or file is undefined or null')
 	}
 	const storageRef = ref(storage, refUrl);
 	const arrBuff = (await file?.arrayBuffer()) as ArrayBuffer;
