@@ -1,9 +1,6 @@
-import { PostsList } from "./PostsList";
-import { FC, useState, useEffect } from 'react';
-import { TPost } from "../../types/postTypes";
-import { getAllPosts, getAllPostsId, getPostsByAuthorId, getPostsWhichUserLiked } from "../../firebase/firestore/postOperation";
-import { useUserContext } from "../../hooks/useUserContext";
-import { getCollection } from "../../firebase/firestore/getOperation";
+import {useState,useEffect} from 'react';
+import { getAllPostsId, getPostsByAuthorId, getPostsWhichUserLiked } from '../firebase/firestore/postOperation';
+import { useUserContext } from './useUserContext';
 
 enum PostsTypeEnum{
 	current_user_posts = 'current_user_posts',
@@ -27,11 +24,9 @@ const postsInitState: PostsStateType = {
 	loading: true
 }
 
-
-const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg,userId}) => {
+export const useFilteredPosts = (postsType: PostsType,shouldRefetchData:boolean) => {
 	const {userInfo} = useUserContext();
 	const [posts,setPosts] = useState<PostsStateType>(postsInitState);
-	const [shouldRefetchData,setShouldRefetchData] = useState(false);
 	const setLoading = (loading: boolean) => {
 		setPosts(state => ({
 			...state,
@@ -66,15 +61,7 @@ const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg,userId}) =
 	}
 	useEffect(()=>{
 		fetchFunction();
-		setShouldRefetchData(false);
 	},[postsType,shouldRefetchData]);
-	return ( 
-		<div className="filtered-posts">
-			<PostsList posts={posts.data}
-			loading={posts.loading}
-			notFoundMsg={notFoundMsg}/>
-		</div>
-	 );
+
+	return posts;
 }
- 
-export default FilteredPosts;

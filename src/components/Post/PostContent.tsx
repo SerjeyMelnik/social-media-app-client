@@ -3,7 +3,7 @@ import { PostPicturesCarousel } from './PostPicturesCarousel';
 
 type PostContentProps = {
 	description: string,
-	pictures?: string[]
+	pictures?: string[],
 }
 const PostContent:FC<PostContentProps> = ({description,pictures}) => {
 	return (

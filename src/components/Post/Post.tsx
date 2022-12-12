@@ -26,8 +26,8 @@ const Post: FC<PostProps> = ({postId}) => {
 	if(!currPost) return <></>;
 	return ( 
 			<div className="post">
-				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate} postId={currPost.id}/>
-				<PostContent description={currPost.description} pictures={currPost.pictures}/>
+				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate} postId={currPost.id} />
+				<PostContent description={currPost.description} pictures={currPost.pictures} />
 				<div className="post_info">
 					<LikeBtn postLikes={currPost.likes} postId={currPost.id}/>
 					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={currPost.comments.length} isCommentsShown={showPostComments}/>

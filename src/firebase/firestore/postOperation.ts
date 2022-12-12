@@ -7,6 +7,7 @@ import { TWhereProps ,getFilteredColection, getDocRef} from "../firestore/getOpe
 import { uploadFile } from "../storage/uploadFile";
 import { db } from "../firebase";
 import { deleteDocument } from "./deleteOperation";
+import { deleteFolder } from "../storage/daleteFiles";
 
 
 export const getAllPosts = async () => {
@@ -122,5 +123,6 @@ export const setNewPost = async (postData: { pictures?: File[], description?: st
 }
 
 export const removePost = async (postId: string) => {
- 	await deleteDocument("posts",postId)
+ 	await deleteDocument("posts",postId);
+	await deleteFolder(`posts/${postId}`)
 }

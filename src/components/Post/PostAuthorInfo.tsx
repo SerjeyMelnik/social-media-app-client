@@ -8,7 +8,7 @@ import { PostController } from './PostController'
 type PostAuthorInfoProps = {
 	author: UserShort,
 	postedDate: Timestamp,
-	postId: string
+	postId: string,
 }
 export const PostAuthorInfo:FC<PostAuthorInfoProps> = ({author,postedDate,postId}) => {
 	const {userInfo} = useUserContext()

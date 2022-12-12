@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { TPost } from "../../types/postTypes";
 import Post from "./Post";
 import PostPreloader from "./PostPreloader";
 
