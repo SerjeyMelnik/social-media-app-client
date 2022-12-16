@@ -1,4 +1,4 @@
-import {  addDoc, collection, DocumentReference, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {  addDoc, collection, deleteDoc, DocumentData, DocumentReference, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { IPost } from "../../types/postTypes";
 import { IComment } from "../../types/commentTypes";
 import { getCollection } from "./getOperation"
@@ -27,6 +27,7 @@ export const getAllPostsCollection = async () => {
 	return posts_conllection.docs;
 }
 export const getPost = async (post: IPost) => {
+	if(!post) return undefined;
 	return {
 		...post,
 		author: await getAuthor(post.author),
@@ -122,7 +123,11 @@ export const setNewPost = async (postData: { pictures?: File[], description?: st
 	return newDocRef;
 }
 
-export const removePost = async (postId: string) => {
+export const removePost = async (postId: string,postComments?: DocumentReference<DocumentData>[]) => {
+
+	const promisesToResolve:Promise<void>[] = postComments ? postComments.map(cmntRef => deleteDoc(cmntRef)) : [];
+	await Promise.all( promisesToResolve );
  	await deleteDocument("posts",postId);
-	await deleteFolder(`posts/${postId}`)
+	await deleteFolder(`posts/${postId}`);
+
 }

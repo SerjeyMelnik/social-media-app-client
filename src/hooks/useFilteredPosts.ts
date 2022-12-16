@@ -23,8 +23,9 @@ const postsInitState: PostsStateType = {
 	data: undefined,
 	loading: true
 }
+type UseFilteredPostsType = (postsType: PostsType) => [PostsStateType,React.Dispatch<React.SetStateAction<PostsStateType>>]
 
-export const useFilteredPosts = (postsType: PostsType,shouldRefetchData:boolean) => {
+export const useFilteredPosts:UseFilteredPostsType = (postsType) => {
 	const {userInfo} = useUserContext();
 	const [posts,setPosts] = useState<PostsStateType>(postsInitState);
 	const setLoading = (loading: boolean) => {
@@ -39,7 +40,6 @@ export const useFilteredPosts = (postsType: PostsType,shouldRefetchData:boolean)
 			data
 		}))
 	}
-	// getCollection('posts').then(res => res.docs[0].id)
 	const getPostData = async () => {
 		switch (postsType) {
 			case PostsTypeEnum.all_posts:
@@ -61,7 +61,7 @@ export const useFilteredPosts = (postsType: PostsType,shouldRefetchData:boolean)
 	}
 	useEffect(()=>{
 		fetchFunction();
-	},[postsType,shouldRefetchData]);
+	},[postsType]);
 
-	return posts;
+	return [posts,setPosts];
 }

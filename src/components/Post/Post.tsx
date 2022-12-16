@@ -8,39 +8,51 @@ import PostContent from './PostContent';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { getPost } from '../../firebase/firestore/postOperation';
+import { PostContextProvider } from '../../context-providers/PostContextProvider';
+import { PostMessage } from './PostMessage';
+import PostPreloader from './PostPreloader';
 type PostProps = {
 	postId: string
 }
 const Post: FC<PostProps> = ({postId}) => {
 	const [showPostComments,setShowPostComments] = useState(false);
 	const [currPost,setCurrPost] = useState<TPost>();
-	
+	const [loading,setLoading] = useState<boolean>(false)
 	
 	useEffect(()=>{
 		const unsub = onSnapshot(doc(db,'posts',postId),async (doc) => {
+			setLoading(true)
 			const currPostData = await getPost(doc.data() as IPost);
+			setLoading(false)
 			setCurrPost(currPostData)
 		})
 		return unsub;
 	},[postId])
-	if(!currPost) return <></>;
+	if(loading) return <PostPreloader/>;
 	return ( 
-			<div className="post">
-				<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate} postId={currPost.id} />
-				<PostContent description={currPost.description} pictures={currPost.pictures} />
-				<div className="post_info">
-					<LikeBtn postLikes={currPost.likes} postId={currPost.id}/>
-					<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={currPost.comments.length} isCommentsShown={showPostComments}/>
-				</div>
-				
+		<PostContextProvider post={currPost}>
+			{
+				currPost ? 
+				<div className="post">
+					<PostMessage/>
+					<PostAuthorInfo author={currPost.author} postedDate={currPost.postedDate} postId={currPost.id} />
+					<PostContent description={currPost.description} pictures={currPost.pictures} />
+					<div className="post_info">
+						<LikeBtn postLikes={currPost.likes} postId={currPost.id}/>
+						<CommentsBtn setShowPostComments={setShowPostComments} commentsNumber={currPost.comments.length} isCommentsShown={showPostComments}/>
+					</div>
 					<Comments comments={currPost.comments}
-							 setShowPostComments={setShowPostComments}
-							 isShow={showPostComments}
-							 className={showPostComments ? 'show' : 'hide'}
-							 postId={currPost.id}
-							 />
+							setShowPostComments={setShowPostComments}
+							isShow={showPostComments}
+							className={showPostComments ? 'show' : 'hide'}
+							postId={currPost.id}
+							/>
+				</div> : 
+				<></>
 				
-			</div>
+			}
+			
+		</PostContextProvider>
 	 );
 }
  
