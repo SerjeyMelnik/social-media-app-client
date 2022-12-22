@@ -6,6 +6,9 @@ html[data-theme='light']{
 	--user-info-line-value-color:#a5a5bd;
 	--user-account-username-color:#1F1F39;
 
+	--accout-info-item:white;
+	
+
 }
 html[data-theme='dark']{
 
@@ -15,6 +18,8 @@ html[data-theme='dark']{
 	--user-info-line-value-color:#B8B8D2;
 	--user-account-username-color:white;
 
+	--accout-info-item:#2F2F42;
+	
 }
 
 
@@ -52,6 +57,7 @@ html[data-theme='dark']{
 		&-buttons{
 			display: flex;
 			gap: 20px;
+			overflow-x: auto;
 		}
 		&-button{
 			padding: 10px 15px;
@@ -195,3 +201,6 @@ html[data-theme='dark']{
 		}
 	}
 }
+
+
+

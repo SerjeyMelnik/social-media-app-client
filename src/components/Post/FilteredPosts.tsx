@@ -1,5 +1,5 @@
 import { PostsList } from "./PostsList";
-import { FC, } from 'react';
+import { FC, useEffect, } from 'react';
 import { useFilteredPosts } from "../../hooks/useFilteredPosts";
 
 enum PostsTypeEnum{
@@ -13,16 +13,17 @@ export type PostsType = keyof typeof PostsTypeEnum;
 type FilteredPostsProps = {
 	postsType: PostsType,
 	notFoundMsg?: string,
+	userId?: string
 }
 
-const FilteredPosts: FC<FilteredPostsProps> = ({postsType,notFoundMsg}) => {
-	const [posts,setPosts] = useFilteredPosts(postsType)
-	
+const FilteredPosts: FC<FilteredPostsProps> = ({postsType,userId,notFoundMsg}) => {
+	const [posts,setPosts] = useFilteredPosts(postsType,userId)
 	return ( 
 		<div className="filtered-posts">
 			<PostsList posts={posts.data}
 			loading={posts.loading}
-			notFoundMsg={notFoundMsg}/>
+			notFoundMsg={notFoundMsg}
+			/>
 		</div>
 	 );
 }

@@ -1,12 +1,13 @@
 
 import NavigationPanel from '../components/Navigation/NavigationPanel';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import RegistrationPage from '../pages/RegistrationPage';
 import LoginPage from '../pages/LoginPage';
-import { auth , app} from '../firebase/firebase';
+
 import { useUserContext } from '../hooks/useUserContext';
 import UserAccountPage from '../pages/UserAccountPage';
+import ProfileIdPage from '../pages/ProfileIdPage';
 
 
 
@@ -26,6 +27,7 @@ function AppRoutes() {
             userContext.isUserAuthenticated &&
             <Route path='/user-account' element={<UserAccountPage />} />
           }
+          <Route path='/:userId' element={<ProfileIdPage/>} />
         </Routes>
       </BrowserRouter>
     </div>

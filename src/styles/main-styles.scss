@@ -24,6 +24,13 @@ body{
 	
 	transition: $switch-theme-transition;
 }
+.page{
+	padding: 20px 0;
+}
+.container{
+	width: 1000px;
+	margin: auto;
+}
 main{
 	@include container();
 	padding-top: 40px ;
@@ -40,4 +47,12 @@ main{
 	&:hover{
 		color: var(--link-hover-color);
 	}
+}
+.main-link{
+	text-decoration: none;
+	color: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	font-size: inherit;
 }

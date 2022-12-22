@@ -1,0 +1,117 @@
+.profile-info-about-user{
+	display: flex;
+	gap: 30px;
+	&-img{
+		overflow: hidden;
+		width: 300px;
+		border-radius: 30px ;
+		img{
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+	&-title{
+		font-family: $Poppins, sans-serif;
+		font-style: normal;
+		font-weight: 700;
+		font-size: 25px;
+		line-height: 18px;
+		margin: 30px 0;
+		text-align: center;
+	}
+}
+
+.profile-info{
+	&-blocks{
+		display: flex;
+	}
+	&-list{
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 10px 0;
+	}
+	&-item{
+		list-style-type: none;
+		background-color: 	var(--accout-info-item);
+		border-radius: 5px;
+		position: relative;
+		cursor: pointer;
+		
+		&-link{
+			color: var(--user-account-username-color);
+			text-decoration: none;
+			padding: 10px 35px 10px 20px;
+			display: block;
+			&:hover{
+				color: var(--user-account-username-color);
+				
+			}
+		}
+		&:hover{
+			&::after,&::before{
+				background-color: var(--user-account-username-color);
+				right: 10px;
+			}
+		}
+		&::after,&::before{
+			content: '';
+			display: block;
+			position: absolute;
+			width: 7px;
+			height: 2px;
+			border-radius: 2px;
+			background-color: var(--user-account-username-color);
+			right: 15px;
+			top: 50%;
+			transform: translateY(-50%);
+			transform-origin: right;
+			transition: 0.3s;
+		}
+		&::after{
+			transform: translateY(-50%) rotate(30deg);
+		}
+		&::before{
+			transform:translateY(-50%)  rotate(-30deg);
+		}
+		&.active{
+			background-color: var(--app-color);
+			a{
+				color: white;
+			}
+		}
+	}
+	&-item-block{
+		
+	}
+}
+
+.profile-main-info{
+	padding: 10px 20px;
+	&-line{
+		display: flex;
+		gap: 20px;
+		align-items: center;
+	
+		& ~ &{
+			margin: 15px 0;
+		}
+		& .text{
+			font-family: $Poppins, sans-serif;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 18px;
+		}
+	}
+
+	&-name{
+		text-transform: capitalize;
+	}
+	&-phone-number{
+		letter-spacing: 1px;
+	}
+	&-birth-date{
+
+	}
+}

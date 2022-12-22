@@ -23,9 +23,9 @@ const postsInitState: PostsStateType = {
 	data: undefined,
 	loading: true
 }
-type UseFilteredPostsType = (postsType: PostsType) => [PostsStateType,React.Dispatch<React.SetStateAction<PostsStateType>>]
+type UseFilteredPostsType = (postsType: PostsType,userId?: string) => [PostsStateType,React.Dispatch<React.SetStateAction<PostsStateType>>]
 
-export const useFilteredPosts:UseFilteredPostsType = (postsType) => {
+export const useFilteredPosts:UseFilteredPostsType = (postsType,userId) => {
 	const {userInfo} = useUserContext();
 	const [posts,setPosts] = useState<PostsStateType>(postsInitState);
 	const setLoading = (loading: boolean) => {
@@ -47,7 +47,10 @@ export const useFilteredPosts:UseFilteredPostsType = (postsType) => {
 			case PostsTypeEnum.current_user_posts:
 				return (await  getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
 			case PostsTypeEnum.posts_by_user_id:
-				return (await getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
+				{
+					if (userId) return (await getPostsByAuthorId(userId))
+					break;
+				}
 			case PostsTypeEnum.posts_which_current_user_liked:
 				return (await  getPostsWhichUserLiked(userInfo?.userAuthInfo?.uid as string))
 			default:
@@ -61,7 +64,7 @@ export const useFilteredPosts:UseFilteredPostsType = (postsType) => {
 	}
 	useEffect(()=>{
 		fetchFunction();
-	},[postsType]);
+	},[postsType,userId]);
 
 	return [posts,setPosts];
 }
