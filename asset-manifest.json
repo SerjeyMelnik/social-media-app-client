@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/social-network-app-client/static/css/main.7b53ef75.css",
-    "main.js": "/social-network-app-client/static/js/main.47ef43de.js",
+    "main.css": "/social-network-app-client/static/css/main.30026cd8.css",
+    "main.js": "/social-network-app-client/static/js/main.cd9d97b0.js",
     "static/js/787.c4e7f8f9.chunk.js": "/social-network-app-client/static/js/787.c4e7f8f9.chunk.js",
     "index.html": "/social-network-app-client/index.html",
-    "main.7b53ef75.css.map": "/social-network-app-client/static/css/main.7b53ef75.css.map",
-    "main.47ef43de.js.map": "/social-network-app-client/static/js/main.47ef43de.js.map",
+    "main.30026cd8.css.map": "/social-network-app-client/static/css/main.30026cd8.css.map",
+    "main.cd9d97b0.js.map": "/social-network-app-client/static/js/main.cd9d97b0.js.map",
     "787.c4e7f8f9.chunk.js.map": "/social-network-app-client/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b53ef75.css",
-    "static/js/main.47ef43de.js"
+    "static/css/main.30026cd8.css",
+    "static/js/main.cd9d97b0.js"
   ]
 }
