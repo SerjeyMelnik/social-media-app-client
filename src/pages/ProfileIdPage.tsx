@@ -5,6 +5,7 @@ import FilteredPosts from '../components/Post/FilteredPosts';
 import { ProfileContextProvider } from "../context-providers/ProfileContextProvider";
 import { getShortUserInfoById } from '../firebase/firestore/userOperation';
 import { UserShort } from '../types/userTypes';
+import PagePreloader from '../components/ProfileId/PagePreloader';
 
 const ProfileIdPage = () => {
 	const [user,setUser] = useState<UserShort>()
@@ -16,7 +17,11 @@ const ProfileIdPage = () => {
 	useEffect(()=>{
 		getData()
 	},[userId])
-	
+	if(!user) return(
+		<div className="page profile-id-page">
+			<PagePreloader/>
+		</div>
+	)
 	return ( 
 		<div className="page profile-id-page">
 			<ProfileContextProvider user={user}>

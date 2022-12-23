@@ -26,10 +26,17 @@ body{
 }
 .page{
 	padding: 20px 0;
+	@include mobile{
+		overflow: hidden;
+		padding: 20px 10px;
+	}
 }
 .container{
 	width: 1000px;
 	margin: auto;
+	@include mobile{
+		width: 100%;
+	}
 }
 main{
 	@include container();

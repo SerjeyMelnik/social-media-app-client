@@ -105,9 +105,15 @@ html[data-theme='dark']{
 			@include box-shadow;
 			&.my_posts{
 				box-shadow: none;
+				@include mobile{
+					padding: 0;
+				}
 			}
 			&.favorites{
 				box-shadow: none;
+				@include mobile{
+					padding: 0;
+				}
 			}
 		}
 	}
@@ -164,6 +170,9 @@ html[data-theme='dark']{
 }
 .post_create_form{
 	width: 700px;
+	@include mobile{
+		width: 100%;
+	}
 }
 .create_post_img_upload{
 	overflow: hidden;

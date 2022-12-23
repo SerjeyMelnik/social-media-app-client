@@ -1,10 +1,34 @@
+html[data-theme='light']{
+
+	//text
+	
+	--profile-info-svg: #1F1F39;
+	--profile-info-text: #858597;
+	--profile-username: #1F1F39;
+
+}
+html[data-theme='dark']{
+	--profile-info-svg: #858597;
+	--profile-info-text: #858597;
+	--profile-username: white;
+}
+
+
 .profile-info-about-user{
 	display: flex;
 	gap: 30px;
+	@include mobile{
+		flex-direction: column;
+	}
 	&-img{
 		overflow: hidden;
 		width: 300px;
 		border-radius: 30px ;
+		@include mobile{
+			width: calc(100% + 20px);
+			margin: 0 -10px;
+			border-radius: 0;
+		}
 		img{
 			width: 100%;
 			object-fit: cover;
@@ -18,26 +42,46 @@
 		line-height: 18px;
 		margin: 30px 0;
 		text-align: center;
+		color: var(--profile-username);
+	}
+	&-subscribe-button{
+		width: 100%;
 	}
 }
 
 .profile-info{
 	&-blocks{
 		display: flex;
+		width: 100%;
+		@include mobile{
+			width: 200%;
+			&.open{
+				transform: translateX(-50%);
+
+			}
+		}
 	}
 	&-list{
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
 		padding: 10px 0;
+		width: max-content;
+		@include mobile{
+			width: 50%;
+			.open &{
+				transform: translateX(-30px);
+			}
+			
+		}
 	}
 	&-item{
 		list-style-type: none;
-		background-color: 	var(--accout-info-item);
+		background-color: var(--accout-info-item);
 		border-radius: 5px;
 		position: relative;
 		cursor: pointer;
-		
+		width: 100%;
 		&-link{
 			color: var(--user-account-username-color);
 			text-decoration: none;
@@ -47,6 +91,7 @@
 				color: var(--user-account-username-color);
 				
 			}
+			
 		}
 		&:hover{
 			&::after,&::before{
@@ -58,7 +103,7 @@
 			content: '';
 			display: block;
 			position: absolute;
-			width: 7px;
+			width: 6px;
 			height: 2px;
 			border-radius: 2px;
 			background-color: var(--user-account-username-color);
@@ -72,29 +117,60 @@
 			transform: translateY(-50%) rotate(30deg);
 		}
 		&::before{
-			transform:translateY(-50%)  rotate(-30deg);
+			transform: translateY(-50%)  rotate(-30deg);
 		}
 		&.active{
 			background-color: var(--app-color);
+			&::after,&::before{
+				background-color: white;
+			}
 			a{
 				color: white;
 			}
 		}
 	}
 	&-item-block{
-		
+		box-shadow: var(--box-shadow);
+		border-radius: 20px;
+		padding: 20px;
+    	margin: 10px 20px;
+		flex-grow: 1;
+		@include mobile{
+			width: 50%;
+			margin: 10px 0;
+			transform: translateX(30px);
+			.open &{
+				transform: none;
+			}
+		}
+		&-link-back{
+			display: none;
+			@include mobile{
+				display: flex;
+				width: max-content;
+				align-items: center;
+				gap: 10px;
+				text-decoration: none;
+				svg{
+					transform: rotate(-90deg);
+				}
+				margin-bottom: 10px;
+			}
+		}
 	}
 }
 
 .profile-main-info{
-	padding: 10px 20px;
 	&-line{
 		display: flex;
 		gap: 20px;
 		align-items: center;
-	
+		
 		& ~ &{
 			margin: 15px 0;
+		}
+		& svg{
+			color: var(--profile-info-svg);
 		}
 		& .text{
 			font-family: $Poppins, sans-serif;
@@ -102,6 +178,7 @@
 			font-weight: 500;
 			font-size: 18px;
 			line-height: 18px;
+			color: var(--profile-info-text);
 		}
 	}
 
@@ -114,4 +191,9 @@
 	&-birth-date{
 
 	}
+}
+
+
+.page-preloader{
+
 }

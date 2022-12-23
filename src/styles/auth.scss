@@ -32,6 +32,9 @@ html[data-theme='dark']{
 	overflow: hidden;
 	width: 500px;
 	margin: auto;
+	@include mobile{
+		width: 100%;
+	}
 	&-inner{
 		background-color: var(--form-inner-background-color);
 		padding: 25px 20px;

@@ -57,6 +57,9 @@ html[data-theme='dark']{
 .posts-list{
 	width: 700px;
 	margin: auto;
+	@include mobile{
+		width: 100%;
+	}
 	.not-found{
 		color: var(--post-user-name-color);
 		font-family: $Poppins,sans-serif;
@@ -77,6 +80,9 @@ html[data-theme='dark']{
 	padding: 20px;
 	overflow: hidden;
 	position: relative;
+	@include mobile{
+		padding: 15px;
+	}
 	&_user{
 		&-info{
 			display: flex;
@@ -97,6 +103,10 @@ html[data-theme='dark']{
 			width: 50px;
 			height: 50px;
 			object-fit: cover;
+			@include mobile{
+				width: 40px;
+				height: 40px;
+			}
 		}
 		
 		&-detail{
@@ -110,6 +120,10 @@ html[data-theme='dark']{
 			line-height: 18px;
 			margin: 5px 0;
 			color: var(--post-user-name-color);
+			@include mobile{
+				font-size: 14px;
+   				margin-top: 0;
+			}
 			&.preloader{
 				width: 150px;
 				height: 18px;
@@ -190,6 +204,9 @@ html[data-theme='dark']{
 		outline: none;
 		&-svg{
 			font-size: 2.5em;
+			@include mobile{
+				font-size: 2em;
+			}
 		}
 	}
 	&_info{
@@ -401,21 +418,3 @@ html[data-theme='dark']{
 
 	}
   }
-
-
-  @media (max-width:750px) {
-	.posts-list{
-		width: 100%;
-	}
-	.post_user-avatar-img{
-		width: 35px;
-		height: 35px;
-	}
-	.post_user-name{
-		font-size: 14px;
-		margin-top: 0;
-	}
-	.post .post_button-svg{
-		font-size: 2em;
-	}
-}

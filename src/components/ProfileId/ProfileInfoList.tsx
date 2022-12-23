@@ -18,13 +18,14 @@ const ProfileInfoList:FC<ProfileInfoListProps> = ({listOfProfileInfoBloks}) => {
 	const {user} = useProfileContext();
 	const defaultBlockState = listOfProfileInfoBloks.filter(item => query.get('info-block') === item.id )[0] ?? listOfProfileInfoBloks[0];
 	const [block,setBlock] = useState<ProfileInfoBlocksType>(defaultBlockState);
+	const [isOpenInfo,setIsOpenInfo] = useState(false);
 	const changeBlock = (block: ProfileInfoBlocksType) => {
-		setBlock(block)
+		setBlock(block);
+		setIsOpenInfo(true);
 	}
-	console.log(block);
 	
 	return ( 
-		<div className="profile-info-blocks">
+		<div className={`profile-info-blocks ${isOpenInfo ? 'open' : ''}`}>
 			<ul className="profile-info-list">
 				{
 					listOfProfileInfoBloks.map(item => (
@@ -39,7 +40,7 @@ const ProfileInfoList:FC<ProfileInfoListProps> = ({listOfProfileInfoBloks}) => {
 					))
 				}
 			</ul>
-			<ProfileInfoItemBlock blockToRender={block.id}/>
+			<ProfileInfoItemBlock blockToRender={block.id} setIsOpenInfo={setIsOpenInfo}/>
 		</div>
 	 );
 }
