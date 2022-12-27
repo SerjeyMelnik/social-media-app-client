@@ -28,7 +28,7 @@ const Post: FC<PostProps> = ({postId}) => {
 		})
 		return unsub;
 	},[postId])
-	if(loading) return <PostPreloader/>;
+	if(loading && !currPost) return <PostPreloader/>;
 	return ( 
 		<PostContextProvider post={currPost}>
 			{

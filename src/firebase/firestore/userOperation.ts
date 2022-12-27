@@ -1,19 +1,20 @@
 
 import { User } from "firebase/auth";
-import { getDoc, doc, DocumentReference } from "firebase/firestore";
+import { getDoc, doc, DocumentReference, arrayUnion, arrayRemove } from "firebase/firestore";
 import { IUserFull,TUserFull, TUserShortField, UserShort } from "../../types/userTypes"
 import { USER_DATA_NEEDS_TO_FILL } from "../../utils/constants";
 import { db } from "../firebase";
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
-import { getCollection, getDocument } from "./getOperation";
+import { getCollection, getDocRef, getDocument } from "./getOperation";
 import { setDocument } from "./setOperation";
-import { updateDocument } from "./updateOperation";
+import { updateDocument, updateDocumentField } from "./updateOperation";
 
 type TGetFullUserInfo = (userID:string) => Promise<TUserFull>;
 type TGetFullUsersInfo = () => Promise<TUserFull[]>;
 type TGetShortUserInfoById = (userID:string) => Promise<UserShort>;
+type TGetShortUsersInfoByIdArray = (usersId: string[]) => Promise<UserShort[]>;
 type TGetShortUserInfoByRef = (userID:DocumentReference<UserShort>) => Promise<UserShort>;
 type TGetShortUsersInfo = () => Promise<UserShort[]>;
 type TSetNewUser = (userID: string,user:User) => Promise<void>;
@@ -21,6 +22,9 @@ type TUpdateShortUser = (userID:string ,dataToUdate: object) => Promise<void>;
 type TUpdateShortUserField = (userID:string ,field: TUserShortField,value:any) => Promise<void>;
 type TUploadUserAccountImg = (file: File, userID:string) => Promise<string>;
 type TDeleteUserAccountImg = (userID:string) => Promise<void>;
+type TSubscribeToUser = (subscriber: string,userToSubscribing:string) => Promise<void>;
+type TUnsubscribeFromUser = (subscriber: string,userToUnsubscribing:string) => Promise<void>;
+
 
 export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
 	const docSnap = await getDocument('users-full',userID);
@@ -39,12 +43,16 @@ export const getFullUsersInfo:TGetFullUsersInfo = async () => {
 	return users;
 }
 
-export const getShortUserInfoById:TGetShortUserInfoById = async (userID:string) => {
+export const getShortUserInfoById:TGetShortUserInfoById = async (userID) => {
 	const docSnap = await getDocument('users-short',userID);
 	const res = docSnap.data() as UserShort;
 	 return res;
 }
-export const getShortUserInfoByRef:TGetShortUserInfoByRef = async (userRef: DocumentReference<UserShort>) => {
+export const getShortUsersInfoByIdArray: TGetShortUsersInfoByIdArray = async (usersId) => {
+	const result = await Promise.all( usersId.map( id => getShortUserInfoById(id) ) )
+	return result;
+}
+export const getShortUserInfoByRef:TGetShortUserInfoByRef = async (userRef) => {
 	const docSnap = await getDoc(userRef);
 	const res = docSnap.data() as UserShort;
 	return res;
@@ -91,5 +99,12 @@ export const uploadUserAccountImg:TUploadUserAccountImg = async (file: File,user
 export const deleteUserAccountImg:TDeleteUserAccountImg = async (userID:string) => {
 	await deleteDocumentField('users-short',userID,'avatar');
 	await deleteFolder(`users/${userID}/avatar`);
+}
+
+export const subscribeToUser:TSubscribeToUser = async (subscriber,userToSubscribing) => {
+	await updateDocumentField("users-short",subscriber,'friends',arrayUnion(userToSubscribing))
+}
+export const unsubscribeFromUser:TUnsubscribeFromUser = async (subscriber,userToUnsubscribing) => {
+	await updateDocumentField("users-short",subscriber,'friends',arrayRemove(userToUnsubscribing))
 }
 

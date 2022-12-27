@@ -1,5 +1,6 @@
 import { useProfileContext } from "../../context-providers/ProfileContextProvider";
 import { PROFILE_INFO_BLOCKS } from "../../site-config/profile/profile";
+import { USER_PLACEHOLDER_IMG } from "../../utils/constants";
 import CustomButton from "../CustomElements/CustomButton";
 import ProfileInfoList from "./ProfileInfoList";
 
@@ -10,7 +11,7 @@ const ProfileInfoAboutUser = () => {
 		<div className="profile-info-about-user container">
 			<div>
 				<div className="profile-info-about-user-img">
-					<img src={user?.avatar} alt="user-avatar"/>
+						<img src={user?.avatar || USER_PLACEHOLDER_IMG} alt="user-avatar"/> 
 				</div>
 				<h3 className="profile-info-about-user-title">{user?.userName}</h3>
 				<div className="profile-info-about-user-subscribe">

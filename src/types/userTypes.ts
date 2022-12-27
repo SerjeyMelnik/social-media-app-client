@@ -22,6 +22,7 @@ export interface UserShort{
 	phoneNumber?:string | null,
 	firstName?: string | null,
 	lastName?: string | null,
+	friends?: string[],
 	userID: string
 }
 export type TUserShortField = keyof UserShort;

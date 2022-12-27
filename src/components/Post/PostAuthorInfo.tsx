@@ -5,6 +5,7 @@ import { getDate } from '../../utils/getDate'
 import { useUserContext } from '../../hooks/useUserContext'
 import { PostController } from './PostController'
 import { Link } from 'react-router-dom'
+import { USER_PLACEHOLDER_IMG } from '../../utils/constants'
 
 type PostAuthorInfoProps = {
 	author: UserShort,
@@ -18,7 +19,7 @@ export const PostAuthorInfo:FC<PostAuthorInfoProps> = ({author,postedDate,postId
 		<div className="post_user-info">
 			<div className="post_user-avatar">
 				<Link to={`/${author.userID}`} >
-					<img src={author?.avatar} alt="post pocture"  className='post_user-avatar-img'/>
+					<img src={author?.avatar || USER_PLACEHOLDER_IMG} alt="post pocture"  className='post_user-avatar-img'/>
 				</Link>				
 			</div>
 			<div className="post_user-detail">
