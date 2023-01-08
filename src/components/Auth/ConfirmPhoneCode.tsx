@@ -1,4 +1,3 @@
-import { AuthError, ConfirmationResult, UserCredential } from 'firebase/auth';
 import React, {FC,useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { confirmPhone, TConfirmPhoneResult } from '../../firebase/auth/authWithPhoneNumberTS';
@@ -32,7 +31,7 @@ const ConfirmPhoneCode:FC = () => {
 	const [form,setForm] = useState<TFormType>(initForm);
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const {setUserAuthInfo} = useUserContext();
+	const {login} = useUserContext();
 	const navigateTo = useNavigate();
 	const changeFieldValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -72,7 +71,8 @@ const ConfirmPhoneCode:FC = () => {
 				await setNewUser(confirmPhoneResult.user.uid,confirmPhoneResult.user)
 			}
 			
-			setUserAuthInfo(confirmPhoneResult.user)
+			
+			login(confirmPhoneResult.user)
 			navigateTo('/user-account')
 		}
 		setIsLoading(state => !state)

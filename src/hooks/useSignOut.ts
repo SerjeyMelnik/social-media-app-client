@@ -13,10 +13,10 @@ export type TUseSignOutHook =  {
 }
 
 export function useSignOut(): TUseSignOutHook{
-	const {setUserAuthInfo} = useUserContext();
+	const {logout} = useUserContext();
 
 	const successCallbackHandler: () => void = () => {
-		setUserAuthInfo(undefined);
+		logout()
 	}
 	const errorCallbackHandler: (error: AuthError) => void = (error) => {
 		console.log(error,'error');

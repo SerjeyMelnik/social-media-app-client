@@ -22,7 +22,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 	const inputFileRef = useRef<HTMLInputElement>(null);
 	const [file, setFile] = useState<File| null | undefined>(undefined);
 	const [loading,setLoading] = useState<TLoading>({uploadImg:false,deleteImg:false});
-	const defaultImg = userInfo?.userFull.user_short.avatar || USER_PLACEHOLDER_IMG;
+	const defaultImg = userInfo?.userShort.avatar || USER_PLACEHOLDER_IMG;
 	const [imgSrc,setImgSrc] = useState<string>(defaultImg);
 
 	const toggleLoading = (loadingType: TLoadingTypes) => {
@@ -101,7 +101,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 					
 				</form>
 			</div>
-			<h2 className='user-account-username'>{userInfo?.userFull.user_short.userName}</h2>
+			<h2 className='user-account-username'>{userInfo?.userShort.userName}</h2>
 			
 		</div>
 	)

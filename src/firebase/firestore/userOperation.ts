@@ -1,18 +1,14 @@
 
 import { User } from "firebase/auth";
-import { getDoc, doc, DocumentReference, arrayUnion, arrayRemove } from "firebase/firestore";
-import { IUserFull,TUserFull, TUserShortField, UserShort } from "../../types/userTypes"
-import { USER_DATA_NEEDS_TO_FILL } from "../../utils/constants";
-import { db } from "../firebase";
+import { getDoc, DocumentReference, arrayUnion, arrayRemove } from "firebase/firestore";
+import { TUserShortField, UserAccountInfo, UserShort } from "../../types/userTypes"
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
-import { getCollection, getDocRef, getDocument } from "./getOperation";
+import { getCollection, getDocument } from "./getOperation";
 import { setDocument } from "./setOperation";
 import { updateDocument, updateDocumentField } from "./updateOperation";
 
-type TGetFullUserInfo = (userID:string) => Promise<TUserFull>;
-type TGetFullUsersInfo = () => Promise<TUserFull[]>;
 type TGetShortUserInfoById = (userID:string) => Promise<UserShort>;
 type TGetShortUsersInfoByIdArray = (usersId: string[]) => Promise<UserShort[]>;
 type TGetShortUserInfoByRef = (userID:DocumentReference<UserShort>) => Promise<UserShort>;
@@ -24,23 +20,13 @@ type TUploadUserAccountImg = (file: File, userID:string) => Promise<string>;
 type TDeleteUserAccountImg = (userID:string) => Promise<void>;
 type TSubscribeToUser = (subscriber: string,userToSubscribing:string) => Promise<void>;
 type TUnsubscribeFromUser = (subscriber: string,userToUnsubscribing:string) => Promise<void>;
+type TGetUserAcountInfo = (userId: string) => Promise<UserAccountInfo>
 
 
-export const getFullUserInfo:TGetFullUserInfo = async (userID:string) => {
-	const docSnap = await getDocument('users-full',userID);
-	const docData = docSnap.data() as IUserFull; 
-	const user_short = await getDoc(docData.user_short as DocumentReference<UserShort>);
-	const res = {
-		...docData,
-		user_short: user_short.data() as UserShort,
-	};
-	 return res as TUserFull;
-}
-
-export const getFullUsersInfo:TGetFullUsersInfo = async () => {
-	const usersDocs = await getCollection('users-full');
-	const users = usersDocs.docs.map(user=>user.data()) as TUserFull[];
-	return users;
+export const getUserAcountInfo: TGetUserAcountInfo = async (userId) => {
+	const docSnap = await getDocument('users-account-info',userId);
+	const res = docSnap.data() as UserAccountInfo;
+	return res;
 }
 
 export const getShortUserInfoById:TGetShortUserInfoById = async (userID) => {
@@ -71,11 +57,6 @@ export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
 		phoneNumber: user.phoneNumber
 	}
 	setDocument('users-short',userID,short_user)
-	const user_full = {
-		unfilled: USER_DATA_NEEDS_TO_FILL,
-		user_short: doc(db,'users-short',userID)
-	}
-	setDocument('users-full',userID,user_full)
 }
 
 export const updateShortUser:TUpdateShortUser = async (userID:string ,dataToUdate: object) => {

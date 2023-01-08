@@ -193,6 +193,8 @@ html[data-theme='dark']{
 		&-picture-img{
 			width: 100%;
 			border-radius: 15px;
+			object-fit: contain;
+			max-height: 500px;
 		}
 	}
 	.post_button{

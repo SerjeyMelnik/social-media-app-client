@@ -17,7 +17,8 @@ type FilteredPostsProps = {
 }
 
 const FilteredPosts: FC<FilteredPostsProps> = ({postsType,userId,notFoundMsg}) => {
-	const [posts,setPosts] = useFilteredPosts(postsType,userId)
+	const [posts,setPosts] = useFilteredPosts(postsType,userId);
+	
 	return ( 
 		<div className="filtered-posts">
 			<PostsList posts={posts.data}

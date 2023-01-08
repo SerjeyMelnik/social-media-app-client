@@ -17,7 +17,7 @@ const NavigationItemUser = () => {
 				
 				{
 					isUserAuthenticated ? 
-					<img src={userInfo?.userFull.user_short.avatar || USER_PLACEHOLDER_IMG} width='40px'  alt='img' className='nav-panel_item-avatar'/>
+					<img src={userInfo?.userShort.avatar || USER_PLACEHOLDER_IMG} width='40px'  alt='img' className='nav-panel_item-avatar'/>
 					:
 					<PersonRoundedIcon className='nav-panel_item-svgElement'/>
 				}

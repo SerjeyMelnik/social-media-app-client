@@ -9,6 +9,9 @@ html[data-theme='light']{
 	--button-disabled-color:#3d5dff6c;
 	--user-account-user-editbutton: #3D5CFF;
 	--user-account-user-savebutton: green;
+
+	--button-send-comment-svg-color-disabled: white;
+	--button-send-comment-svg-color:#3D5CFF;
 }
 html[data-theme='dark']{
 
@@ -20,6 +23,9 @@ html[data-theme='dark']{
 	--button-disabled-color:#3d5dff6c;
 	--user-account-user-editbutton: #3D5CFF;
 	--user-account-user-savebutton: green;
+
+	--button-send-comment-svg-color-disabled: white;
+	--button-send-comment-svg-color:#3D5CFF;
 }
 @mixin buttonVariation($color) {
 		background-color: $color;
@@ -167,5 +173,25 @@ html[data-theme='dark']{
 	}
 	&.unsubscribe{
 		
+	}
+	&-send-comment{
+		padding: 0 10px 0 15px;
+		&:hover{
+			.comment_btn-svg{
+				color: var(--comment-send-button-svg-color);
+			}
+		}
+		.comment_btn-svg{
+			color: white;
+		}
+		&:disabled{
+			border-radius: 15px;
+			height: 41px;
+			cursor:not-allowed;
+			padding: 0 10px 0 15px;
+			.comment_btn-svg{
+				color: var(--comment-send-button-svg-color-disabled);
+			}
+		}
 	}
 }

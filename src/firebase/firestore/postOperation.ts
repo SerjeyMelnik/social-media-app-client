@@ -50,7 +50,6 @@ export const getCommentsToPost = async (comments: DocumentReference<IComment>[])
 	return commentsData;
 }
 const getComment = async (comment: IComment) => {
-
 	return {
 		...comment,
 		author: await getAuthor(comment.author),

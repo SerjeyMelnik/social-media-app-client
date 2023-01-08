@@ -18,13 +18,12 @@ const Post: FC<PostProps> = ({postId}) => {
 	const [showPostComments,setShowPostComments] = useState(false);
 	const [currPost,setCurrPost] = useState<TPost>();
 	const [loading,setLoading] = useState<boolean>(false)
-	
 	useEffect(()=>{
 		const unsub = onSnapshot(doc(db,'posts',postId),async (doc) => {
-			setLoading(true)
+			setLoading(true);
 			const currPostData = await getPost(doc.data() as IPost);
-			setLoading(false)
-			setCurrPost(currPostData)
+			setCurrPost(currPostData);
+			setLoading(false);
 		})
 		return unsub;
 	},[postId])
@@ -48,7 +47,7 @@ const Post: FC<PostProps> = ({postId}) => {
 							postId={currPost.id}
 							/>
 				</div> : 
-				<></>
+				<><p>undefined</p></>
 				
 			}
 			

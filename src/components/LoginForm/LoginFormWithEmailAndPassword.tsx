@@ -19,7 +19,7 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const navigateTo = useNavigate();
-	const {setUserAuthInfo} = useUserContext()
+	const {login} = useUserContext();
 	const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => {
 			const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -66,8 +66,7 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 			else setMessage({type: 'error',text: res.error.code})
 		}
 		else if (res.user){
-			setUserAuthInfo(res.user);
-			
+			login(res.user)
 			navigateTo('/');
 			// setMessage({type: 'success',text: 'User logged in successfuly!'})
 			setIsLoading(state => !state);

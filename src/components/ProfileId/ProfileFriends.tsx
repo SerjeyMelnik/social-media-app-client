@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useProfileContext } from "../../context-providers/ProfileContextProvider";
 import { getShortUsersInfoByIdArray } from "../../firebase/firestore/userOperation";
 import { UserShort } from "../../types/userTypes";
@@ -13,7 +14,7 @@ const FriendInfo: FC<{friend: UserShort}> = ({friend}) => {
 				 alt="friend-img"
 				 className="friend-img"/>
 			<div className="friend-info">
-				<a href={friend.userID} className='friend-info-username main-name'>{friend.userName}</a>
+				<Link to={friend.userID} className='friend-info-username main-name'>{friend.userName}</Link>
 				{
 					friend.firstName && friend.lastName &&
 					<p className="friend-info-fullname">

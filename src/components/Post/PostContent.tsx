@@ -16,7 +16,7 @@ const PostContent:FC<PostContentProps> = ({description,pictures}) => {
 			<div className="post_content-picture">
 				{
 					pictures && (pictures.length === 1 ?
-					<img src={pictures[0]} alt="post pocture" className='post_content-picture-img'/> :
+					<img src={pictures[0]} alt="post pocture" className='post_content-picture-img' loading='lazy'/> :
 					pictures.length > 1 && <PostPicturesCarousel pictures={pictures}/>
 					)
 				}

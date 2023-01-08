@@ -18,10 +18,11 @@ type TCommentsProps = {
 
 const Comment: FC<TCommentProps> = ({comment}) => {
 	const {stringDate} = getDate(comment.postedDate);
+	if (!comment.author) return <div className="comment comment_body">User deleted</div>
 	return (
 	<div className="comment">
 		<div className="author_avatar" >
-			<img src={comment.author.avatar || USER_PLACEHOLDER_IMG} alt="post pocture" className='author_avatar-img'/>
+			<img src={ comment.author.avatar || USER_PLACEHOLDER_IMG } alt="post pocture" className='author_avatar-img'/>
 		</div>
 		<div className="comment_content">
 			<div className="author_info">
@@ -47,7 +48,6 @@ const Comments: FC<TCommentsProps> = ({comments,isShow,className,setShowPostComm
 		
 	},[isShow,comments]);
 	return (
-		
 			<div className={`comments_wrapper ${className}`} 
 			 ref={comments_wrapper}
 			>

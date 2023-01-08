@@ -10,9 +10,9 @@ const UserAccountEdit:FC = () =>{
 	return(
 		<div className={`user-account-manage-blok ${EDisplayBlok.edit_account}`}>
 			
-				<UserInfoLineEdit label='Username' value={userInfo?.userFull.user_short.userName} name="userName" />
-				<UserInfoLineEdit label='First Name' value={userInfo?.userFull.user_short.firstName} name="firstName" />
-				<UserInfoLineEdit label='Last Name' value={userInfo?.userFull.user_short.lastName} name="lastName" />
+				<UserInfoLineEdit label='Username' value={userInfo?.userShort.userName} name="userName" />
+				<UserInfoLineEdit label='First Name' value={userInfo?.userShort.firstName} name="firstName" />
+				<UserInfoLineEdit label='Last Name' value={userInfo?.userShort.lastName} name="lastName" />
 		</div>
 	)
 

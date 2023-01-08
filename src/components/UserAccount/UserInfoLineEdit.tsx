@@ -2,11 +2,10 @@ import {FC,useState,ChangeEventHandler} from 'react'
 import CustomInput from '../CustomElements/CustomInput';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import {  TUserShortField } from '../../types/userTypes';
+import { TUserShortField } from '../../types/userTypes';
 import { useUserContext } from '../../hooks/useUserContext';
-import { updateShortUser, updateShortUserField } from '../../firebase/firestore/userOperation';
+import { updateShortUser } from '../../firebase/firestore/userOperation';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
-import { USER_DATA_NEEDS_TO_FILL } from '../../utils/constants';
 
 type TUserInfoLineEditProps = {
 	name:TUserShortField,
@@ -15,7 +14,7 @@ type TUserInfoLineEditProps = {
 }
 
 const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
-	const {userInfo,updateUserAccountInfo} = useUserContext();
+	const {userInfo} = useUserContext();
 	const [isEdit,setIsEdit] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [fieldValue,setFieldValue] = useState<string | undefined | null >(value);
@@ -25,14 +24,13 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 	const saveEditedUserInfo = async () => {
 		setLoading(state => !state)
 		const dataToUpdate = {
-			unfilled: userInfo?.userFull?.unfilled.filter(field => field !== name),
+			unfilled: userInfo?.accountInfo.unfilled?.filter(field => field !== name),
 			[name]: fieldValue
 		}
 		
 		await updateShortUser(userInfo?.userAuthInfo?.uid as string,dataToUpdate)
 		setLoading(state => !state)
 		toggleEdit(); 
-		updateUserAccountInfo();
 	}
 	const  changeFieldValue:ChangeEventHandler<HTMLInputElement> = (e) => {
 		setFieldValue(e.target.value)

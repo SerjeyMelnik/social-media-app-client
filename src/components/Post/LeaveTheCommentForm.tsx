@@ -4,6 +4,7 @@ import CustomInput from '../CustomElements/CustomInput';
 import { addComment } from '../../firebase/firestore/likeAndCommentOperation';
 import { useUserContext } from '../../hooks/useUserContext';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
+import CustomButton from '../CustomElements/CustomButton';
 
 type SendCommentFormType = {
 	commentField: string
@@ -27,7 +28,10 @@ const LeaveTheCommentForm: FC<LeaveTheCommentFormProps> = ({postId}) => {
 	const sendComment = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsLoading(true);
-		if (sendCommentForm.commentField.length === 0) return;
+		if (sendCommentForm.commentField.length === 0) {
+			setIsLoading(false)
+			return;
+		}
 		await addComment(sendCommentForm.commentField,postId,userInfo?.userAuthInfo?.uid as string);
 		setIsLoading(false);
 		clearForm()
@@ -44,12 +48,13 @@ const LeaveTheCommentForm: FC<LeaveTheCommentFormProps> = ({postId}) => {
 								disabled={isLoading}
 								/>
 				</div>
-				<button type='submit' className='post_button send_comment-button' title='Leave the commnet' disabled={isLoading}>
+				<CustomButton type='submit'
+				className='button-send-comment'
+				isDisabled={isLoading || sendCommentForm.commentField.length === 0}>
 					{
 						isLoading ? <LoaderSpiner/> : <SendRoundedIcon className='post_button-svg comment_btn-svg'/>
 					}
-					
-				</button>
+				</CustomButton>
 			</div>
 		</form>
 	 );
