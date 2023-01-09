@@ -58,8 +58,7 @@ const ConfirmPhoneCode:FC = () => {
 		setIsLoading(state => !state)
 
 		const confirmPhoneResult: TConfirmPhoneResult = await confirmPhone(form.confirm_code.value);
-		console.log(confirmPhoneResult);
-		
+
 		if(confirmPhoneResult.error){
 			 changeFieldError('confirm_code','Invalid verification code')
 		}

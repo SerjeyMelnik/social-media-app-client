@@ -6,12 +6,13 @@ import { getDocRef } from "../firebase/firestore/getOperation"
 import { getShortUserInfoById, getShortUsersInfo, getUserAcountInfo } from "../firebase/firestore/userOperation"
 
 import { UserAccountInfo, UserShort } from "../types/userTypes"
+import { getUserFromLocalStorage, removeUserFromLocalStorage, setUserToLocalStorage } from "../utils/localStorage"
 
 type AccountUserAppState = {
 	userShort: UserShort,
 	accountInfo: UserAccountInfo,
 	userAuthInfo: User,
-}
+} | undefined
 export type TUserContext = {
 	isUserAuthenticated : boolean,
 	userInfo?: AccountUserAppState,
@@ -31,8 +32,22 @@ export const UserContext = createContext(defaultUserContext);
 type TUserContextProviderProps = {
 	children: ReactNode
 }
+const getDefaultState = async () => {
+	const userInStorage = getUserFromLocalStorage();	
+	const defaultState: AccountUserAppState = userInStorage ? {
+		userAuthInfo: userInStorage,
+		userShort: await getShortUserInfoById(userInStorage.uid),
+		accountInfo: await getUserAcountInfo(userInStorage.uid),
+	} : undefined;
+	return defaultState;
+}
 export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) => {
-	const [userInfo,setUserInfo] = useState<AccountUserAppState | undefined>(undefined);
+	const [userInfo,setUserInfo] = useState<AccountUserAppState>(undefined);
+	const setDefaultState = async () => {
+		const state = await getDefaultState();
+		setUserInfo(state)
+	}
+	setDefaultState()
 	const setUserShort = (userShort: UserShort) => {
 		setUserInfo(state => {
 			return {
@@ -65,11 +80,14 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		setAccountInfo(accountInfo)
 	}
 	const login = async (user: User) => {
+		console.log(user);
+		
+		setUserToLocalStorage(user)
 		setUserInfoState(user)
 	}
 	const logout = () => {
+		removeUserFromLocalStorage()
 		setUserInfo(undefined);
-
 	}
 	const updateCurrentUserInfo = async () => {
 		const userShort = await getShortUserInfoById(userInfo?.userAuthInfo.uid as string);
@@ -84,7 +102,6 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		logout,
 		updateCurrentUserInfo
 	}
-	console.log(auth.currentUser);
 	useEffect(()=>{
 		if(userInfo){
 			const unsub = onSnapshot(getDocRef('users-short',userInfo?.userAuthInfo?.uid as string)

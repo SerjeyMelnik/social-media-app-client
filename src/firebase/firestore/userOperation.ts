@@ -2,6 +2,7 @@
 import { User } from "firebase/auth";
 import { getDoc, DocumentReference, arrayUnion, arrayRemove } from "firebase/firestore";
 import { TUserShortField, UserAccountInfo, UserShort } from "../../types/userTypes"
+import { USER_PLACEHOLDER_IMG } from "../../utils/constants";
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
@@ -52,6 +53,9 @@ export const getShortUsersInfo:TGetShortUsersInfo = async () => {
 
 export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
 	const short_user:UserShort = {
+		userName:'Anonymous user',
+		friends:[],
+		avatar: USER_PLACEHOLDER_IMG,
 		email:user.email,
 		userID: user.uid,
 		phoneNumber: user.phoneNumber

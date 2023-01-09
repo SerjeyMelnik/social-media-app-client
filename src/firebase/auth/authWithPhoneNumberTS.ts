@@ -32,18 +32,20 @@ const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 	let result : TSignInWithPhoneNumberResult = {confirmationResultFunc: null,error: null};
 
 	
-	await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	const res: ConfirmationResult | AuthError = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 		.then((confirmationResult) => {
 			// SMS sent. Prompt user to type the code from the message, then sign the
 			// user in with confirmationResult.confirm(code).
 			window.confirmationResult = confirmationResult;
 			result.confirmationResultFunc = confirmationResult;
+			return confirmationResult;
 		}).catch((error: AuthError) => {
 			// Error; SMS not sent
 			result.error = error;
-			console.log(error);
+			return error;
 		});
 	return result;
+	
 }
 
 const confirmPhone = async (code: string) => {
@@ -51,9 +53,6 @@ const confirmPhone = async (code: string) => {
 	let funcResult: TConfirmPhoneResult = {};
 	await window.confirmationResult.confirm(code).then((result:UserCredential) => {
 		// User signed in successfully.
-		
-
-		
 		funcResult = {
 			result: result,
 			user: result.user
