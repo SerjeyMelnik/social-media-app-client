@@ -47,7 +47,7 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		const state = await getDefaultState();
 		setUserInfo(state)
 	}
-	setDefaultState()
+	
 	const setUserShort = (userShort: UserShort) => {
 		setUserInfo(state => {
 			return {
@@ -103,6 +103,7 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		updateCurrentUserInfo
 	}
 	useEffect(()=>{
+		setDefaultState();
 		if(userInfo){
 			const unsub = onSnapshot(getDocRef('users-short',userInfo?.userAuthInfo?.uid as string)
 			,async (doc) => {
