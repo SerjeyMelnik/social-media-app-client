@@ -1,4 +1,4 @@
-import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential, User} from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential, User, setPersistence, inMemoryPersistence} from "firebase/auth";
 import { auth } from "../firebase";
 
 
@@ -21,17 +21,14 @@ const recaptchaInit = () => {
 	window.recaptchaVerifier = new RecaptchaVerifier('sign-in-container', {
 		'size': 'invisible',
 		'callback': (response : Object | null) => {
-	
 		}
 	}, auth);
 }
 
 const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
-
 	const appVerifier = window.recaptchaVerifier;
 	let result : TSignInWithPhoneNumberResult = {confirmationResultFunc: null,error: null};
 
-	
 	const res: ConfirmationResult | AuthError = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 		.then((confirmationResult) => {
 			// SMS sent. Prompt user to type the code from the message, then sign the
