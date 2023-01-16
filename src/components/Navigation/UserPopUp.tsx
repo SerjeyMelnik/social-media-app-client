@@ -1,8 +1,8 @@
 
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { useSignOut } from '../../hooks/useSignOut';
-import { useUserContext } from '../../hooks/useUserContext';
 type TUserPopUpProps = {
 	isShowPopUp: boolean,
 	togglePopUp: () => void,
@@ -37,7 +37,7 @@ const UserPopUpLinkListIsAuth:FC<TUserPopUpList> = ({togglePopUp}) => {
 }
 
 const UserPopUp: FC<TUserPopUpProps> = ({isShowPopUp,togglePopUp}) => {
-	const {isUserAuthenticated} = useUserContext()
+	const {isUserAuthenticated} = useAuthProvider()
 	return ( 
 
 		<div className={`popUp popUp-user ${isShowPopUp ? 'show' : 'hide'}`}>

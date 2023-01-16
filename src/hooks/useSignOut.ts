@@ -1,8 +1,6 @@
-import { AuthError, signOut, User } from "firebase/auth"
-import React, { FC } from "react"
-import { useNavigate } from "react-router-dom"
+import { AuthError, signOut } from "firebase/auth"
+import { useAuthProvider } from "../context-providers/AuthProvider"
 import { auth } from "../firebase/firebase"
-import { useUserContext } from "./useUserContext"
 
 export type TSignOutFuncProps = {
 	successCallback?:()=>void,
@@ -13,7 +11,7 @@ export type TUseSignOutHook =  {
 }
 
 export function useSignOut(): TUseSignOutHook{
-	const {logout} = useUserContext();
+	const {logout} = useAuthProvider();
 
 	const successCallbackHandler: () => void = () => {
 		logout()

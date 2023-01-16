@@ -9,10 +9,10 @@ import UserAccountDisplay from './UserAccountDisplay';
 import UserAccountManageButton from './UserAccountManageButton'
 
 const UserAccountManage:FC = () => {
-	const {userInfo} = useUserContext();
+	const {accountInfo} = useUserContext();
 	const isUserFilled = () => {
 		return false
-		//return userInfo?.accountInfo.unfilled?.length === 0;
+		//return accountInfo?.unfilled?.length === 0;
 	}
 	const defaultDisplayBlok = isUserFilled() ? EDisplayBlok.account_info : EDisplayBlok.edit_account;
 	const [displayBlock,setDisplayBlock] = useState<TDisplayBlok>(defaultDisplayBlok);

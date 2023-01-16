@@ -5,6 +5,7 @@ import { addComment } from '../../firebase/firestore/likeAndCommentOperation';
 import { useUserContext } from '../../hooks/useUserContext';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
 import CustomButton from '../CustomElements/CustomButton';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 
 type SendCommentFormType = {
 	commentField: string
@@ -16,7 +17,7 @@ type LeaveTheCommentFormProps = {
 	postId: string
 }
 const LeaveTheCommentForm: FC<LeaveTheCommentFormProps> = ({postId}) => {
-	const {userInfo} = useUserContext();
+	const {currentUser} = useAuthProvider();
 	const [sendCommentForm,setSendCommentForm] = useState<SendCommentFormType>(DefaultSendCommentForm);
 	const [isLoading,setIsLoading] = useState(false);
 	const setCommentFieldValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,7 @@ const LeaveTheCommentForm: FC<LeaveTheCommentFormProps> = ({postId}) => {
 			setIsLoading(false)
 			return;
 		}
-		await addComment(sendCommentForm.commentField,postId,userInfo?.userAuthInfo?.uid as string);
+		await addComment(sendCommentForm.commentField,postId,currentUser?.uid as string);
 		setIsLoading(false);
 		clearForm()
 	}

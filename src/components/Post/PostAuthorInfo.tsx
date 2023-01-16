@@ -6,6 +6,7 @@ import { useUserContext } from '../../hooks/useUserContext'
 import { PostController } from './PostController'
 import { Link } from 'react-router-dom'
 import { USER_PLACEHOLDER_IMG } from '../../utils/constants'
+import { useAuthProvider } from '../../context-providers/AuthProvider'
 
 type PostAuthorInfoProps = {
 	author: UserShort,
@@ -13,7 +14,7 @@ type PostAuthorInfoProps = {
 	postId: string,
 }
 export const PostAuthorInfo:FC<PostAuthorInfoProps> = ({author,postedDate,postId}) => {
-	const {userInfo} = useUserContext()
+	const {currentUser} = useAuthProvider();
 	const stringDate = getDate(postedDate)?.stringDate;
 	return (
 		<div className="post_user-info">
@@ -31,7 +32,7 @@ export const PostAuthorInfo:FC<PostAuthorInfoProps> = ({author,postedDate,postId
 				<p className='post_user-posted-date'>{stringDate}</p>
 			</div>
 			{
-				author.userID === userInfo?.userAuthInfo?.uid && 
+				author.userID === currentUser?.uid && 
 				<PostController postId={postId}/>
 			}
 		</div>

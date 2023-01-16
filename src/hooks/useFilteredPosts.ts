@@ -1,6 +1,6 @@
 import {useState,useEffect} from 'react';
+import { useAuthProvider } from '../context-providers/AuthProvider';
 import { getAllPostsId, getPostsByAuthorId, getPostsWhichUserLiked } from '../firebase/firestore/postOperation';
-import { useUserContext } from './useUserContext';
 
 enum PostsTypeEnum{
 	current_user_posts = 'current_user_posts',
@@ -26,7 +26,7 @@ const postsInitState: PostsStateType = {
 type UseFilteredPostsType = (postsType: PostsType,userId?: string) => [PostsStateType,React.Dispatch<React.SetStateAction<PostsStateType>>]
 
 export const useFilteredPosts:UseFilteredPostsType = (postsType,userId) => {
-	const {userInfo} = useUserContext();
+	const { currentUser } = useAuthProvider()
 	const [posts,setPosts] = useState<PostsStateType>(postsInitState);
 	const setLoading = (loading: boolean) => {
 		setPosts(state => ({
@@ -45,14 +45,14 @@ export const useFilteredPosts:UseFilteredPostsType = (postsType,userId) => {
 			case PostsTypeEnum.all_posts:
 					return (await getAllPostsId())
 			case PostsTypeEnum.current_user_posts:
-				return (await  getPostsByAuthorId(userInfo?.userAuthInfo?.uid as string))
+				return (await  getPostsByAuthorId(currentUser?.uid as string))
 			case PostsTypeEnum.posts_by_user_id:
 				{
 					if (userId) return (await getPostsByAuthorId(userId))
 					break;
 				}
 			case PostsTypeEnum.posts_which_current_user_liked:
-				return (await  getPostsWhichUserLiked(userInfo?.userAuthInfo?.uid as string))
+				return (await  getPostsWhichUserLiked(currentUser?.uid as string))
 			default:
 				return undefined;
 		}

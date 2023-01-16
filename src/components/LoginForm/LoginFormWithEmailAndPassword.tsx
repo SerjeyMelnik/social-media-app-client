@@ -1,7 +1,7 @@
 import React ,{FC, useState}from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { signInWithEmailAndPasswordHandler } from '../../firebase/auth/authWithEmailPassword';
-import { useUserContext } from '../../hooks/useUserContext';
 import { TAuthMethod } from '../Auth/ChooseAuthMethod';
 import FormMessage from '../Auth/FormMessage';
 import CustomInput from '../CustomElements/CustomInput';
@@ -19,7 +19,7 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const navigateTo = useNavigate();
-	const {login} = useUserContext();
+	const {login} = useAuthProvider();
 	const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => {
 			const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';

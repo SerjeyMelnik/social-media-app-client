@@ -4,6 +4,7 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { subscribeToUser, unsubscribeFromUser } from "../../firebase/firestore/userOperation";
 import { useNavigate } from "react-router-dom";
 import LoaderSpiner from "../CustomElements/LoaderSpiner";
+import { useAuthProvider } from "../../context-providers/AuthProvider";
 
 type SubscribeButtonProps = {
 	userToSubscribing: string,
@@ -11,7 +12,8 @@ type SubscribeButtonProps = {
 }
 
 const SubscribeButton:FC<SubscribeButtonProps> = ({userToSubscribing,className}) => {
-	const { userInfo,isUserAuthenticated } = useUserContext();
+	const {userShort} = useUserContext()
+	const {currentUser,isUserAuthenticated} = useAuthProvider();
 	const navigate = useNavigate();
 	const [loading,setLoading] = useState<boolean>(false)
 	const subscribe = async() => {
@@ -21,20 +23,20 @@ const SubscribeButton:FC<SubscribeButtonProps> = ({userToSubscribing,className})
 			return; 
 		}
 		setLoading(true)
-		await subscribeToUser(userInfo?.userAuthInfo?.uid as string,userToSubscribing)
+		await subscribeToUser(currentUser?.uid as string,userToSubscribing)
 		setLoading(false)
 
 	}
 	const unsubscribe = async () => {
 		setLoading(true)
-		await unsubscribeFromUser(userInfo?.userAuthInfo?.uid as string,userToSubscribing)
+		await unsubscribeFromUser(currentUser?.uid as string,userToSubscribing)
 		setLoading(false)
 
 	}
 	const isCurrentUserSubscribed = () => {
-		return !!userInfo?.userShort.friends?.find(userId => userId as string === userToSubscribing);
+		return !! userShort?.friends?.find(userId => userId as string === userToSubscribing);
 	}
-	if (userInfo?.userAuthInfo?.uid === userToSubscribing) return null;
+	if (currentUser?.uid === userToSubscribing) return null;
 
 	return (
 	<>

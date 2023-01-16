@@ -1,8 +1,9 @@
+import { ConfirmationResult } from 'firebase/auth';
 import React, {FC,useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { confirmPhone, TConfirmPhoneResult } from '../../firebase/auth/authWithPhoneNumberTS';
 import { setNewUser } from '../../firebase/firestore/userOperation';
-import { useUserContext } from '../../hooks/useUserContext';
 import CustomInput from "../CustomElements/CustomInput";
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
 import { TFormMessage } from '../RegistrationForm/RegistrationFormWithEmailPassword';
@@ -15,13 +16,11 @@ type TFormType = {
 		error: string
 	}
 }
-// interface IConfirmPhone {
-// 	result: UserCredential ,
-// 	isNewUser: boolean | null,
-// 	error: AuthError | null
-// }
+type ConfirmPhoneCodeProps = {
+	confirmationResult: ConfirmationResult
+}
 type TFormFields = 'confirm_code' ;
-const ConfirmPhoneCode:FC = () => {
+const ConfirmPhoneCode:FC<ConfirmPhoneCodeProps> = ({confirmationResult}) => {
 	const initForm: TFormType = {
 		confirm_code: {
 			value: '',
@@ -31,7 +30,7 @@ const ConfirmPhoneCode:FC = () => {
 	const [form,setForm] = useState<TFormType>(initForm);
 	const [message,setMessage] = useState<TFormMessage>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const {login} = useUserContext();
+	const {login} = useAuthProvider();
 	const navigateTo = useNavigate();
 	const changeFieldValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -57,7 +56,7 @@ const ConfirmPhoneCode:FC = () => {
 		}
 		setIsLoading(state => !state)
 
-		const confirmPhoneResult: TConfirmPhoneResult = await confirmPhone(form.confirm_code.value);
+		const confirmPhoneResult: TConfirmPhoneResult = await confirmPhone(form.confirm_code.value,confirmationResult);
 
 		if(confirmPhoneResult.error){
 			 changeFieldError('confirm_code','Invalid verification code')

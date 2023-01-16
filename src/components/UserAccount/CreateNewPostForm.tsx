@@ -1,4 +1,5 @@
 import { FC, useState, FormEventHandler} from "react";
+import { useAuthProvider } from "../../context-providers/AuthProvider";
 import { setNewPost } from "../../firebase/firestore/postOperation";
 import { useUserContext } from "../../hooks/useUserContext";
 import CustomButton from "../CustomElements/CustomButton";
@@ -34,7 +35,7 @@ const defaultFormState:CreateNewPostFormType = {
 	}
 }
 const CreateNewPostForm:FC = () => {
-	const {userInfo} = useUserContext()
+	const {currentUser} = useAuthProvider();
 	const [form,setForm] = useState<CreateNewPostFormType>(defaultFormState);
 	const [loading,setLoading] = useState(false);
 	const [shouldResetFiles,setShouldResetFiles] = useState(false);
@@ -82,7 +83,7 @@ const CreateNewPostForm:FC = () => {
 		const postRef = await setNewPost({
 			pictures:form.pictures.value,
 			description:form.description.value
-		},userInfo?.userAuthInfo?.uid as string)
+		},currentUser?.uid as string)
 		setLoading(false);
 		if(postRef){
 			pushFormMessage({text:'Post created successful',type:'success'})

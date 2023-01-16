@@ -7,6 +7,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { deleteUserAccountImg, uploadUserAccountImg } from '../../firebase/firestore/userOperation';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 
 type TUserAccountImageProps = {
 	
@@ -18,11 +19,12 @@ type TLoading = {
 type TLoadingTypes = keyof TLoading;
 
 const UserAccountImage:FC<TUserAccountImageProps> = () => {
-	const {userInfo} = useUserContext();
+	const {userShort} = useUserContext();
+	const {currentUser} = useAuthProvider();
 	const inputFileRef = useRef<HTMLInputElement>(null);
 	const [file, setFile] = useState<File| null | undefined>(undefined);
 	const [loading,setLoading] = useState<TLoading>({uploadImg:false,deleteImg:false});
-	const defaultImg = userInfo?.userShort.avatar || USER_PLACEHOLDER_IMG;
+	const defaultImg = userShort?.avatar || USER_PLACEHOLDER_IMG;
 	const [imgSrc,setImgSrc] = useState<string>(defaultImg);
 
 	const toggleLoading = (loadingType: TLoadingTypes) => {
@@ -43,14 +45,14 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 	}
     const uploadUserAccountImgHandler = async () => {
 		toggleLoading('uploadImg')
-		const imgUrl = await uploadUserAccountImg(file as File, userInfo?.userAuthInfo?.uid as string);
+		const imgUrl = await uploadUserAccountImg(file as File, currentUser?.uid as string);
 		toggleLoading('uploadImg')
 		setImgSrc(imgUrl);
 		setFile(null)
     };
 	const deleteUserAccountImgHandler = async () => {
 		toggleLoading('deleteImg')
-		await deleteUserAccountImg(userInfo?.userAuthInfo?.uid as string);
+		await deleteUserAccountImg(currentUser?.uid as string);
 		toggleLoading('deleteImg')
 		setImgSrc(USER_PLACEHOLDER_IMG);
 		setFile(null)
@@ -101,7 +103,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 					
 				</form>
 			</div>
-			<h2 className='user-account-username'>{userInfo?.userShort.userName}</h2>
+			<h2 className='user-account-username'>{userShort?.userName}</h2>
 			
 		</div>
 	)

@@ -1,5 +1,6 @@
 
 import AppRoutes from './components/AppRoutes';
+import { AuthProvider } from './context-providers/AuthProvider';
 import { DeviceContextProvider } from './context-providers/DeviceContextProvider';
 import { UserContextProvider } from './context-providers/UserContextProvider';
 
@@ -8,11 +9,13 @@ import { UserContextProvider } from './context-providers/UserContextProvider';
 function App() {
   
   return (
-    <UserContextProvider>
-      <DeviceContextProvider>
-        <AppRoutes/>
-      </DeviceContextProvider>
-    </UserContextProvider>
+    <AuthProvider>
+      <UserContextProvider>
+        <DeviceContextProvider>
+          <AppRoutes/>
+        </DeviceContextProvider>
+      </UserContextProvider>
+    </AuthProvider>
 
   );
 }

@@ -3,11 +3,12 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import UserPopUp from './UserPopUp';
 import { useUserContext } from '../../hooks/useUserContext';
 import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 
 const NavigationItemUser = () => {
 	const [isShowPopUp,setIsShowPopUp] = useState(false);
-	const {isUserAuthenticated,userInfo} = useUserContext();
-	
+	const {userShort} = useUserContext();
+	const {isUserAuthenticated} = useAuthProvider();
 	const togglePopUp = () =>{
 		setIsShowPopUp(state => !state)
 	}
@@ -17,7 +18,7 @@ const NavigationItemUser = () => {
 				
 				{
 					isUserAuthenticated ? 
-					<img src={userInfo?.userShort.avatar || USER_PLACEHOLDER_IMG} width='40px'  alt='img' className='nav-panel_item-avatar'/>
+					<img src={userShort?.avatar || USER_PLACEHOLDER_IMG} width='40px'  alt='img' className='nav-panel_item-avatar'/>
 					:
 					<PersonRoundedIcon className='nav-panel_item-svgElement'/>
 				}

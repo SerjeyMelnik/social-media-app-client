@@ -1,4 +1,4 @@
-import { RecaptchaVerifier,RecaptchaParameters } from 'firebase/auth';
+import { RecaptchaVerifier,RecaptchaParameters, ConfirmationResult } from 'firebase/auth';
 import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -34,7 +34,7 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 	}
 	const [form,setForm] = useState<TFormType>(initForm);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isConfirmationCode,setIsConfirmationCode] = useState<boolean>(false);
+	const [confirmationResult,setConfirmationResult]  = useState<ConfirmationResult>()
 	const changeFieldValue = (e : React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => 
 			{ 
@@ -53,11 +53,8 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 	const userRegistration = async (e:React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsLoading(state => !state)
-		const res = await signInWithPhoneNumberHandler(form.phoneNumber.value);
-		if (res.error){
-			//changeFieldError('phoneNumber',res.error.message)
-		}
-		setIsConfirmationCode(state => !state);
+		const confirmationRes = await signInWithPhoneNumberHandler(form.phoneNumber.value);
+		setConfirmationResult(confirmationRes);
 
 	}
 	useEffect(()=>{
@@ -67,8 +64,8 @@ const RegistrationFormWithPhoneNumber:FC<TRegistrationFormWithPhoneNumberProps> 
 		<div className="reg_form form">
 			<div id="sign-in-container"></div>
 			{
-				isConfirmationCode ? 
-				<ConfirmPhoneCode /> :
+				confirmationResult ? 
+				<ConfirmPhoneCode confirmationResult={confirmationResult}/> :
 				<form onSubmit={userRegistration}>
 				<h3 className='form-title'>Sign Up</h3>
 				<div className="form-inner">

@@ -1,4 +1,4 @@
-import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential, User, setPersistence, inMemoryPersistence} from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber ,ConfirmationResult,AuthError, UserCredential, User, setPersistence, inMemoryPersistence, browserLocalPersistence} from "firebase/auth";
 import { auth } from "../firebase";
 
 
@@ -7,10 +7,6 @@ declare global {
         recaptchaVerifier: RecaptchaVerifier,
 		confirmationResult:ConfirmationResult
     }
-}
-type TSignInWithPhoneNumberResult = {
-	confirmationResultFunc: ConfirmationResult | null,
-	error: AuthError | null
 }
 export type TConfirmPhoneResult = {
 	result?: UserCredential,
@@ -27,39 +23,14 @@ const recaptchaInit = () => {
 
 const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 	const appVerifier = window.recaptchaVerifier;
-	let result : TSignInWithPhoneNumberResult = {confirmationResultFunc: null,error: null};
-
-	const res: ConfirmationResult | AuthError = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-		.then((confirmationResult) => {
-			// SMS sent. Prompt user to type the code from the message, then sign the
-			// user in with confirmationResult.confirm(code).
-			window.confirmationResult = confirmationResult;
-			result.confirmationResultFunc = confirmationResult;
-			return confirmationResult;
-		}).catch((error: AuthError) => {
-			// Error; SMS not sent
-			result.error = error;
-			return error;
-		});
-	return result;
-	
+	// return setPersistence(auth,inMemoryPersistence).then(()=>{
+	// 	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	// })
+	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 }
 
-const confirmPhone = async (code: string) => {
-	
-	let funcResult: TConfirmPhoneResult = {};
-	await window.confirmationResult.confirm(code).then((result:UserCredential) => {
-		// User signed in successfully.
-		funcResult = {
-			result: result,
-			user: result.user
-		}	
-	}).catch((error) => {
-		funcResult= {
-			error: error
-		}
-	});
-	return funcResult;
+const confirmPhone = async (code: string,confirmationResult: ConfirmationResult) => {
+	return confirmationResult.confirm(code);
 }
 
 export { recaptchaInit, signInWithPhoneNumberHandler, confirmPhone }

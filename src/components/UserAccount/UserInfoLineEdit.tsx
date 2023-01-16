@@ -6,6 +6,7 @@ import { TUserShortField } from '../../types/userTypes';
 import { useUserContext } from '../../hooks/useUserContext';
 import { updateShortUser } from '../../firebase/firestore/userOperation';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 
 type TUserInfoLineEditProps = {
 	name:TUserShortField,
@@ -14,7 +15,8 @@ type TUserInfoLineEditProps = {
 }
 
 const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
-	const {userInfo} = useUserContext();
+	const {accountInfo} = useUserContext();
+	const {currentUser} = useAuthProvider()
 	const [isEdit,setIsEdit] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [fieldValue,setFieldValue] = useState<string | undefined | null >(value);
@@ -24,11 +26,11 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 	const saveEditedUserInfo = async () => {
 		setLoading(state => !state)
 		const dataToUpdate = {
-			unfilled: userInfo?.accountInfo.unfilled?.filter(field => field !== name),
+			unfilled: accountInfo?.unfilled?.filter(field => field !== name),
 			[name]: fieldValue
 		}
 		
-		await updateShortUser(userInfo?.userAuthInfo?.uid as string,dataToUpdate)
+		await updateShortUser(currentUser?.uid as string,dataToUpdate)
 		setLoading(state => !state)
 		toggleEdit(); 
 	}

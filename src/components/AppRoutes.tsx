@@ -4,16 +4,15 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import RegistrationPage from '../pages/RegistrationPage';
 import LoginPage from '../pages/LoginPage';
-
-import { useUserContext } from '../hooks/useUserContext';
 import UserAccountPage from '../pages/UserAccountPage';
 import ProfileIdPage from '../pages/ProfileIdPage';
+import { useAuthProvider } from '../context-providers/AuthProvider';
 
 
 
 
 function AppRoutes() {
-  const userContext = useUserContext();
+  const {isUserAuthenticated} = useAuthProvider()
  
   return (
     <div className="App">
@@ -24,7 +23,7 @@ function AppRoutes() {
           <Route path='/registration' element={<RegistrationPage />} />
           <Route path='/login' element={<LoginPage />} />
           {
-            userContext.isUserAuthenticated &&
+            isUserAuthenticated &&
             <Route path='/user-account' element={<UserAccountPage />} />
           }
           <Route path='/:userId' element={<ProfileIdPage/>} />

@@ -1,9 +1,9 @@
 import {FC} from 'react'
-import { useUserContext } from '../../hooks/useUserContext';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { NavigationItemType } from '../../site-config/navigation-panel/navigation_panel';
 
 const NavigationItem:FC<NavigationItemType> = ({itemName,itemId,itemComponent,showItemForNotAuthUser}) => {
-	const {isUserAuthenticated} = useUserContext()
+	const {isUserAuthenticated} = useAuthProvider()
 	if (!showItemForNotAuthUser && !isUserAuthenticated){
 		return null;
 	}

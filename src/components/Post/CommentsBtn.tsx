@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
-import { useUserContext } from '../../hooks/useUserContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 type CommentsBtnProps = {
 	setShowPostComments: React.Dispatch<React.SetStateAction<boolean>>,
 	commentsNumber: number,
 	isCommentsShown: boolean
 }
 const CommentsBtn: FC<CommentsBtnProps> = ({setShowPostComments,commentsNumber,isCommentsShown}) => {
-	const {isUserAuthenticated} = useUserContext();
+	const {isUserAuthenticated} = useAuthProvider()
 	const navigateTo  = useNavigate()
 	const toggleComments = () => {
 		if(!isUserAuthenticated){

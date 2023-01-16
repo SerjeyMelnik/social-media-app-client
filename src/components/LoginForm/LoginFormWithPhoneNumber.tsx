@@ -1,4 +1,4 @@
-import { RecaptchaVerifier,RecaptchaParameters } from 'firebase/auth';
+import { RecaptchaVerifier,RecaptchaParameters, ConfirmationResult } from 'firebase/auth';
 import React, { ChangeEvent,FC, useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -36,7 +36,7 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 	
 	const [form,setForm] = useState<TFormPhoneNumberType>(initForm);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isConfirmationCode,setIsConfirmationCode] = useState<boolean>(false);
+	const [confirmationResult,setConfirmationResult]  = useState<ConfirmationResult>()
 	const changeFieldValue = (e : React.ChangeEvent<HTMLInputElement>) => {
 		setForm(state => 
 			{ 
@@ -63,11 +63,12 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 			return;
 		}
 		setIsLoading(state => !state)
-		const res = await signInWithPhoneNumberHandler(form.phoneNumber.value);
+		const confirmationRes = await signInWithPhoneNumberHandler(form.phoneNumber.value);
+		setConfirmationResult(confirmationRes)
 		// if (res.error){
 		// 	changeFieldError('phoneNumber',res.error)
 		// }
-		setIsConfirmationCode(state => !state);
+
 
 	}
 	useEffect(()=>{
@@ -77,8 +78,8 @@ const LoginFormWithPhoneNumber:FC<TLoginFormWithPhoneNumberProps> = ({setAuthMet
 		<div className="reg_form form">
 			<div id="sign-in-container"></div>
 			{
-				isConfirmationCode ? 
-				<ConfirmPhoneCode /> :
+				confirmationResult ? 
+				<ConfirmPhoneCode confirmationResult={confirmationResult as ConfirmationResult} /> :
 				<form onSubmit={userLogin}>
 				<h3 className='form-title'>Sign In</h3>
 				<div className="form-inner">

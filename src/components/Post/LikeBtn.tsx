@@ -6,14 +6,15 @@ import { isCurrentUserLikedPost } from '../../utils/isCurrentUserLikedPost';
 import { toggleLikeToPost } from '../../firebase/firestore/likeAndCommentOperation';
 import { useNavigate } from 'react-router-dom';
 import { UserShort } from '../../types/userTypes';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 type TLikeBtnProps = {
 	postLikes: UserShort[],
 	postId: string
 }
 const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
-	const {isUserAuthenticated,userInfo} = useUserContext();
+	const {currentUser,isUserAuthenticated} = useAuthProvider();
 	const [loading,setLoading] = useState(false)
-	const isLikedDefault = isUserAuthenticated && isCurrentUserLikedPost(postLikes,userInfo?.userAuthInfo?.uid as string);
+	const isLikedDefault = isUserAuthenticated && isCurrentUserLikedPost(postLikes,currentUser?.uid as string);
 	const navigateTo = useNavigate();
 	
 	const [isLiked,setIsLiked] = useState(isLikedDefault);
@@ -24,7 +25,7 @@ const LikeBtn:FC<TLikeBtnProps> = ({postLikes,postId}) => {
 			return;
 		}
 		setLoading(true)
-		await toggleLikeToPost(postId,postLikes,userInfo?.userAuthInfo?.uid as string)
+		await toggleLikeToPost(postId,postLikes,currentUser?.uid as string)
 		setLoading(false)
 		setIsLiked((state)=> !state)
 	}

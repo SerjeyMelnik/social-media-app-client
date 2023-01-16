@@ -1,8 +1,7 @@
 import {useState,Dispatch} from 'react'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useUserContext } from "../../hooks/useUserContext";
 import { storage } from "../firebase";
-import { getStorageRef } from "./getStorageRef";
+import { useAuthProvider } from '../../context-providers/AuthProvider';
 
 type TUseUploadFileHook = {
 	uploadFile: TUploadFileFunc
@@ -10,14 +9,14 @@ type TUseUploadFileHook = {
 type TUploadFileFunc = (file: File,setImg: Dispatch<React.SetStateAction<string>>) => Promise<{fileUrl:string}>
 
 export function useUploadFile():TUseUploadFileHook {
-	const {userInfo} = useUserContext();
+	const {currentUser} = useAuthProvider();
 	const [fileUrl,setFileUrl] = useState<string | undefined>();
 
 	const uploadFile:TUploadFileFunc = async (file: File,setImg:Dispatch<React.SetStateAction<string>>) => {
 			if (!file) {
 				throw new Error('No file of file is undefined or null')
 			}
-			const storageRef = ref(storage, `users/${userInfo?.userAuthInfo?.uid}/avatar/${file?.name}`);
+			const storageRef = ref(storage, `users/${currentUser?.uid}/avatar/${file?.name}`);
 			const arrBuff = (await file?.arrayBuffer()) as ArrayBuffer;
 			const uploadTaskSnap = await uploadBytesResumable(storageRef, arrBuff,{
 				contentType: file?.type

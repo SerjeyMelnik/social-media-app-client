@@ -1,12 +1,10 @@
 import { useProfileContext } from "../../context-providers/ProfileContextProvider";
-import { useUserContext } from "../../hooks/useUserContext";
 import { PROFILE_INFO_BLOCKS } from "../../site-config/profile/profile";
 import { USER_PLACEHOLDER_IMG } from "../../utils/constants";
 import ProfileInfoList from "./ProfileInfoList";
 import SubscribeButton from "./SubscribeButton";
 
 const ProfileInfoAboutUser = () => {
-	const { userInfo } = useUserContext()
 	const {user} = useProfileContext();
 	
 	return ( 
