@@ -11,6 +11,7 @@ type TCustomInputProps = {
 	className?: string,
 	error?: string,
 	disabled?: boolean,
+	required?: boolean,
 	changeFieldValue: React.ChangeEventHandler<HTMLInputElement> 
 }
 const CustomInput: FC<TCustomInputProps> = (props) => {
@@ -23,7 +24,8 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 		className = '', 
 		changeFieldValue, 
 		error = '',
-		disabled
+		disabled,
+		required
         } = props;
 	const [isShowPassword,setIsShowPassword] = useState(false);
 	
@@ -56,7 +58,7 @@ const CustomInput: FC<TCustomInputProps> = (props) => {
 	return ( 
 		<div className="input-wrapper">
 			{
-				label && <label htmlFor="" className='input-label'>{label}</label>
+				label && <label htmlFor="" className={`input-label ${required ? 'required' : ''}`}>{label}</label>
 			}
 			<input  type={type}
 					placeholder={placeholder}

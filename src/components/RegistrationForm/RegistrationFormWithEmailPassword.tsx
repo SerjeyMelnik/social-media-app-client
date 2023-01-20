@@ -3,7 +3,6 @@ import { useState } from 'react';
 import {  useNavigate } from 'react-router-dom';
 
 import {createUserWithEmailAndPasswordHandler} from '../../firebase/auth/authWithEmailPassword';
-import { setDocument } from '../../firebase/firestore/setOperation';
 import { setNewUser } from '../../firebase/firestore/userOperation';
 
 import FormMessage from '../Auth/FormMessage';
@@ -92,7 +91,7 @@ const RegistrationFormWithEmailPassword: FC = () => {
             setMessage({type: 'success',text: 'User created successfuly!'})
             clearForm();
             setTimeout(()=>{
-                navigateTo('/login');
+                navigateTo('/');
             },1000)
             
         }

@@ -1,4 +1,4 @@
-import {FC,FormEventHandler,useState,useRef} from 'react';
+import {FC,FormEventHandler,useState,useRef,useEffect} from 'react';
 import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CustomButton from '../CustomElements/CustomButton';
@@ -62,6 +62,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 		await uploadUserAccountImgHandler();
 		(e.target as HTMLFormElement).reset();	
 	}
+	useEffect(()=>{},[currentUser,userShort])
 	return (
 		<div className="user-account-image-wrapper">
 			<div className="user-account-image">

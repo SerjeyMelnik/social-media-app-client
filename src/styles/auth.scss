@@ -62,6 +62,14 @@ html[data-theme='dark']{
 	font-size: 14px;
 	line-height: 21px;
 	color: var(--form-input-label-color);
+	&.required{
+		&::after{
+			content: '*';
+			color: red;
+			display: inline;
+			margin-left: 2px;
+		}
+	}
 }
 
 .input-wrapper + .input-wrapper{

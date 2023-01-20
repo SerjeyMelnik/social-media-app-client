@@ -34,7 +34,6 @@ export const UserContextProvider: FC<TUserContextProviderProps> = ({children}) =
 		userShort,
 		accountInfo
 	}
-	console.log(auth);
 	
 	useEffect(()=>{
 		if(currentUser){

@@ -23,9 +23,6 @@ const recaptchaInit = () => {
 
 const signInWithPhoneNumberHandler = async (phoneNumber: string) => {
 	const appVerifier = window.recaptchaVerifier;
-	// return setPersistence(auth,inMemoryPersistence).then(()=>{
-	// 	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-	// })
 	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 }
 

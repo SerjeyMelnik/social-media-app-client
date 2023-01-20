@@ -52,8 +52,9 @@ export const getShortUsersInfo:TGetShortUsersInfo = async () => {
 }
 
 export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
+	const userName = user.email ? user.email.slice(0,user.email.indexOf("@")) : 'anonimous user';
 	const short_user:UserShort = {
-		userName:'Anonymous user',
+		userName: userName,
 		friends:[],
 		avatar: USER_PLACEHOLDER_IMG,
 		email:user.email,

@@ -7,6 +7,7 @@ import LoginPage from '../pages/LoginPage';
 import UserAccountPage from '../pages/UserAccountPage';
 import ProfileIdPage from '../pages/ProfileIdPage';
 import { useAuthProvider } from '../context-providers/AuthProvider';
+import SetUserInfoPage from '../pages/SetUserInfoPage';
 
 
 
@@ -27,6 +28,10 @@ function AppRoutes() {
             <Route path='/user-account' element={<UserAccountPage />} />
           }
           <Route path='/:userId' element={<ProfileIdPage/>} />
+          {
+            isUserAuthenticated &&
+          <Route path='/setuserinfo' element={<SetUserInfoPage/>} />
+          }
         </Routes>
       </BrowserRouter>
     </div>

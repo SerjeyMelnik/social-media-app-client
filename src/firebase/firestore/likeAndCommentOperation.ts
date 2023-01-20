@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, collection, doc, serverTimestamp,addDoc, updateDoc} from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, serverTimestamp,addDoc, updateDoc, Timestamp} from "firebase/firestore";
 import { UserShort } from "../../types/userTypes";
 import { isCurrentUserLikedPost } from "../../utils/isCurrentUserLikedPost";
 import { db } from "../firebase";
