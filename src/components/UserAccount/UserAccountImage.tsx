@@ -4,7 +4,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CustomButton from '../CustomElements/CustomButton';
 import { useUserContext } from '../../hooks/useUserContext';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import { deleteUserAccountImg, uploadUserAccountImg } from '../../firebase/firestore/userOperation';
+import { deleteUserAccountImg, updateUser, uploadUserAccountImg } from '../../firebase/firestore/userOperation';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
@@ -24,8 +24,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 	const inputFileRef = useRef<HTMLInputElement>(null);
 	const [file, setFile] = useState<File| null | undefined>(undefined);
 	const [loading,setLoading] = useState<TLoading>({uploadImg:false,deleteImg:false});
-	const defaultImg = userShort?.avatar || USER_PLACEHOLDER_IMG;
-	const [imgSrc,setImgSrc] = useState<string>(defaultImg);
+	const [imgSrc,setImgSrc] = useState<string>();
 
 	const toggleLoading = (loadingType: TLoadingTypes) => {
 		setLoading(state => {
@@ -46,6 +45,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
     const uploadUserAccountImgHandler = async () => {
 		toggleLoading('uploadImg')
 		const imgUrl = await uploadUserAccountImg(file as File, currentUser?.uid as string);
+		await updateUser({photoURL:imgUrl})
 		toggleLoading('uploadImg')
 		setImgSrc(imgUrl);
 		setFile(null)
@@ -66,7 +66,7 @@ const UserAccountImage:FC<TUserAccountImageProps> = () => {
 	return (
 		<div className="user-account-image-wrapper">
 			<div className="user-account-image">
-				<img src={imgSrc} alt="user-img"/>
+				<img src={imgSrc || userShort?.avatar || USER_PLACEHOLDER_IMG} alt="user-img"/>
 				<form  onSubmit={formHandler}>
 					{
 						!file ? 

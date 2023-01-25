@@ -1,4 +1,5 @@
 import {FC} from 'react'
+import { useUserContext } from '../../hooks/useUserContext';
 import { TDisplayBlok,EDisplayBlok } from "../../site-config/user-account-management/user_account_management";
 import UserAccountCreatePost from './UserAccountCreatePost';
 import UserAccountEdit from './UserAccountEdit';
@@ -10,6 +11,12 @@ type UserAccountDisplayProps = {
 	displayBlock: TDisplayBlok
 }
 const UserAccountDisplay:FC<UserAccountDisplayProps> = ({displayBlock}) => {
+	const {userShort} = useUserContext()
+	if(!userShort) return (
+		<div className='user-account-manage-blok'>
+			<span className='text'>Waiting for data...</span> 
+		</div>
+)
 	const renderContent = () => {
 		switch (displayBlock) {
 			case EDisplayBlok.account_info:

@@ -91,7 +91,7 @@ const RegistrationFormWithEmailPassword: FC = () => {
             setMessage({type: 'success',text: 'User created successfuly!'})
             clearForm();
             setTimeout(()=>{
-                navigateTo('/');
+                navigateTo('/setuserinfo');
             },1000)
             
         }

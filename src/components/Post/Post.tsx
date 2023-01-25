@@ -47,7 +47,7 @@ const Post: FC<PostProps> = ({postId}) => {
 							postId={currPost.id}
 							/>
 				</div> : 
-				<><p>undefined</p></>
+				<PostPreloader/>
 				
 			}
 			

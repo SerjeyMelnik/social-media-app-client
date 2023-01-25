@@ -3,8 +3,7 @@ import CustomInput from '../CustomElements/CustomInput';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { TUserShortField } from '../../types/userTypes';
-import { useUserContext } from '../../hooks/useUserContext';
-import { updateShortUser } from '../../firebase/firestore/userOperation';
+import { updateShortUser, updateUser } from '../../firebase/firestore/userOperation';
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
 
@@ -15,7 +14,6 @@ type TUserInfoLineEditProps = {
 }
 
 const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
-	const {accountInfo} = useUserContext();
 	const {currentUser} = useAuthProvider()
 	const [isEdit,setIsEdit] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -26,11 +24,13 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 	const saveEditedUserInfo = async () => {
 		setLoading(state => !state)
 		const dataToUpdate = {
-			unfilled: accountInfo?.unfilled?.filter(field => field !== name),
 			[name]: fieldValue
 		}
 		
 		await updateShortUser(currentUser?.uid as string,dataToUpdate)
+		if(name === 'userName'){
+			updateUser({displayName: fieldValue});
+		}
 		setLoading(state => !state)
 		toggleEdit(); 
 	}
@@ -49,7 +49,6 @@ const UserInfoLineEdit:FC<TUserInfoLineEditProps> = ({name,label,value}) => {
 							changeFieldValue = { changeFieldValue }
 							className='input-editable'
 							disabled={!isEdit}
-
 								/>
 				{
 					!isEdit ?

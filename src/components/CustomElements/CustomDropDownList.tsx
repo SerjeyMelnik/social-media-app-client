@@ -11,7 +11,8 @@ type CustomDropDownListProps = {
 	setItem: (item: Item) => void,
 	className?: string,
 	disabled?: boolean,
-	width?: '25' | '30' | '100'
+	width?: '25' | '30' | '100',
+	defaultSelected?: Item
  }
 const CustomDropDownList:FC<CustomDropDownListProps> = ({
 	itemList,
@@ -20,9 +21,10 @@ const CustomDropDownList:FC<CustomDropDownListProps> = ({
 	setItem,
 	className,
 	disabled,
-	width
+	width,
+	defaultSelected
 }) => {
-	const [selectedItem,setSelectedItem] = useState<Item>();
+	const [selectedItem,setSelectedItem] = useState<Item | undefined>(defaultSelected);
 	const [isOpen,setIsOpen] = useState<boolean>();
 
 	const selectItem = (item: Item) => {

@@ -1,4 +1,4 @@
-import {FC,useState} from 'react'
+import {FC,useEffect,useState} from 'react'
 import { useUserContext } from '../../hooks/useUserContext';
 import { EDisplayBlok,
 		TDisplayBlok,
@@ -9,14 +9,10 @@ import UserAccountDisplay from './UserAccountDisplay';
 import UserAccountManageButton from './UserAccountManageButton'
 
 const UserAccountManage:FC = () => {
-	const {accountInfo} = useUserContext();
-	const isUserFilled = () => {
-		return false
-		//return accountInfo?.unfilled?.length === 0;
-	}
-	const defaultDisplayBlok = isUserFilled() ? EDisplayBlok.account_info : EDisplayBlok.edit_account;
+	const {userShort} = useUserContext();
+	const isUserFilled = userShort?.birthDate && userShort.firstName && userShort.lastName && userShort.userName;
+	const defaultDisplayBlok = isUserFilled ? EDisplayBlok.account_info : EDisplayBlok.edit_account;
 	const [displayBlock,setDisplayBlock] = useState<TDisplayBlok>(defaultDisplayBlok);
-
 	return( 
 			<div className="user-account-manage">
 				<div className="user-account-manage-buttons">

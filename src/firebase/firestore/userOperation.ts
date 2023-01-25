@@ -1,8 +1,9 @@
 
-import { User } from "firebase/auth";
+import { updateProfile, User } from "firebase/auth";
 import { getDoc, DocumentReference, arrayUnion, arrayRemove } from "firebase/firestore";
-import { TUserShortField, UserAccountInfo, UserShort } from "../../types/userTypes"
+import { TUserShortField, UserAccountInfo, UserShort, UserShortDataToUpdate } from "../../types/userTypes"
 import { USER_PLACEHOLDER_IMG } from "../../utils/constants";
+import { auth } from "../firebase";
 import { deleteFolder } from "../storage/daleteFiles";
 import { uploadFile } from "../storage/uploadFile";
 import { deleteDocumentField } from "./deleteOperation";
@@ -15,7 +16,7 @@ type TGetShortUsersInfoByIdArray = (usersId: string[]) => Promise<UserShort[]>;
 type TGetShortUserInfoByRef = (userID:DocumentReference<UserShort>) => Promise<UserShort>;
 type TGetShortUsersInfo = () => Promise<UserShort[]>;
 type TSetNewUser = (userID: string,user:User) => Promise<void>;
-type TUpdateShortUser = (userID:string ,dataToUdate: object) => Promise<void>;
+type TUpdateShortUser = (userID:string ,dataToUdate: UserShortDataToUpdate) => Promise<void>;
 type TUpdateShortUserField = (userID:string ,field: TUserShortField,value:any) => Promise<void>;
 type TUploadUserAccountImg = (file: File, userID:string) => Promise<string>;
 type TDeleteUserAccountImg = (userID:string) => Promise<void>;
@@ -63,8 +64,13 @@ export const setNewUser:TSetNewUser = async (userID: string,user:User) => {
 	}
 	setDocument('users-short',userID,short_user)
 }
-
-export const updateShortUser:TUpdateShortUser = async (userID:string ,dataToUdate: object) => {
+export const updateUser = async (dataToUdate: {
+    displayName?: string | null;
+    photoURL?: string | null;
+}) => {
+	updateProfile(auth.currentUser as User,dataToUdate)
+}
+export const updateShortUser:TUpdateShortUser = async (userID:string ,dataToUdate: UserShortDataToUpdate) => {
 	await updateDocument('users-short',userID,dataToUdate)
 }
 

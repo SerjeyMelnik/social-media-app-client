@@ -1,4 +1,23 @@
 .custom-date-selector{
 	display: flex;
 	justify-content: space-between;
+	&-label{
+		font-family: $Poppins;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 21px;
+		color: var(--form-input-label-color);
+		margin-bottom: 15px;
+		&.required{
+			&::after{
+				content: '*';
+				color: red;
+				margin-left: 3px;
+			}
+		}
+	}
+	&.info-line-edit{
+		width: 400px;
+	}
 }

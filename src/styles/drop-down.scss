@@ -4,15 +4,21 @@ html[data-theme='light']{
 	--dropdown-selected-text-disabled-color: silver;
 	--dropdown-background-color: white;
 	--dropdown-disabled-color: silver;
+
 }
 html[data-theme='dark']{
-	--dropdown-border-color:#3E3E55;
+	--dropdown-border-color: rgb(255 255 255 / 20%);
 	--dropdown-background-color: #2F2F42;
-	--dropdown-selected-text-color: #1F1F39;
-	--dropdown-selected-text-disabled-color: silver;
-	--dropdown-disabled-color: silver;
+	--dropdown-selected-text-color: #858597;
+	--dropdown-selected-text-disabled-color: #3E3E55;
+	--dropdown-disabled-color: #3E3E55;
 }
+.custom-date-selector{
 
+	&.info-line-edit{
+		--dropdown-background-color: var(--body-background-color);
+	}
+}
 .dropdownlist{
 	border: 1px solid var(--dropdown-border-color);
     border-radius: 15px;
@@ -26,7 +32,7 @@ html[data-theme='dark']{
 	width: 100%;
 	&-label{
 		position: absolute;
-		background: white;
+		background: var(--dropdown-background-color);
 		z-index: 100;
 		font-family: $Poppins;
 		font-style: normal;

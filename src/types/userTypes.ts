@@ -23,6 +23,13 @@ export interface UserShort{
 	friends?: string[],
 	userID: string
 }
+export type UserShortDataToUpdate = {
+	userName?: string | null,
+	avatar?:string,
+	birthDate?: Timestamp | null,
+	firstName?: string | null,
+	lastName?: string | null,
+}
 export type TUserShortField = keyof UserShort;
 
 export type TUserProfileData = {

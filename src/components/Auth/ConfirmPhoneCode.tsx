@@ -1,8 +1,10 @@
+import userEvent from '@testing-library/user-event';
 import { ConfirmationResult } from 'firebase/auth';
 import React, {FC,useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { confirmPhone, TConfirmPhoneResult } from '../../firebase/auth/authWithPhoneNumberTS';
+import { auth } from '../../firebase/firebase';
 import { setNewUser } from '../../firebase/firestore/userOperation';
 import CustomInput from "../CustomElements/CustomInput";
 import LoaderSpiner from '../CustomElements/LoaderSpiner';
@@ -64,14 +66,11 @@ const ConfirmPhoneCode:FC<ConfirmPhoneCodeProps> = ({confirmationResult}) => {
 		else if (confirmPhoneResult.user){
 
 			if(confirmPhoneResult.user.metadata.creationTime === confirmPhoneResult.user.metadata.lastSignInTime){
-				console.log('set');
-				
-				await setNewUser(confirmPhoneResult.user.uid,confirmPhoneResult.user)
+				await setNewUser(confirmPhoneResult.user.uid,confirmPhoneResult.user);
+				navigateTo('/setuserinfo');
 			}
-			
-			
 			login(confirmPhoneResult.user)
-			navigateTo('/user-account')
+			navigateTo('/')
 		}
 		setIsLoading(state => !state)
 		clearForm()

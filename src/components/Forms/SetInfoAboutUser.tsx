@@ -1,5 +1,10 @@
+import { Timestamp } from 'firebase/firestore';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthProvider } from '../../context-providers/AuthProvider';
+import { auth } from '../../firebase/firebase';
+import { updateShortUser, updateUser } from '../../firebase/firestore/userOperation';
+import { useUserContext } from '../../hooks/useUserContext';
 import { generateItemListOfDays, generateItemListOfMonths, generateItemListOfYears } from '../../utils/generateItemList';
 import CustomButton from '../CustomElements/CustomButton';
 import CustomDateSelector, { DateType } from '../CustomElements/CustomDateSelector';
@@ -45,10 +50,16 @@ const initFormValue: SetUserInfoForm = {
 }
 type FormFields = 'userName' | 'lastName' | 'firstName' | 'birthDate';
 const SetInfoAboutUserForm = () => {
+	const {userShort} = useUserContext();
+	const navigateTo = useNavigate();
+	if(userShort?.birthDate && userShort.firstName && userShort.lastName && userShort.userName) {
+		navigateTo('/')
+	}
+	const {currentUser} = useAuthProvider()
 	const [form,setForm] = useState<SetUserInfoForm>(initFormValue);
     const [message,setMessage] = useState<TFormMessage>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const navigateTo = useNavigate();
+  
     const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
         setForm(state => {
             const targetErrorMsg = e.target.dataset.errorMsg ? e.target.dataset.errorMsg : '';
@@ -74,11 +85,18 @@ const SetInfoAboutUserForm = () => {
     const clearForm = () =>{
         setForm(initFormValue)
     }
-	const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+	const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(form);
-		
+		await updateUser({displayName: form.userName.value});
+		await updateShortUser(currentUser?.uid as string,{
+			userName: form.userName.value,
+			firstName: form.firstName.value,
+			lastName: form.lastName.value,
+			birthDate: Timestamp.fromDate(new Date(form.birthDate.value))
+		})
+		navigateTo('/')
 	}
+
 	return ( 
 		<div className="form set_user_info">
 			<form onSubmit={submitForm} >
@@ -112,8 +130,12 @@ const SetInfoAboutUserForm = () => {
                              error={form.lastName.error}
 							 required
                                 />
-				<CustomDateSelector setDateFunc={setDate}/>
-				<CustomButton className='button-submit-info-user' type="submit">Submit</CustomButton>
+				<CustomDateSelector setDateFunc={setDate} label="Birthday" required/>
+				<CustomButton className='button-submit-info-user'
+							type="submit"
+							isDisabled = {Object.values(form).some(field => !field.value)}>
+					Submit
+				</CustomButton>
 				</div>
 			</form>
 		</div>

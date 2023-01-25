@@ -66,10 +66,14 @@ const LoginFormWithEmailAndPassword:FC<TLoginFormWithEmailPasswordProps> = ({set
 			else setMessage({type: 'error',text: res.error.code})
 		}
 		else if (res.user){
-			login(res.user)
-			navigateTo('/');
-			// setMessage({type: 'success',text: 'User logged in successfuly!'})
+			login(res.user);
 			setIsLoading(state => !state);
+			if(!res.user?.displayName){
+				navigateTo('/setuserinfo')
+			}
+			else navigateTo('/');
+			// setMessage({type: 'success',text: 'User logged in successfuly!'})
+			
 			
 		}
 	}
