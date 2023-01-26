@@ -1,11 +1,14 @@
 import { Timestamp } from "firebase/firestore"
 
-export type Message = {
+export type MessageType = {
 	sender: string,
 	text: string,
 	time: Timestamp,
+	id: string,
+	chatId: string
 }
-export type Chat = {
+export type ChatType = {
 	members: string[],
-	messages: Message[]
+	messages: MessageType[],
+	id: string
 }

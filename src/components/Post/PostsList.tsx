@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useChatsContext } from "../../context-providers/ChatsContextProvider";
 import Post from "./Post";
 import PostPreloader from "./PostPreloader";
 
@@ -10,9 +11,9 @@ type PostsListProps = {
 	loading: boolean
 }
 export const PostsList:FC<PostsListProps> = ({posts,notFoundMsg,loading}) => {
-	
+	const {isChatOpen} = useChatsContext()
 	return(
-		<div className="posts-list">
+		<div className={`posts-list ${isChatOpen ? 'w-90' : ''}`}>
 		{
 			loading ? <PostPreloader/> :
 			posts?.length ? posts.map(post => {

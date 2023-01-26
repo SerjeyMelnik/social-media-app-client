@@ -1,0 +1,140 @@
+.chats{
+	position: fixed;
+	bottom: 0;
+	right: -100%;
+	height: 100%;
+	width: 35%;
+	padding: 70px 20px 20px 20px;
+	font-size: 30px;
+	background-color: var(--body-background-color);
+	box-shadow: var(--box-shadow);
+	&.open{
+		right: 0;
+	}
+}
+.list-of-chats{
+	position: absolute;
+    background: white;
+    left: -60px;
+    border-radius: 20px 0 0 20px;
+    padding: 10px;
+    width: 60px;
+    overflow: hidden;
+	z-index: 1;
+	&:hover{
+		width: auto;
+		border-radius: 20px ;
+	}
+}
+.chat-item{
+	display: flex;
+	cursor: pointer;
+	&:hover{
+		background: var(--body-background-color);
+		border-radius: 20px;
+	}
+	padding: 5px;
+}
+.sender{
+	&-avatar{
+		width: 35px;
+		height: 35px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+	&-info{
+		padding-left: 10px;
+		&-username{
+			font-size: 14px;
+			font-weight: bold;
+			line-height: normal;
+			text-align: left;
+		}
+		&-fullname{
+			font-size: 12px;
+			font-weight: 300;
+			line-height: normal;
+			text-align: left;
+		}
+	}
+}
+
+.messages{
+	max-height: 100%;
+	padding: 5px 0;
+	gap: 5px;
+	overflow-y: scroll;
+	&::-webkit-scrollbar{
+		width: 5px;
+		background-color: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: transparent; 
+		border-radius: 3px;
+	}
+	&_wrapper{
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		height: 100%;
+	}
+	.inform-message{
+		background: white;
+		border-radius: 10px;
+		padding: 20px;
+		font-size: 28px;
+	}
+}
+.message{
+	display: flex;
+	margin-top: 5px;
+	.mine{
+		display: flex;
+		gap: 10px;
+		background: white;
+		box-shadow: 0 2px 5px var(--panel-shadow-color);
+		padding: 10px;
+		border-radius: 10px 10px 0 10px;
+		width: max-content;
+	}
+	.other{
+		display: flex;
+		gap: 10px;
+		background: white;
+		box-shadow: 0 2px 5px var(--panel-shadow-color);
+		padding: 10px;
+		border-radius: 10px 10px 10px 0;
+		width: max-content;
+	}
+	&.mine{
+		justify-content: flex-end;
+	}
+	&-sender-username{
+		font-size: 15px;
+	}
+	&-text{
+		font-size: 14px;
+		font-weight: 400;
+		text-align: left;
+	}
+	&_form-wrapper{
+		display: flex;
+		align-items: center;
+		padding-top: 20px;
+	}
+	&_input-wrapper{
+		width: 100%;
+		padding-right: 20px;
+	}
+}
+.chatmates{
+	display: flex;
+	background: white;
+	border-radius: 20px 0 0 20px;
+	position: absolute;
+	top: 0;
+	right: -20px;
+	padding: 15px;
+
+}

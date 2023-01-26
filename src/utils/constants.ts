@@ -7,5 +7,5 @@ export const PICTURE_PLACEHOLDER = 'https://developers.elementor.com/docs/assets
  
 export const USER_DATA_NEEDS_TO_FILL :TUserShortDataNeedsToFill = ['firstName','lastName','userName'];
 
-export type Collections = 'comments' | 'posts' | 'users-account-info' | 'users-short';
+export type Collections = 'comments' | 'posts' | 'users-account-info' | 'users-short' | 'chats' | 'messages';
 

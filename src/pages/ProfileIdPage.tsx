@@ -6,8 +6,10 @@ import { ProfileContextProvider } from "../context-providers/ProfileContextProvi
 import { getShortUserInfoById } from '../firebase/firestore/userOperation';
 import { UserShort } from '../types/userTypes';
 import PagePreloader from '../components/ProfileId/PagePreloader';
+import { useChatsContext } from '../context-providers/ChatsContextProvider';
 
 const ProfileIdPage = () => {
+	const {isChatOpen} = useChatsContext()
 	const [user,setUser] = useState<UserShort>()
 	const {userId} = useParams();
 	const getData = async () => {
@@ -23,7 +25,7 @@ const ProfileIdPage = () => {
 		</div>
 	)
 	return ( 
-		<div className="page profile-id-page">
+		<div className={`page profile-id-page `}>
 			<ProfileContextProvider user={user}>
 				<ProfileInfoAboutUser />
 				<FilteredPosts postsType='posts_by_user_id' userId={user?.userID}/>
