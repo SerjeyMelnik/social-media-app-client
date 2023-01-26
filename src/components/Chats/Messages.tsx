@@ -1,6 +1,6 @@
 
 import { collection, doc, onSnapshot } from 'firebase/firestore';
-import {FC,Fragment,useEffect,useState} from 'react';
+import {FC,Fragment,useEffect,useState,useRef} from 'react';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { db } from '../../firebase/firebase';
 import { getMessagesForChat, realTimeMessages } from '../../firebase/firestore/chatOperation';
@@ -20,20 +20,34 @@ type ChatMatesProps = {
 	chat: ChatType
 }
 const Messages:FC<MessagesProps> = ({chat}) => {
+	const msgEl = useRef<HTMLDivElement>(null);
+	
 	const {currentUser} = useAuthProvider()
 	const [messages, setMessages] = useState<MessageType[]>();
 	const [loading, setLoading] = useState<boolean>(false);
+	const updateMessages = (messages: MessageType[]) => {
+		setMessages(messages)
+		// msgEl.current?.scroll({top: msgEl.current.scrollHeight,left:0,behavior:'smooth'})
+	}
 	useEffect(()=>{
-		const unsub = realTimeMessages(chat as ChatType,setMessages);
+		const unsub = realTimeMessages(chat as ChatType,updateMessages);
 		return unsub;
 	},[chat])
+	useEffect(()=>{
+		console.log(msgEl.current?.scrollHeight);
+		if(messages){
+			msgEl.current?.scroll({top: msgEl.current.scrollHeight + 250,left:0,behavior:'smooth'})
+
+		}
+	},[messages])
+
 	return (
 	<div className="messages_wrapper">
 		{
 			chat && 
 			<ChatMates chat={chat}/>
 		}
-		<div className="messages">
+		<div className="messages" ref={msgEl}>
 			
 			{
 				messages && !loading &&

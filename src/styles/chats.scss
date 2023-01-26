@@ -14,26 +14,42 @@
 }
 .list-of-chats{
 	position: absolute;
-    background: white;
+    background: var(--body-background-color);
     left: -60px;
     border-radius: 20px 0 0 20px;
     padding: 10px;
     width: 60px;
     overflow: hidden;
-	z-index: 1;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
 	&:hover{
 		width: auto;
 		border-radius: 20px ;
 	}
 }
+@keyframes chatAnimation{
+	0%{
+		transform: translateY(0px);
+	}
+	100%{
+		transform: translateY(-5px);
+	}
+}
 .chat-item{
 	display: flex;
 	cursor: pointer;
+	border-radius: 20px;
+	transform: translateY(0px);
+	
 	&:hover{
-		background: var(--body-background-color);
-		border-radius: 20px;
+		box-shadow: var(--box-shadow);
 	}
 	padding: 5px;
+	
+}
+.chat-animation{
+	animation: chatAnimation .5s linear alternate infinite;
+
 }
 .sender{
 	&-avatar{
@@ -62,8 +78,8 @@
 .messages{
 	max-height: 100%;
 	padding: 5px 0;
-	gap: 5px;
 	overflow-y: scroll;
+	scroll-behavior: smooth;
 	&::-webkit-scrollbar{
 		width: 5px;
 		background-color: transparent;
@@ -138,3 +154,4 @@
 	padding: 15px;
 
 }
+

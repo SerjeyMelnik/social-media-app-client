@@ -28,7 +28,7 @@ const Chats:FC<ChatsProps> = ({}) => {
 			{
 				chats && !loading &&
 				<>
-				<ListOfChats chats={chats} setOpenedChat={setOpenedChat}/>
+				<ListOfChats chats={chats} openedChat={openedChat} setOpenedChat={setOpenedChat}/>
 				<Messages chat={openedChat}/>
 				</>
 			}
