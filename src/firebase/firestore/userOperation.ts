@@ -49,7 +49,7 @@ export const getShortUserInfoByRef:TGetShortUserInfoByRef = async (userRef) => {
 export const getShortUsersInfo:TGetShortUsersInfo = async () => {
 	const docSnap = await getCollection('users-short');
 	const res = docSnap.docs.map(user=>user.data()) as UserShort[];
-	 return res;
+	return res;
 }
 
 export const setNewUser:TSetNewUser = async (userID: string,user:User) => {

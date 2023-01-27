@@ -4,8 +4,8 @@ import { Timestamp } from "firebase/firestore";
 export const getDate = (date: Timestamp ) =>{
 
 	const stringDate =  date?.toDate().toDateString();
-	
-	return ({stringDate});
+	const simpleDate =  `${date?.toDate().getMonth() + 1}/${date?.toDate().getDate()}/${date?.toDate().getFullYear()}`
+	return ({stringDate,simpleDate});
 }
 export type Month = {
 	number: number,

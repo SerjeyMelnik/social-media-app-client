@@ -1,5 +1,5 @@
 
-import { addDoc, collection,  onSnapshot, orderBy, query,  updateDoc } from "firebase/firestore";
+import { addDoc, collection,  onSnapshot, orderBy, query,  updateDoc, where } from "firebase/firestore";
 import { ChatType, MessageType } from "../../types/chatTypes";
 import { db } from "../firebase";
 import { getCollectionInDocument, getDocument, getFilteredColection } from "./getOperation"
@@ -31,4 +31,19 @@ export const realTimeMessages = (chat: ChatType, setMessages: (msg: MessageType[
 		setMessages(doc.docs.map(item => item.data()) as MessageType[])
 	})
 }
-
+export const realTimeChats = (chatsOwner:string, setChats: (chats: ChatType[]) => void ) => {
+	return onSnapshot(
+			query( collection(db,'chats'),
+					where('members','array-contains',chatsOwner)
+				),async (snap) => {
+				setChats(snap.docs.map(item => item.data()) as ChatType[])
+	})
+}
+export const createNewChat = async (members: string[]) => {
+	const newChat = await addDoc(collection(db,`chats`),{members});
+	await updateDoc(newChat,{	
+		id: newChat.id,
+	})
+	const createdChat = await getChat(newChat.id);
+	return createdChat;
+}

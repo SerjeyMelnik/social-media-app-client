@@ -1,11 +1,12 @@
 import { Timestamp } from 'firebase/firestore';
-import {useState} from 'react';
+import {useState,useMemo,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
 import { auth } from '../../firebase/firebase';
 import { updateShortUser, updateUser } from '../../firebase/firestore/userOperation';
 import { useUserContext } from '../../hooks/useUserContext';
 import { generateItemListOfDays, generateItemListOfMonths, generateItemListOfYears } from '../../utils/generateItemList';
+import { getDate } from '../../utils/getDate';
 import CustomButton from '../CustomElements/CustomButton';
 import CustomDateSelector, { DateType } from '../CustomElements/CustomDateSelector';
 import CustomDropDownList from '../CustomElements/CustomDropDownList';
@@ -55,10 +56,46 @@ const SetInfoAboutUserForm = () => {
 	if(userShort?.birthDate && userShort.firstName && userShort.lastName && userShort.userName) {
 		navigateTo('/')
 	}
-	const {currentUser} = useAuthProvider()
-	const [form,setForm] = useState<SetUserInfoForm>(initFormValue);
-    const [message,setMessage] = useState<TFormMessage>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+	const {currentUser} = useAuthProvider();
+	const defaultForm: SetUserInfoForm = useMemo(() => ({
+		userName: {
+			value: userShort?.userName ?? '' ,
+			error: ''
+		},
+		firstName: {
+			value: userShort?.firstName ?? '',
+			error: ''
+		},
+		lastName: {
+			value: userShort?.lastName ?? '',
+			error: ''
+		},
+		birthDate: {
+			value: userShort?.birthDate ? getDate(userShort?.birthDate).simpleDate : '',
+			error: ''
+		}
+	}),[userShort])
+	console.log(userShort);
+	
+	const [form,setForm] = useState<SetUserInfoForm>({
+		userName: {
+			value: userShort?.userName ?? '' ,
+			error: ''
+		},
+		firstName: {
+			value: userShort?.firstName ?? '',
+			error: ''
+		},
+		lastName: {
+			value: userShort?.lastName ?? '',
+			error: ''
+		},
+		birthDate: {
+			value: userShort?.birthDate ? getDate(userShort?.birthDate).simpleDate : '',
+			error: ''
+		}
+	});
+   
   
     const changeFieldValue = ( e: React.ChangeEvent<HTMLInputElement>) => {
         setForm(state => {
@@ -72,7 +109,6 @@ const SetInfoAboutUserForm = () => {
     const clearErrors = (form: HTMLFormElement) => {
 		for (const property in initFormValue) {
 			changeFieldError(property as FormFields,'');
-			console.log(`${property}: ${initFormValue[property as FormFields]}`);
 		  }
     }
 	const setDate = (date: DateType) => {
@@ -96,14 +132,14 @@ const SetInfoAboutUserForm = () => {
 		})
 		navigateTo('/')
 	}
-
 	return ( 
 		<div className="form set_user_info">
 			<form onSubmit={submitForm} >
 				<h3 className='form-title'>We kindly ask you some information about you</h3>
 
 				<div className="form-inner">
-				<CustomInput type = 'text'
+				
+					<CustomInput type = 'text'
                              name = {'userName'}
                              value = {form.userName.value}
                              placeholder = 'Type username you want'
@@ -111,8 +147,9 @@ const SetInfoAboutUserForm = () => {
                              changeFieldValue = {changeFieldValue}
                              error={form.userName.error}
 							 required
-                                />
-				<CustomInput type = 'text'
+                                /> 
+				
+					<CustomInput type = 'text'
                              name = {'firstName'}
                              value = {form.firstName.value}
                              placeholder = 'First name'
@@ -121,7 +158,8 @@ const SetInfoAboutUserForm = () => {
                              error={form.firstName.error}
 							 required
                                 />
-				<CustomInput type = 'text'
+				
+					<CustomInput type = 'text'
                              name = {'lastName'}
                              value = {form.lastName.value}
                              placeholder = 'Last name'
@@ -130,7 +168,9 @@ const SetInfoAboutUserForm = () => {
                              error={form.lastName.error}
 							 required
                                 />
-				<CustomDateSelector setDateFunc={setDate} label="Birthday" required/>
+				
+				
+				<CustomDateSelector setDateFunc={setDate} label="Birthday" required />
 				<CustomButton className='button-submit-info-user'
 							type="submit"
 							isDisabled = {Object.values(form).some(field => !field.value)}>

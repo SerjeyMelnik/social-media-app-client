@@ -24,11 +24,11 @@ const CustomDateSelector: FC<CustomDateSelectorProps> = ({
 	className
 }) => {
 	const [date,setDate] = useState<DateType>(defaultDate ? defaultDate : {});
-	const defaultItems = {
+	const defaultItems = date.day && date.month && date.year ? {
 		month: { value: String(date.month), label: getMonth(date.month as number)?.name },
 		day: { value: String(date.day), label: String(date.day) },
 		year: { value: String(date.year), label: String(date.year) },
-	}
+	} : {};
 	const setDay = (item: Item) => {
 		setDate(state => ({
 			...state,

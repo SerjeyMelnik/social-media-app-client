@@ -1,13 +1,15 @@
 
-import { collection, doc, onSnapshot } from 'firebase/firestore';
 import {FC,Fragment,useEffect,useState,useRef} from 'react';
 import { useAuthProvider } from '../../context-providers/AuthProvider';
-import { db } from '../../firebase/firebase';
-import { getMessagesForChat, realTimeMessages } from '../../firebase/firestore/chatOperation';
-import { getDocRef } from '../../firebase/firestore/getOperation';
-import { getShortUserInfoById, getShortUsersInfoByIdArray } from '../../firebase/firestore/userOperation';
+import { useChatsContext } from '../../context-providers/ChatsContextProvider';
+import {  createNewChat, realTimeMessages } from '../../firebase/firestore/chatOperation';
+import { getShortUserInfoById, getShortUsersInfo, getShortUsersInfoByIdArray } from '../../firebase/firestore/userOperation';
 import { ChatType, MessageType } from '../../types/chatTypes';
 import { UserShort } from '../../types/userTypes';
+import { USER_PLACEHOLDER_IMG } from '../../utils/constants';
+import { isUsersHasChat } from '../../utils/isUsersHasChat';
+import CustomButton from '../CustomElements/CustomButton';
+import CustomSearch from '../CustomElements/CustomSearch';
 import SendMessageForm from './SendMessageForm';
 
 type MessagesProps = {
@@ -17,50 +19,38 @@ type MessageItemProps = {
 	message: MessageType
 }
 type ChatMatesProps = {
-	chat: ChatType
-}
-const Messages:FC<MessagesProps> = ({chat}) => {
-	const msgEl = useRef<HTMLDivElement>(null);
 	
-	const {currentUser} = useAuthProvider()
+}
+const Messages:FC<MessagesProps> = ({}) => {
+	const msgEl = useRef<HTMLDivElement>(null);
+	const {currentChat} = useChatsContext();
 	const [messages, setMessages] = useState<MessageType[]>();
 	const [loading, setLoading] = useState<boolean>(false);
-	const updateMessages = (messages: MessageType[]) => {
-		setMessages(messages)
-		// msgEl.current?.scroll({top: msgEl.current.scrollHeight,left:0,behavior:'smooth'})
-	}
 	useEffect(()=>{
-		const unsub = realTimeMessages(chat as ChatType,updateMessages);
+		const unsub = realTimeMessages(currentChat as ChatType,setMessages);
 		return unsub;
-	},[chat])
+	},[currentChat])
 	useEffect(()=>{
-		console.log(msgEl.current?.scrollHeight);
 		if(messages){
 			msgEl.current?.scroll({top: msgEl.current.scrollHeight + 250,left:0,behavior:'smooth'})
-
 		}
 	},[messages])
 
 	return (
 	<div className="messages_wrapper">
-		{
-			chat && 
-			<ChatMates chat={chat}/>
-		}
+		<ChatMates />
 		<div className="messages" ref={msgEl}>
 			
 			{
 				messages && !loading &&
 				messages.map(msg => <MessageItem key={msg.id} message={msg}/> )
 			}
-			{
-				!chat && <div className='inform-message text'>Choose chat</div>
-			}
+			
 			{
 				loading && <>Loading...</>	
 			}
 		</div>
-		<SendMessageForm chat={chat as ChatType}/>
+		<SendMessageForm chat={currentChat as ChatType}/>
 	</div>
 	 );
 }
@@ -77,7 +67,7 @@ const MessageItem: FC<MessageItemProps> = ({message}) => {
 			{
 				message.sender !== currentUser?.uid ? 
 				<div className='other'>
-					<img src={sender?.avatar} alt={sender?.userName as string} className='sender-avatar' />
+					<img src={sender?.avatar || USER_PLACEHOLDER_IMG} alt={sender?.userName as string} className='sender-avatar' />
 					<div>
 						<p className='text message-sender-username'>{sender?.userName}</p>
 						<p className='text message-text'>{message.text}</p>
@@ -92,23 +82,55 @@ const MessageItem: FC<MessageItemProps> = ({message}) => {
 	)
 }
 
-const ChatMates:FC<ChatMatesProps> = ({chat}) => {
+const ChatMates:FC<ChatMatesProps> = ({}) => {
+	const {currentChat,selectingUserForChat,setSelectingUserForChat,chats,setCurrentChat} = useChatsContext()
 	const {currentUser} = useAuthProvider();
 	const [members, setMembers] = useState<UserShort[]>();
+	const [users,setUsers] =  useState<UserShort[]>();
+	const selectSearchResult = async (user: UserShort) => {
+		setSelectingUserForChat(false);
+		const createdChat = await createNewChat([currentUser?.uid as string,user.userID])
+		setCurrentChat(createdChat);
+	}
 	useEffect(()=>{
-		getShortUsersInfoByIdArray(chat.members.filter(mmbr => mmbr !== currentUser?.uid))
+		if (currentChat){
+			getShortUsersInfoByIdArray(currentChat.members.filter(mmbr => mmbr !== currentUser?.uid))
 				.then(setMembers)
-	},[chat])
+		}
+	},[currentChat])
+
+	useEffect(()=>{
+		getShortUsersInfo().then(setUsers)
+	},[])
 	return (
 		<div className="chatmates">
 			{
-				members?.length &&
-				members.length >= 1 ? 
+				(users?.length && selectingUserForChat) &&
+				<>
+				<CustomSearch 
+					arrayOfSearching={
+						users.filter(user =>
+							(user.userID !== currentUser?.uid) &&
+							!isUsersHasChat(chats as ChatType[],[currentUser?.uid as string,user.userID]))
+					}
+					searchType='UserShort'
+					selectOneOfResult={selectSearchResult}
+					/>
+				<CustomButton onClickFunc={() => {setSelectingUserForChat(false)}} >Cancel</CustomButton>
+				</>
+				
+			}
+			{
+				(!currentChat && !selectingUserForChat) && <div className='inform-message text'>Choose chat</div>
+			}
+			{
+				(members?.length &&
+				members.length >= 1 && !selectingUserForChat) && 
 				members.map(mmbr => {
 					return (
 						<Fragment key={mmbr.userID}>
 							<div className="sender-avatar-wrapper">
-								<img src={mmbr.avatar} alt={mmbr.userName as string} className="sender-avatar" width='50px'/>
+								<img src={mmbr.avatar || USER_PLACEHOLDER_IMG} alt={mmbr.userName as string} className="sender-avatar" width='50px'/>
 							</div>
 							<div className="sender-info">
 								<p className="sender-info-username text">{mmbr.userName}</p>
@@ -116,7 +138,7 @@ const ChatMates:FC<ChatMatesProps> = ({chat}) => {
 							</div>
 						</Fragment>
 					)
-				}) : 'no member'
+				})
 			}
 			
 		</div>

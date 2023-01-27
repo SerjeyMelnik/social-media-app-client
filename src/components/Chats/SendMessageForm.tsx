@@ -8,6 +8,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { sendMessage } from '../../firebase/firestore/chatOperation';
 import { ChatType } from '../../types/chatTypes';
 import {  Timestamp } from 'firebase/firestore';
+import { useChatsContext } from '../../context-providers/ChatsContextProvider';
 
 type SendMessageFormProps = {
 	chat: ChatType
@@ -16,6 +17,7 @@ type Form = {
 	value: string
 }
 const SendMessageForm:FC<SendMessageFormProps> = ({chat}) => {
+	const {currentChat} = useChatsContext()
 	const {currentUser} = useAuthProvider();
 	const [form,setForm] = useState<Form>({value: ''});
 	const [isLoading,setIsLoading] = useState(false);

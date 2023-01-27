@@ -1,8 +1,8 @@
 
-import {FC,useState} from 'react';
+import {FC,ReactNode,useState} from 'react';
 export type Item = {
-	value: string,
-	label: string
+	value: string | number,
+	label: string | ReactNode
 }
 type CustomDropDownListProps = {
 	itemList: Item[],
@@ -36,22 +36,21 @@ const CustomDropDownList:FC<CustomDropDownListProps> = ({
 		if (disabled) return;
 		setIsOpen(state => !state)
 	}
+	
 	return ( 
 		<div className={`dropdownlist-wrapper ${width ? 'w-' + width : ''}`}>
 			<div className={`dropdownlist ${className ? className : ''} ${disabled ? 'disabled' : ''}`}>
 				<span className={`dropdownlist-label ${isOpen || selectedItem ? 'open' : ''} ${required ? 'required' : ''}`}>
 					{label}
 				</span>
-				<p className='dropdownlist-selected-item' onClick={toggleDropdown}>
+				<div className='dropdownlist-selected-item' onClick={toggleDropdown}>
 					{
-						selectedItem ?
+						selectedItem?.label ?
 						selectedItem.label :
 						label
 					}
-				
-					
 					<span className={`dropdownlist-arrow ${isOpen ? 'up' : 'down'}`}></span>
-				</p>
+				</div>
 				<ul className={`dropdownlist-items ${isOpen ? 'open' : ''}`}>
 					{
 						itemList.map(item => (
