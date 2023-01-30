@@ -38,8 +38,11 @@ function AppRoutes() {
             
           </Routes>
         </main>
-        
-        <Chats/>
+        {
+          isUserAuthenticated && 
+          <Chats/> 
+        }
+       
       </BrowserRouter>
     </div>
   );

@@ -11,20 +11,16 @@ type ChatsProps = {
 }
 const Chats:FC<ChatsProps> = ({}) => {
 	const {isChatOpen,setChats,chats} = useChatsContext()
-	//const [chats, setChats] = useState<ChatType[]>();
 	const [loading, setLoading] = useState<boolean>(false);
 	const {currentUser} = useAuthProvider()
 	useEffect(()=>{
-		//setLoading(true)
+		
 		const unsub = realTimeChats(currentUser?.uid as string,setChats)
 		return unsub;
-		// getChatsForUser(currentUser?.uid as string)
-		// 	.then(chats => {
-		// 		setChats(chats);
-		// 		setLoading(false)
-		// 	})
+		
 	},[currentUser])
 	return ( 
+		
 		<div className={`chats ${isChatOpen ? 'open' : ''}`}>
 			{
 				chats && !loading &&
