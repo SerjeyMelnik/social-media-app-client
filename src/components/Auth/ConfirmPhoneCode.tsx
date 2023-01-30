@@ -68,7 +68,6 @@ const ConfirmPhoneCode:FC<ConfirmPhoneCodeProps> = ({confirmationResult}) => {
 			if(confirmPhoneResult.user.metadata.creationTime === confirmPhoneResult.user.metadata.lastSignInTime){
 				await setNewUser(confirmPhoneResult.user.uid,confirmPhoneResult.user);
 				console.log(confirmPhoneResult.user);
-				
 				navigateTo('/setuserinfo');
 			}
 			else navigateTo('/');
